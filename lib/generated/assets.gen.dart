@@ -56,9 +56,7 @@ class $AssetsJsonGen {
   List<String> get values => [blue, green, red, theme];
 }
 
-class Assets {
-  const Assets._();
-
+abstract final class Assets {
   static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImageGen image = $AssetsImageGen();
   static const $AssetsJsonGen json = $AssetsJsonGen();

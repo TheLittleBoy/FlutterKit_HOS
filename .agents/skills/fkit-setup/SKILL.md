@@ -65,7 +65,7 @@ description: 将 FlutterKit 脚手架初始化为新的应用项目，统一修�
 ## 生成与验证
 
 - 执行 `flutter pub get`。
-- Dart 包名、Model、Retrofit 或运行时资源变化时执行 `dart run build_runner build --delete-conflicting-outputs`。
+- Dart 包名、Model 或运行时资源变化时执行 `dart run build_runner build --delete-conflicting-outputs`。
 - 执行 `dart run flutter_launcher_icons` 与 `dart run flutter_native_splash:create`。
 - 运行 `dart format`、`flutter analyze`、`flutter test` 和 `git diff --check`。
 - 至少构建当前环境支持的 Android、iOS `--no-codesign`、macOS 与 Web；Linux、Windows 在对应系统验证。

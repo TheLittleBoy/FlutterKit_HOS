@@ -69,7 +69,7 @@ FlutterKit 不内置 AI 模型或在线服务。仓库通过项目规则、框�
 ## 🧩 内置能力
 
 - **基础页面**：统一 View、Logic、State、Dialog、Tab、Refresh 和 List 页面抽象
-- **基础网络**：Dio + Retrofit 请求封装、拦截器、异常转换与统一结果处理
+- **基础网络**：Dio 请求封装、拦截器、异常转换与统一结果处理
 - **分页列表**：统一刷新、加载更多、加载态、错误态和空态处理
 - **导航能力**：命名路由、带参跳转、结果回传和路由守卫示例
 - **数据库**：基于 SQLite 的本地数据库与 Repository 示例
@@ -91,7 +91,7 @@ FlutterKit 不内置 AI 模型或在线服务。仓库通过项目规则、框�
 | 架构模式 | GetX + MVVM | View、Logic、State 分层与依赖管理 |
 | 组件库 | TDesign Flutter | 腾讯 TDesign Flutter 组件库 |
 | 导航框架 | GetX Navigation | 命名路由、参数、结果与路由守卫 |
-| 网络请求 | Dio + Retrofit | HTTP 客户端、接口声明与拦截器 |
+| 网络请求 | Dio | HTTP 客户端、数据源与拦截器 |
 | 数据序列化 | json_serializable | JSON 模型代码生成 |
 | 数据库 | sqflite | SQLite 本地数据库 |
 | 本地存储 | shared_preferences | 跨平台键值存储 |
@@ -179,10 +179,10 @@ flutter run
 
 ### 代码生成
 
-修改 JSON Model、Retrofit 数据源，或新增、删除、重命名 `assets/image/`、`assets/icon/`、`assets/json/` 中的资源后执行：
+修改 JSON Model，或新增、删除、重命名 `assets/image/`、`assets/icon/`、`assets/json/` 中的资源后执行：
 
 ```bash
-# 生成 JSON、Retrofit 与 FlutterGen 的 Assets 资源访问器。
+# 生成 JSON 与 FlutterGen 的 Assets 资源访问器。
 dart run build_runner build --delete-conflicting-outputs
 ```
 

@@ -7,7 +7,7 @@
 ### 1. datasource/
 - 按业务模块组织的网络数据源接口与实现
 - 每个模块的 `*_network_data_source.dart` 定义对外契约
-- 每个模块的 `*_network_data_source_impl.dart` 直接使用 Retrofit 注解声明接口，并由代码生成器生成具体实现
+- 每个模块的 `*_network_data_source_impl.dart` 基于共享 Dio 手写请求实现，不依赖代码生成
 
 #### 模块化组织
 - `goods/`: 商品相关数据源
@@ -21,9 +21,9 @@
 - 统一的错误处理机制
 
 ### 3. provider/
-- Dio 实例提供者
-- 管理 [Dio] 单例的创建与配置
-- 业务层通过 `DioProvider().dio` 直接使用，也便于测试 mock
+- Dio 实例提供者与请求执行器
+- `DioProvider` 管理 [Dio] 单例的创建与配置，业务层通过 `DioProvider().dio` 直接使用，也便于测试 mock
+- `DioRequest` 按业务域拼接接口地址、发起请求并返回 JSON 响应体
 
 ### 4. exception/
 - 自定义异常类定义
@@ -49,19 +49,17 @@ await RequestHelper.repository<Goods>(
 
 ## 代码生成
 
+数据源实现不再依赖代码生成，只有 JSON 模型需要生成 `fromJson`、`toJson`。
+
 ### 何时需要生成代码
 
 在以下情况下需要运行代码生成命令：
 
-1. 修改数据源接口实现（`*_network_data_source_impl.dart`）
-   - 添加新的接口方法
-   - 修改现有接口的参数或返回类型
-   - 添加新的业务模块
+1. 新增或修改 `@JsonSerializable` 模型
+   - 添加或调整字段
+   - 修改注解参数
 
-2. 添加新的业务模块
-   - 创建新的模块目录
-   - 实现新的 `*_network_data_source.dart` 接口
-   - 实现新的 `*_network_data_source_impl.dart` Retrofit 接口
+2. 新增业务模块的请求与响应模型
 
 ### 生成命令
 
@@ -69,7 +67,7 @@ await RequestHelper.repository<Goods>(
 
 ```shell
 # 生成代码（一次性）
-dart run build_runner build
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 ```shell
@@ -87,24 +85,30 @@ dart run build_runner watch
 1. 添加新的业务模块：
    ```dart
    // 1. 在 datasource/ 下创建新模块目录
-   // 2. 创建 *_network_data_source.dart 接口
-   // 3. 创建 *_network_data_source_impl.dart，使用 @RestApi 声明 Retrofit 接口
-   @RestApi(baseUrl: "data")
-   abstract class NewModuleNetworkDataSourceImpl
-       implements NewModuleNetworkDataSource {
-     factory NewModuleNetworkDataSourceImpl(Dio dio, {String baseUrl}) =
-         _NewModuleNetworkDataSourceImpl;
+   // 2. 创建 *_network_data_source.dart 定义接口契约
+   // 3. 创建 *_network_data_source_impl.dart，注入共享 Dio 并手写请求
+   class NewModuleNetworkDataSourceImpl implements NewModuleNetworkDataSource {
+     NewModuleNetworkDataSourceImpl(Dio dio, {String? baseUrl})
+       : _request = DioRequest(dio, baseUrl ?? 'new-module');
 
-     @GET("/list")
-     Future<BaseResponse<MyData>> getData();
+     final DioRequest _request;
+
+     @override
+     Future<BaseResponse<MyData>> getData() async {
+       final Map<String, dynamic> json = await _request.fetchJson('GET', '/list');
+       return BaseResponse<MyData>.fromJson(
+         json,
+         (Object? data) => MyData.fromJson(data! as Map<String, dynamic>),
+       );
+     }
    }
    ```
 
 2. API 接口规范：
-   - 使用 `@RestApi` 注解定义服务接口
-   - 使用 HTTP 方法注解（@GET, @POST 等）
-   - 请求参数使用 `@Query`、`@Body` 等注解
-   - 响应数据使用 `BaseResponse<T>` 封装
+   - 数据源接口只暴露业务方法，不暴露 HTTP 细节
+   - `DioRequest.fetchJson` 传入 HTTP 方法与业务域内的相对路径
+   - 请求体使用明确的请求模型并调用其 `toJson()`
+   - 响应数据使用 `BaseResponse<T>` 封装并调用 `fromJson()`
 
 3. 错误处理：
    - 使用 RequestHelper 统一处理请求状态
@@ -114,9 +118,8 @@ dart run build_runner watch
 ## 注意事项
 
 1. 代码生成
-   - 修改 API 接口后必须运行代码生成命令
-   - 如遇生成冲突，先执行 clean 后再 build
-   - 开发时建议使用 watch 命令自动生成
+   - 只有 JSON 模型需要生成代码，修改模型后运行生成命令
+   - 数据源实现为手写代码，不需要生成，也不应存在 `*_network_data_source_impl.g.dart`
 
 2. 模块化原则
    - 每个业务模块独立维护自己的数据源
@@ -145,12 +148,12 @@ dart run build_runner watch
 
 1. 创建新模块
    - 在 datasource/ 下创建新模块目录
-   - 实现数据源接口与 Retrofit 实现
-   - 运行代码生成命令
+   - 实现数据源接口与手写请求实现
+   - 按需为模型运行代码生成命令
 
 2. 更新现有模块
    - 修改对应模块的数据源实现
-   - 运行代码生成命令
+   - 模型字段变更后运行代码生成命令
 
 3. 测试验证
    - 运行单元测试

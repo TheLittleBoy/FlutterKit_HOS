@@ -33,7 +33,7 @@ Feature 只能依赖 Repository 或 Service，不直接依赖具体 DataSource �
 3. 使用完整领域名声明 Repository 字段，不使用 `_repository`。
 4. 网络结果交给 `RequestHelper` 或网络父类统一处理；不要在 Logic 重复制造复杂 try/catch、Toast 和 loading 生命周期。
 5. 页面展示状态写入 Feature State；持久化状态通过 Repository/DataSource；跨模块长期状态才进入 Core Service。
-6. 修改注解或 Retrofit 声明后运行代码生成，不手工修改 `*.g.dart`。
+6. 数据源实现为手写 Dio 请求；修改 `@JsonSerializable` 注解后运行代码生成，不手工修改 `*.g.dart`。
 
 ## 验证
 

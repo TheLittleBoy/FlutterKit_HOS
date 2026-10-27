@@ -137,18 +137,26 @@ await RequestHelper.repository<Goods>(
   .execute();
 ```
 
-## 与 Retrofit 配合使用
+## 与数据源配合使用
 
 `RequestHelper` 接收的是 `Future<BaseResponse<T>>`，因此数据源实现只需返回 `BaseResponse<T>` 即可：
 
 ```dart
-@RestApi(baseUrl: 'data')
-abstract class MyNetworkDataSourceImpl implements MyNetworkDataSource {
-  factory MyNetworkDataSourceImpl(Dio dio, {String baseUrl}) =
-      _MyNetworkDataSourceImpl;
+/// 数据源实现基于共享 Dio 手写请求并解析为 BaseResponse。
+class MyNetworkDataSourceImpl implements MyNetworkDataSource {
+  MyNetworkDataSourceImpl(Dio dio, {String? baseUrl})
+    : _request = DioRequest(dio, baseUrl ?? 'my-module');
 
-  @GET('/list')
-  Future<BaseResponse<MyData>> getData();
+  final DioRequest _request;
+
+  @override
+  Future<BaseResponse<MyData>> getData() async {
+    final Map<String, dynamic> json = await _request.fetchJson('GET', '/list');
+    return BaseResponse<MyData>.fromJson(
+      json,
+      (Object? data) => MyData.fromJson(data! as Map<String, dynamic>),
+    );
+  }
 }
 ```
 

@@ -10,7 +10,7 @@ import 'package:flutter_kit/core/network/datasource/user/user_network_data_sourc
 
 import '../../support/fake_http_client_adapter.dart';
 
-/// Retrofit Auth、Goods、User 网络契约测试。
+/// Auth、Goods、User 网络契约测试。
 void main() {
   late Dio dio;
   late FakeHttpClientAdapter adapter;

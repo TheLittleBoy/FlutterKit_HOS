@@ -9,7 +9,7 @@ FlutterKit 是面向 Android、iOS、macOS、Linux、Windows 和 Web 的 Flutter
 | 语言与框架 | Dart、Flutter |
 | 架构与状态 | GetX，采用 View、Logic、State、Binding 分层及全局 Service |
 | UI 与设计系统 | TDesign Flutter、`AppTheme`、语义化尺寸/形状、Widget 与动画链式扩展 |
-| 网络与模型 | Dio、Retrofit、`json_serializable`、`RequestHelper` |
+| 网络与模型 | Dio、`DioRequest`、`json_serializable`、`RequestHelper` |
 | 数据持久化 | Repository + DataSource、sqflite、shared_preferences |
 | 适配与交互 | flutter_screenutil、easy_refresh、animations、bot_toast |
 | 开发与质量 | build_runner、FlutterGen、Widget Preview、flutter_lints、flutter_test |
@@ -95,7 +95,7 @@ TDesign 本地组件索引包含以下分类；写 UI 前至少扫描对应分�
 ## 生成代码与资源
 
 - 禁止手工修改 `*.g.dart`、`*.freezed.dart` 和 `lib/generated/`。
-- Model、Retrofit 或运行时资源变化后执行 `dart run build_runner build --delete-conflicting-outputs`。
+- Model 或运行时资源变化后执行 `dart run build_runner build --delete-conflicting-outputs`。
 - 图标执行 `dart run flutter_launcher_icons`；启动页执行 `dart run flutter_native_splash:create`。同时提交 YAML、`assets/dev/` 源图和各平台生成结果。
 
 ## 验证与变更范围

@@ -1,6 +1,6 @@
 # 网络请求
 
-网络模块位于 `lib/core/network/`，由 `DioProvider`、HTTP 拦截器、调试拦截器和按业务域拆分的 DataSource 构成。它只负责协议、接口与传输错误；Feature 通过 `core/data` 的 Repository 访问网络，不能直接在 View 或 Logic 创建 Dio 和 Retrofit 实现。
+网络模块位于 `lib/core/network/`，由 `DioProvider`、HTTP 拦截器、调试拦截器和按业务域拆分的 DataSource 构成。它只负责协议、接口与传输错误；Feature 通过 `core/data` 的 Repository 访问网络，不能直接在 View 或 Logic 创建 Dio 和数据源实现。
 
 ## 介绍
 
@@ -11,12 +11,13 @@
 ```text
 core/network/
 ├── provider/dio_provider.dart              # Dio 单例和基础配置
+├── provider/dio_request.dart                # 业务域地址拼接与 JSON 请求执行
 ├── interceptor/interceptor.dart            # HTTP 与业务状态码拦截
 ├── debug/network_debug_tools.dart           # Debug 模式网络面板与日志
 ├── exception/error_exception.dart           # 网络错误转换
 └── datasource/<domain>/
     ├── <domain>_network_data_source.dart    # 业务接口契约
-    └── <domain>_network_data_source_impl.dart # Retrofit 声明与生成类
+    └── <domain>_network_data_source_impl.dart # 基于共享 Dio 的手写实现
 ```
 
 ## DioProvider（网络客户端）
@@ -56,7 +57,7 @@ static Dio _createDio() {
 
 ### HTTP 与业务错误拦截
 
-`HttpInterceptor` 对 HTTP 非 200 响应和响应 JSON 内的业务错误码调用 `handler.reject(DioException(...))`。这意味着 Retrofit Future 会以异常完成，随后由 `RequestHelper`、`BaseNetworkLogic` 或业务 `try / catch` 统一处理。业务成功码来自 `AppConfig.successCode`。
+`HttpInterceptor` 对 HTTP 非 200 响应和响应 JSON 内的业务错误码调用 `handler.reject(DioException(...))`。这意味着数据源 Future 会以异常完成，随后由 `RequestHelper`、`BaseNetworkLogic` 或业务 `try / catch` 统一处理。业务成功码来自 `AppConfig.successCode`。
 
 文件：`lib/core/network/interceptor/interceptor.dart`
 
@@ -110,31 +111,82 @@ abstract class GoodsNetworkDataSource {
 }
 ```
 
-### 商品 Retrofit 实现
+### 请求执行器
+
+文件：`lib/core/network/provider/dio_request.dart`
+
+`DioRequest` 绑定业务域接口基础地址，负责把相对接口地址与共享 Dio 的根地址拼接，发起请求并把响应体交给模型解析。
+
+```dart
+/// 业务域请求执行器，按相对地址发起请求并返回 JSON 响应体。
+class DioRequest {
+  /// 绑定共享 Dio 与业务域基础地址。
+  const DioRequest(this._dio, this._baseUrl);
+
+  /// 发起请求，HTTP 与业务错误由拦截器统一拒绝。
+  Future<Map<String, dynamic>> fetchJson(
+    String method,
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final RequestOptions options = Options(method: method)
+        .compose(_dio.options, path, data: data, queryParameters: queryParameters)
+        .copyWith(baseUrl: _resolveBaseUrl(), responseType: ResponseType.json);
+    final Response<Map<String, dynamic>> response =
+        await _dio.fetch<Map<String, dynamic>>(options);
+    return response.data!;
+  }
+}
+```
+
+### 商品数据源实现
 
 文件：`lib/core/network/datasource/goods/goods_network_data_source_impl.dart`
 
 ```dart
-/// 商品 Retrofit 数据源声明；具体实现由 build_runner 生成。
-@RestApi(baseUrl: 'goods/info')
-abstract class GoodsNetworkDataSourceImpl implements GoodsNetworkDataSource {
-  /// 传入共享 Dio，baseUrl 可由 Retrofit 生成类覆盖。
-  factory GoodsNetworkDataSourceImpl(Dio dio, {String baseUrl}) =
-      _GoodsNetworkDataSourceImpl;
+/// 商品网络数据源实现，基于共享 Dio 手写请求。
+class GoodsNetworkDataSourceImpl implements GoodsNetworkDataSource {
+  /// 绑定共享 Dio，baseUrl 默认 goods/info。
+  GoodsNetworkDataSourceImpl(Dio dio, {String? baseUrl})
+    : _request = DioRequest(dio, baseUrl ?? 'goods/info');
 
-  /// 商品分页接口，request 序列化为 HTTP Body。
-  @POST('/page')
+  /// 商品请求执行器。
+  final DioRequest _request;
+
+  /// 分页接口：request 序列化为 JSON 请求体。
+  @override
   Future<BaseResponse<BaseListResponse<Goods>>> getGoodsPage(
-    @Body() GoodsSearchRequest request,
-  );
+    GoodsSearchRequest request,
+  ) async {
+    final Map<String, dynamic> json =
+        await _request.fetchJson('POST', '/page', data: request.toJson());
+    return BaseResponse<BaseListResponse<Goods>>.fromJson(
+      json,
+      (Object? data) => BaseListResponse<Goods>.fromJson(
+        data! as Map<String, dynamic>,
+        (Object? item) => Goods.fromJson(item! as Map<String, dynamic>),
+      ),
+    );
+  }
 
-  /// 商品详情接口，id 序列化为 URL Query。
-  @GET('/info')
-  Future<BaseResponse<Goods>> getGoodsInfo(@Query('id') int id);
+  /// 详情接口：id 通过 Query 传递。
+  @override
+  Future<BaseResponse<Goods>> getGoodsInfo(int id) async {
+    final Map<String, dynamic> json = await _request.fetchJson(
+      'GET',
+      '/info',
+      queryParameters: <String, dynamic>{'id': id},
+    );
+    return BaseResponse<Goods>.fromJson(
+      json,
+      (Object? data) => Goods.fromJson(data! as Map<String, dynamic>),
+    );
+  }
 }
 ```
 
-`part 'goods_network_data_source_impl.g.dart'` 对应生成文件，不能手工编辑。变更 `@RestApi`、HTTP 注解、参数、返回模型或 `@JsonSerializable` 模型后运行 build_runner。
+数据源实现是手写代码，不产生 `*_network_data_source_impl.g.dart`。只有 `@JsonSerializable` 模型需要 build_runner 生成，变更模型字段或注解后运行 `dart run build_runner build --delete-conflicting-outputs`。
 
 ## 仓库示例
 
@@ -146,7 +198,7 @@ class GoodsRepository {
   /// 面向接口的依赖，便于单测传入 fake 数据源。
   final GoodsNetworkDataSource _dataSource;
 
-  /// 默认创建 Retrofit 数据源；测试可传入自定义 DataSource。
+  /// 默认创建 Dio 数据源；测试可传入自定义 DataSource。
   GoodsRepository({GoodsNetworkDataSource? dataSource})
       : _dataSource =
             dataSource ?? GoodsNetworkDataSourceImpl(DioProvider().dio);
@@ -223,7 +275,7 @@ class NetworkListDemoLogic extends BaseListLogic<Goods> {
   @override
   Future<BaseResponse<BaseListResponse<Goods>>> Function()? get apiRequest =>
       () => _goodsRepository.getGoodsPage(
-        // Retrofit 的 @Body 接收 GoodsSearchRequest。
+        // 数据源接收 GoodsSearchRequest 并序列化为请求体。
         GoodsSearchRequest(
           page: listState.currentPage,
           size: listState.pageSize,
@@ -242,14 +294,15 @@ class NetworkListDemoLogic extends BaseListLogic<Goods> {
 
 1. 在 `core/model/request`、`entity`、`response` 定义明确参数与响应模型。
 2. 在 `core/network/datasource/<domain>/` 定义 DataSource 抽象契约。
-3. 新增 Retrofit 实现声明，并使用共享 `DioProvider().dio`。
+3. 新增实现类，注入共享 `DioProvider().dio`，用 `DioRequest` 手写请求并解析 `BaseResponse<T>`。
 4. 在 `core/data/repository/` 新增或扩展业务 Repository。
 5. 根据页面类型在 Logic 使用 RequestHelper、BaseNetwork、BaseList 或 BaseRefresh。
-6. 执行 `dart run build_runner build --delete-conflicting-outputs` 并补充测试。
+6. 模型变更后执行 `dart run build_runner build --delete-conflicting-outputs` 并补充测试。
 
 ## 注意事项
 
-- Feature 不直接调用 `DioProvider` 或 Retrofit 实现；网络模块不直接操作页面状态。
+- Feature 不直接调用 `DioProvider` 或数据源实现；网络模块不直接操作页面状态。
+- 数据源实现是手写代码，不依赖代码生成；只有 `@JsonSerializable` 模型需要 build_runner。
 - 不要用 HTTP 200 判断业务成功，业务码由拦截器和 `BaseResponse.isSucceeded` 统一判断。
 - 日志不能记录 token、密码和敏感个人数据，即使只在 Debug 模式也要审查输出。
 

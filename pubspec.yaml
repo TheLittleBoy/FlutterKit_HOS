@@ -33,7 +33,7 @@ dependencies:
   json_annotation: ^4.12.0
 
   # Retrofit 网络请求库 https://pub.dev/packages/retrofit
-  retrofit: ^4.9.2
+  #retrofit: ^4.9.2
 
   # svg框架 https://pub.dev/packages/flutter_svg
   flutter_svg: ^2.3.0
@@ -82,7 +82,7 @@ dev_dependencies:
   json_serializable: ^6.14.0
 
   # Retrofit 代码生成库 https://pub.dev/packages/retrofit_generator
-  retrofit_generator: ^10.2.7
+  #retrofit_generator: ^10.2.7
 
   # 构建工具 https://pub.dev/packages/build_runner
   build_runner: ^2.15.0

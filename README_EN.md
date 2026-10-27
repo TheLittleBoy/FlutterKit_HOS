@@ -69,7 +69,7 @@ See the [AI-assisted development guide](https://flutter.dusksnow.top/help/intro/
 ## 🧩 Built-in capabilities
 
 - **Base pages**: shared abstractions for View, Logic, State, Dialog, Tab, Refresh, and List pages
-- **Networking**: Dio + Retrofit, interceptors, exception conversion, and unified result handling
+- **Networking**: Dio request wrapper, interceptors, exception conversion, and unified result handling
 - **Paged lists**: refresh, load more, loading, error, and empty states
 - **Navigation**: named routes, typed arguments, result passing, and route guards
 - **Database**: SQLite data sources and Repository examples
@@ -91,7 +91,7 @@ See the [AI-assisted development guide](https://flutter.dusksnow.top/help/intro/
 | Architecture | GetX + MVVM | View, Logic, State separation and dependency management |
 | UI library | TDesign Flutter | Tencent TDesign components for Flutter |
 | Navigation | GetX Navigation | Named routes, arguments, results, and guards |
-| Networking | Dio + Retrofit | HTTP client, declarative APIs, and interceptors |
+| Networking | Dio | HTTP client, data sources, and interceptors |
 | Serialization | json_serializable | Generated JSON model code |
 | Database | sqflite | Local SQLite database |
 | Local storage | shared_preferences | Cross-platform key-value storage |
@@ -179,10 +179,10 @@ flutter run
 
 ### Code generation
 
-Run the generator after changing JSON models, Retrofit data sources, or assets under `assets/image/`, `assets/icon/`, and `assets/json/`:
+Run the generator after changing JSON models, or assets under `assets/image/`, `assets/icon/`, and `assets/json/`:
 
 ```bash
-# Generate JSON, Retrofit, and FlutterGen asset accessors.
+# Generate JSON and FlutterGen asset accessors.
 dart run build_runner build --delete-conflicting-outputs
 ```
 

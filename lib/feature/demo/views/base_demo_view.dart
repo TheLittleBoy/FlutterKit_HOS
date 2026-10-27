@@ -88,16 +88,21 @@ class BaseDemoView extends BaseView<BaseDemoLogic> {
   );
 
   /// 构建 Base 示例页面内容
+  ///
+  /// [TFab] 需作为 [Stack] 的直接子组件使用，因此与页面内容同层组织。
   @override
-  Widget body() => TText(
-    '${DemoKeys.baseContentTitle.tr}\n${DemoKeys.baseContentDescription.tr}',
-    textAlign: TextAlign.center,
-  ).center().backgroundColor(appTheme.backgroundSecondaryContainer);
-
-  /// 构建悬浮操作按钮
-  @override
-  Widget? floatingAction() {
-    return TFab(text: DemoKeys.baseFloatingAction.tr);
+  Widget body() {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: TText(
+            '${DemoKeys.baseContentTitle.tr}\n${DemoKeys.baseContentDescription.tr}',
+            textAlign: TextAlign.center,
+          ).center().backgroundColor(appTheme.backgroundSecondaryContainer),
+        ),
+        TFab(text: DemoKeys.baseFloatingAction.tr),
+      ],
+    );
   }
 
   /// 构建示例底部导航栏

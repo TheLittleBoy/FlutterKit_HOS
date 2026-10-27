@@ -23,7 +23,7 @@ FlutterKit 当前没有单独的 `biz_model` 模块，`core/model/` 同时包含
 
 文件：`lib/core/model/response/base/base_response.dart`
 
-所有 Retrofit DataSource 返回 `BaseResponse<T>`。成功判断由 `AppConfig.successCode` 统一控制，当前值为 `1000`；接口响应字段或成功码与后端不一致时，应在这个通用模型及配置层统一调整，而不是每个 Repository 各自判断。
+所有网络 DataSource 返回 `BaseResponse<T>`。成功判断由 `AppConfig.successCode` 统一控制，当前值为 `1000`；接口响应字段或成功码与后端不一致时，应在这个通用模型及配置层统一调整，而不是每个 Repository 各自判断。
 
 ```dart
 /// 项目通用网络响应包装。
@@ -129,7 +129,7 @@ class GoodsSearchRequest extends PageRequest {
   final String? order;
   final String? sort;
 
-  /// 生成 Retrofit @Body 使用的 JSON。
+  /// 生成请求体使用的 JSON。
   Map<String, dynamic> toJson() => _$GoodsSearchRequestToJson(this);
 }
 ```
@@ -145,10 +145,10 @@ class GoodsSearchRequest extends PageRequest {
 
 ## JSON 代码生成
 
-`@JsonSerializable` 模型的 `fromJson`、`toJson` 实现在 `*.g.dart`。生成文件不能手改；修改注解、字段、Retrofit 接口或泛型响应后执行：
+`@JsonSerializable` 模型的 `fromJson`、`toJson` 实现在 `*.g.dart`。生成文件不能手改；修改注解、字段或泛型响应后执行：
 
 ```bash
-# 生成 JSON、Retrofit 与其他 build_runner 产物。
+# 生成 JSON 与其他 build_runner 产物。
 dart run build_runner build --delete-conflicting-outputs
 ```
 

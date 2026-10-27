@@ -4,7 +4,7 @@
 
 ## 介绍
 
-数据层用 Repository 作为唯一业务入口。上层无需知道数据来自 Retrofit、sqflite 还是键值存储，也不需要知道数据源实现类的创建方式；这些变化收敛在 Repository 内部。Repository 以当前项目的 `GoodsRepository`、`DemoRepository` 和各种 `*StoreRepository` 为实际实现，而不是额外的空抽象层。
+数据层用 Repository 作为唯一业务入口。上层无需知道数据来自 HTTP 接口、sqflite 还是键值存储，也不需要知道数据源实现类的创建方式；这些变化收敛在 Repository 内部。Repository 以当前项目的 `GoodsRepository`、`DemoRepository` 和各种 `*StoreRepository` 为实际实现，而不是额外的空抽象层。
 
 ## 模块职责
 
@@ -25,7 +25,7 @@ Repository 并不等同于“给每个 DataSource 再写一层空转发”。它
 文件：`lib/feature/demo/logics/network_demo_logic.dart`
 
 ```dart
-/// 网络详情 Logic 通过 Repository 获取商品，而非直接引用 Retrofit 实现。
+/// 网络详情 Logic 通过 Repository 获取商品，而非直接引用数据源实现。
 class NetworkDemoLogic extends BaseNetworkLogic<Goods> {
   /// 页面自己的商品状态。
   final NetworkDemoState networkDemoState = NetworkDemoState();
@@ -48,14 +48,14 @@ class NetworkDemoLogic extends BaseNetworkLogic<Goods> {
 文件：`lib/core/data/repository/goods_repository.dart`
 
 ```dart
-/// 商品数据仓库，向业务 Logic 隐藏 Retrofit 数据源实现。
+/// 商品数据仓库，向业务 Logic 隐藏数据源实现。
 class GoodsRepository {
   /// 依赖接口而不是实现，便于测试替换。
   final GoodsNetworkDataSource _dataSource;
 
   /// 创建商品仓库。
   GoodsRepository({GoodsNetworkDataSource? dataSource})
-      // 正式运行使用 DioProvider 创建的 Retrofit 实现。
+      // 正式运行使用 DioProvider 共享 Dio 创建的数据源实现。
       : _dataSource =
             dataSource ?? GoodsNetworkDataSourceImpl(DioProvider().dio);
 
@@ -73,7 +73,7 @@ class GoodsRepository {
 }
 ```
 
-`NetworkListDemoLogic` 只创建 `GoodsSearchRequest(page:, size:)` 并调用 `GoodsRepository.getGoodsPage()`；网络 URL、HTTP method、Dio 和 Retrofit 生成类均不会进入 Demo Logic。
+`NetworkListDemoLogic` 只创建 `GoodsSearchRequest(page:, size:)` 并调用 `GoodsRepository.getGoodsPage()`；网络 URL、HTTP method 和 Dio 均不会进入 Demo Logic。
 
 ## 三类仓库
 

@@ -37,10 +37,10 @@ flutter run
 
 ## 生成代码
 
-修改 `@JsonSerializable` 模型、Retrofit 接口或 FlutterGen 资源后执行：
+修改 `@JsonSerializable` 模型或 FlutterGen 资源后执行：
 
 ```bash
-# 生成 json_serializable、Retrofit、资源访问器等代码。
+# 生成 json_serializable、资源访问器等代码。
 dart run build_runner build --delete-conflicting-outputs
 ```
 
