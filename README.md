@@ -249,23 +249,3 @@ flutter build windows --release
 
 Linux 和 Windows 应用需在对应操作系统中构建，iOS 和 macOS 应用需使用 macOS 与 Xcode。
 
-## 👥 加入群聊
-
-欢迎加入开发者交流群，一起交流 Flutter、Android、HarmonyOS 与跨平台项目架构。
-
-<div align="left">
-  <img src="docs/images/group/qq.jpg" width="200" alt="QQ群二维码"/>
-  <p>扫码或搜索群号加入 QQ 群</p>
-</div>
-
-## 🤝 参与贡献
-
-欢迎提交 Issue 和 Pull Request，一起完善 Flutter 跨平台开发体验。
-
-- **代码贡献**：完善功能实现、修复问题或补充测试
-- **问题反馈**：提交可复现的 Bug、兼容性问题或功能建议
-- **文档优化**：完善使用说明、架构文档和示例说明
-- **设计支持**：提供 UI、交互和多端适配建议
-- **测试协助**：验证 Android、iOS、macOS、Linux、Windows 和 Web 平台行为
-
-提交代码前请确保通过项目静态分析与相关测试，并遵循现有目录结构和编码规范。
