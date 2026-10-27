@@ -1,17 +1,15 @@
 # Indexes 索引
 
-> 用于页面中信息快速检索，可以根据目录中的页码快速找到所需的内容。
+> 用于按索引快速定位分组列表中的内容。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/indexes)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,239 +17,531 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_indexes_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_indexes_page.dart)
+#### 组件类型
 
-#### 1 组件类型
+##### 索引类型
 
-基础索引类型
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
-Widget _buildSimple(BuildContext context) {
-  final renderBox = navBarkey.currentContext?.findRenderObject() as RenderBox?;
+class LetterIndexesExample extends StatelessWidget {
+  const LetterIndexesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildLetterIndexes(context);
+  }
+}
+
+/// 核心示例：`_list` 是页面级“索引 -> 城市列表”数据。
+///
+/// 数据结构示例：`{'index': 'A', 'children': ['阿坝', '阿拉善']}`；接入时可替换为
+/// 业务自己的索引及内容列表。
+Widget _buildLetterIndexes(BuildContext context) {
   final indexList = _list.map((item) => item['index'] as String).toList();
-  return TDButton(
-    text: '基础用法',
-    isBlock: true,
-    size: TDButtonSize.large,
-    theme: TDButtonTheme.primary,
-    type: TDButtonType.outline,
-    onTap: () {
-      Navigator.of(context).push(
-        TDSlidePopupRoute(
-          slideTransitionFrom: SlideTransitionFrom.right,
-          modalTop: renderBox?.size.height,
-          builder: (context) {
-            return TDIndexes(
+  return SizedBox(
+    width: double.infinity,
+    child: TButton(
+      key: const ValueKey('indexes-letter-trigger'),
+      child: const TText('字母索引'),
+      size: TButtonSize.large,
+      colorPreset: TButtonColorPreset.primary,
+      variant: TButtonVariant.outline,
+      onPressed: () {
+        TPopup.show(
+          context,
+          options: TPopupOptions.right(
+            inset: const TPopupRightInset(top: 0),
+            child: TIndexes(
+              key: const ValueKey('indexes-letter-panel'),
               indexList: indexList,
+              initialIndex: 'B',
               builderContent: (context, index) {
-                final list = _list.firstWhere(
-                        (element) => element['index'] == index)['children']
-                    as List;
-                return TDCellGroup(
-                  cells: list
-                      .map((e) => TDCell(
-                            title: e,
-                          ))
-                      .toList(),
+                final list =
+                    _list.firstWhere(
+                          (element) => element['index'] == index,
+                        )['children']
+                        as List<String>;
+                return TCellGroup(
+                  cells: list.map((e) => TCell(title: TText(e))).toList(),
                 );
               },
-            );
-          },
-        ),
-      );
-    },
+            ),
+            useSafeArea: true,
+          ),
+        );
+      },
+    ),
+  );
+}
+
+const _list = [
+  {
+    'index': 'A',
+    'children': ['阿坝', '阿拉善', '阿里', '安康', '安庆', '鞍山', '安顺', '安阳', '澳门'],
+  },
+  {
+    'index': 'B',
+    'children': [
+      '北京',
+      '白银',
+      '保定',
+      '宝鸡',
+      '保山',
+      '包头',
+      '巴中',
+      '北海',
+      '蚌埠',
+      '本溪',
+      '毕节',
+      '滨州',
+      '百色',
+      '亳州',
+    ],
+  },
+  {
+    'index': 'C',
+    'children': [
+      '重庆',
+      '成都',
+      '长沙',
+      '长春',
+      '沧州',
+      '常德',
+      '昌都',
+      '长治',
+      '常州',
+      '巢湖',
+      '潮州',
+      '承德',
+      '郴州',
+      '赤峰',
+      '池州',
+      '崇左',
+      '楚雄',
+      '滁州',
+      '朝阳',
+    ],
+  },
+  {
+    'index': 'D',
+    'children': [
+      '大连',
+      '东莞',
+      '大理',
+      '丹东',
+      '大庆',
+      '大同',
+      '大兴安岭',
+      '德宏',
+      '德阳',
+      '德州',
+      '定西',
+      '迪庆',
+      '东营',
+    ],
+  },
+  {
+    'index': 'E',
+    'children': ['鄂尔多斯', '恩施', '鄂州'],
+  },
+  {
+    'index': 'F',
+    'children': ['福州', '防城港', '佛山', '抚顺', '抚州', '阜新', '阜阳'],
+  },
+  {
+    'index': 'G',
+    'children': ['广州', '桂林', '贵阳', '甘南', '赣州', '甘孜', '广安', '广元', '贵港', '果洛'],
+  },
+  {
+    'index': 'J',
+    'children': [
+      '揭阳',
+      '吉林',
+      '晋江',
+      '吉安',
+      '胶州',
+      '嘉兴',
+      '济南',
+      '鸡西',
+      '荆州',
+      '江门',
+      '基隆',
+    ],
+  },
+  {
+    'index': 'K',
+    'children': ['昆明', '开封', '康定', '喀什'],
+  },
+];
+```
+
+##### `NumberIndexesExample`
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class NumberIndexesExample extends StatelessWidget {
+  const NumberIndexesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildNumberIndexes(context);
+  }
+}
+
+Widget _buildNumberIndexes(BuildContext context) {
+  const indexList = ['1', '3', '5', '7', '8', '10', '#'];
+  return SizedBox(
+    width: double.infinity,
+    child: TButton(
+      key: const ValueKey('indexes-number-trigger'),
+      child: const TText('数字索引'),
+      size: TButtonSize.large,
+      colorPreset: TButtonColorPreset.primary,
+      variant: TButtonVariant.outline,
+      onPressed: () {
+        TPopup.show(
+          context,
+          options: TPopupOptions.right(
+            inset: const TPopupRightInset(top: 0),
+            child: TIndexes(
+              key: const ValueKey('indexes-number-panel'),
+              indexList: indexList,
+              capsuleTheme: false,
+              builderContent: (context, index) {
+                return TCellGroup(
+                  cells: List.generate(
+                    5,
+                    (position) => TCell(title: TText('列表内容 ${position + 1}')),
+                  ),
+                );
+              },
+            ),
+            useSafeArea: true,
+          ),
+        );
+      },
+    ),
   );
 }
 ```
 
+#### 组件样式
 
-```
-Widget _buildSimple(BuildContext context) {
-  final renderBox = navBarkey.currentContext?.findRenderObject() as RenderBox?;
-  final indexList = _list.map((item) => item['index'] as String).toList();
-  return TDButton(
-    text: '基础用法',
-    isBlock: true,
-    size: TDButtonSize.large,
-    theme: TDButtonTheme.primary,
-    type: TDButtonType.outline,
-    onTap: () {
-      Navigator.of(context).push(
-        TDSlidePopupRoute(
-          slideTransitionFrom: SlideTransitionFrom.right,
-          modalTop: renderBox?.size.height,
-          builder: (context) {
-            return TDIndexes(
-              indexList: indexList,
-              builderContent: (context, index) {
-                final list = _list.firstWhere(
-                        (element) => element['index'] == index)['children']
-                    as List;
-                return TDCellGroup(
-                  cells: list
-                      .map((e) => TDCell(
-                            title: e,
-                          ))
-                      .toList(),
-                );
-              },
-            );
-          },
-        ),
-      );
-    },
-  );
+##### 其他索引列表样式
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CapsuleIndexesExample extends StatelessWidget {
+  const CapsuleIndexesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCapsuleIndexes(context);
+  }
 }
-```
 
-#### 1 组件样式
-
-其他索引类型
-
-```
-Widget _buildOther(BuildContext context) {
-  final renderBox = navBarkey.currentContext?.findRenderObject() as RenderBox?;
-  final indexList = _list.map((item) => item['index'] as String).toList();
-  return TDButton(
-    text: '胶囊索引',
-    isBlock: true,
-    size: TDButtonSize.large,
-    theme: TDButtonTheme.primary,
-    type: TDButtonType.outline,
-    onTap: () {
-      Navigator.of(context).push(
-        TDSlidePopupRoute(
-          slideTransitionFrom: SlideTransitionFrom.right,
-          modalTop: renderBox?.size.height,
-          builder: (context) {
-            return TDIndexes(
+Widget _buildCapsuleIndexes(BuildContext context) {
+  const indexList = ['1', '3', '5', '7', '8', '10', '#'];
+  return SizedBox(
+    width: double.infinity,
+    child: TButton(
+      key: const ValueKey('indexes-capsule-trigger'),
+      child: const TText('胶囊索引'),
+      size: TButtonSize.large,
+      colorPreset: TButtonColorPreset.primary,
+      variant: TButtonVariant.outline,
+      onPressed: () {
+        TPopup.show(
+          context,
+          options: TPopupOptions.right(
+            inset: const TPopupRightInset(top: 0),
+            child: TIndexes(
+              key: const ValueKey('indexes-capsule-panel'),
               indexList: indexList,
               capsuleTheme: true,
               builderContent: (context, index) {
-                final list = _list.firstWhere(
-                        (element) => element['index'] == index)['children']
-                    as List;
-                return TDCellGroup(
-                  cells: list
-                      .map((e) => TDCell(
-                            title: e,
-                          ))
-                      .toList(),
+                return TCellGroup(
+                  cells: List.generate(
+                    5,
+                    (position) => TCell(title: TText('列表内容 ${position + 1}')),
+                  ),
                 );
               },
-            );
-          },
-        ),
-      );
-    },
-  );
-}
-```
-
-
-```
-Widget _buildOther(BuildContext context) {
-  final renderBox = navBarkey.currentContext?.findRenderObject() as RenderBox?;
-  final indexList = _list.map((item) => item['index'] as String).toList();
-  return TDButton(
-    text: '胶囊索引',
-    isBlock: true,
-    size: TDButtonSize.large,
-    theme: TDButtonTheme.primary,
-    type: TDButtonType.outline,
-    onTap: () {
-      Navigator.of(context).push(
-        TDSlidePopupRoute(
-          slideTransitionFrom: SlideTransitionFrom.right,
-          modalTop: renderBox?.size.height,
-          builder: (context) {
-            return TDIndexes(
-              indexList: indexList,
-              capsuleTheme: true,
-              builderContent: (context, index) {
-                final list = _list.firstWhere(
-                        (element) => element['index'] == index)['children']
-                    as List;
-                return TDCellGroup(
-                  cells: list
-                      .map((e) => TDCell(
-                            title: e,
-                          ))
-                      .toList(),
-                );
-              },
-            );
-          },
-        ),
-      );
-    },
+            ),
+            useSafeArea: true,
+          ),
+        );
+      },
+    ),
   );
 }
 ```
 
 ## API
 
-1. [TDIndexes](#tdindexes)
-2. [TDIndexesAnchor](#tdindexesanchor)
-3. [TDIndexesList](#tdindexeslist)
+1. [TIndexes](#tindexes)
+2. [TIndexesAnchor](#tindexesanchor)
+3. [TIndexesList](#tindexeslist)
+4. [StickyHeaderController](#stickyheadercontroller)
+5. [DefaultStickyHeaderController](#defaultstickyheadercontroller)
+6. [SliverStickyHeaderState](#sliverstickyheaderstate)
+7. [SliverStickyHeader](#sliverstickyheader)
+8. [SliverStickyHeaderRenderObjectElement](#sliverstickyheaderrenderobjectelement)
+9. [SliverStickyHeaderWidgetBuilder](#sliverstickyheaderwidgetbuilder)
+10. [TIndexesThemeData](#tindexesthemedata)
 
-#### TDIndexes
+### TIndexes
 
-##### 简介
+#### 构造方法
 
-索引
+##### TIndexes
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| builderAnchor | Widget? Function(BuildContext context, String index, bool isPinnedToTop)? | - | 锚点自定义构建 | 否 |
+| builderContent | Widget? Function(BuildContext context, String index) | - | 内容自定义构建 | 是 |
+| builderIndex | Widget Function(BuildContext context, String index, bool isActive)? | - | 索引文本自定义构建，包括索引激活左侧提示 | 否 |
+| capsuleTheme | bool | false | 锚点是否为胶囊式样式 | 否 |
+| indexList | List<String>? | - | 索引字符列表，字符必须唯一。不传默认 A-Z；默认值要求 builderContent 能处理 A-Z 全部索引，自定义数据建议显式传入。 列表更新后若不再包含当前活动项，组件回退到新列表首项、同步滚动位置并触发 `onChanged`。 | 否 |
+| initialIndex | String? | - | 初始激活索引，非空时必须属于 indexList；为空时使用 indexList 的第一项。 仅在组件首次创建时生效；后续活动索引由滚动位置派生。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| onChanged | void Function(String index)? | - | 当前激活索引发生变更时触发（含滚动吸顶派生与用户侧栏选择） | 否 |
+| onSelect | void Function(String index)? | - | 用户在侧边栏点击或拖动选择索引（激活索引变化）时触发；滚动吸顶派生不会触发本回调 | 否 |
+| reverse | bool | false | 是否反向滚动 | 否 |
+| scrollController | ScrollController? | - | 滚动控制器；外部控制器由调用方释放，未提供时组件管理内部控制器。 | 否 |
+| sticky | bool | true | 锚点是否吸顶 | 否 |
+| stickyOffset | double | 0 | 锚点吸顶时与顶部的距离 | 否 |
+| useSafeArea | bool | false | 是否避让系统安全区，默认 false。 仅在组件自身负责屏幕边缘布局时开启；若外层 Popup 或页面壳已经处理安全区， 应保持关闭，避免重复避让。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| builderAnchor | Widget? Function(BuildContext context, String index, bool isPinnedToTop)? | - | 锚点自定义构建 |
-| builderContent | Widget? Function(BuildContext context, String index) | - | 内容自定义构建 |
-| builderIndex | Widget Function(BuildContext context, String index, bool isActive)? | - | 索引文本自定义构建，包括索引激活左侧提示 |
-| capsuleTheme | bool? | false | 锚点是否为胶囊式样式 |
-| indexList | List? | - | 索引字符列表。不传默认 A-Z |
-| indexListMaxHeight | double? | 0.8 | 索引列表最大高度（父容器高度的百分比，默认 0.8） |
-| key |  | - |  |
-| onChange | void Function(String index)? | - | 索引发生变更时触发事件 |
-| onSelect | void Function(String index)? | - | 点击侧边栏时触发事件 |
-| reverse | bool? | false | 反方向滚动置顶 |
-| scrollController | ScrollController? | - | 滚动控制器 |
-| sticky | bool? | true | 锚点是否吸顶 |
-| stickyOffset | double? | 0 | 锚点吸顶时与顶部的距离 |
-
-#### TDIndexesAnchor
-
-##### 简介
+### TIndexesAnchor
 
 索引锚点
 
-##### 默认构造方法
+#### 构造方法
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| activeIndex | ValueNotifier | - | 选中索引 |
-| builderAnchor | Widget? Function(BuildContext context, String index, bool isPinnedToTop)? | - | 索引锚点构建 |
-| capsuleTheme | bool | - | 是否为胶囊式样式 |
-| key |  | - |  |
-| sticky | bool | - | 索引是否吸顶 |
-| text | String | - | 锚点文本 |
+##### TIndexesAnchor
 
-#### TDIndexesList
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| activeIndex | ValueNotifier<String> | - | 选中索引 | 是 |
+| builderAnchor | Widget? Function(BuildContext context, String index, bool isPinnedToTop)? | - | 索引锚点构建 | 否 |
+| capsuleTheme | bool | - | 是否为胶囊式样式 | 是 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| sticky | bool | - | 索引是否吸顶 | 是 |
+| text | String | - | 锚点文本 | 是 |
 
-##### 简介
+### TIndexesList
 
 索引
 
-##### 默认构造方法
+#### 构造方法
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| activeIndex | ValueNotifier | - | 选中索引 |
-| builderIndex | Widget Function(BuildContext context, String index, bool isActive)? | - | 索引文本自定义构建，包括索引激活左侧提示 |
-| indexList | List | - | 索引字符列表。不传默认 A-Z |
-| indexListMaxHeight | double | 0.8 | 索引列表最大高度（父容器高度的百分比，默认0.8） |
-| key |  | - |  |
-| onSelect | void Function(String newIndex, String oldIndex) | - | 点击侧边栏时触发事件 |
+##### TIndexesList
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| activeIndex | ValueNotifier<String> | - | 选中索引 | 是 |
+| builderIndex | Widget Function(BuildContext context, String index, bool isActive)? | - | 索引文本自定义构建，包括索引激活左侧提示 | 否 |
+| indexList | List<String> | - | 索引字符列表，需显式传入实际展示的索引序列。本组件不自带默认值；通常由 TIndexes 装配并透传（TIndexes 未指定时默认使用 A-Z） | 是 |
+| indexListMaxHeight | double | 0.8 | 索引列表最大高度（父容器高度的百分比，默认0.8）。 超过该高度时竖向滚动；点击仍选中，未溢出时可拖动选中。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| onSelect | void Function(String newIndex, String oldIndex) | - | 用户点击或在未溢出时拖动侧边栏、激活索引发生变化时触发。 溢出索引条的滚动不会触发选择回调。 | 是 |
+
+### StickyHeaderController
+
+吸顶 Sliver 的滚动位置控制器；位置变化时通知监听者。
+
+#### 构造方法
+
+##### StickyHeaderController
+
+无参数。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| stickyHeaderScrollOffset | double | - | This setter should only be used by flutter_sticky_header package. | - |
+
+### DefaultStickyHeaderController
+
+The `StickyHeaderController` for descendant widgets that don't specify one
+explicitly.
+
+`DefaultStickyHeaderController` is an inherited widget that is used to share a
+`StickyHeaderController` with `SliverStickyHeader`s. It's used when sharing an
+explicitly created `StickyHeaderController` isn't convenient because the sticky
+headers are created by a stateless parent widget or by different parent
+widgets.
+
+#### 构造方法
+
+##### DefaultStickyHeaderController
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| child | Widget | - | The widget below this widget in the tree. Typically a `Scaffold` whose `AppBar` includes a `TabBar`. | 是 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+
+#### 静态方法
+
+##### DefaultStickyHeaderController.of
+
+位置参数：`context`
+
+The closest instance of this class that encloses the given context.
+
+Typical usage:
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 当前构建上下文，用于读取祖先配置。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | StickyHeaderController? | - | 最近的吸顶头部控制器；上下文中没有对应作用域时为 null。 | - |
+
+### SliverStickyHeaderState
+
+State describing how a sticky header is rendered.
+
+#### 构造方法
+
+##### SliverStickyHeaderState
+
+位置参数：`scrollPercentage, isPinned`
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| scrollPercentage | double | - | 标题滚出自身高度的比例，范围为 0 至 1。 | 是 |
+| isPinned | bool | - | 标题当前是否固定在吸顶位置。 | 是 |
+
+### SliverStickyHeader
+
+A sliver that displays a header before its sliver.
+The header scrolls off the viewport only when the sliver does.
+
+Place this widget inside a `CustomScrollView` or similar.
+
+#### 构造方法
+
+##### SliverStickyHeader
+
+Creates a sliver that displays the `header` before its `sliver`, unless
+overlapsContent is true.
+The `header` stays pinned when it hits the start of the viewport until
+the `sliver` scrolls off the viewport.
+
+The `overlapsContent` and `sticky` arguments must not be null.
+
+If a `StickyHeaderController` is not provided, then the value of
+`DefaultStickyHeaderController.of` will be used.
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| controller | StickyHeaderController? | - | The controller used to interact with this sliver. If a `StickyHeaderController` is not provided, then the value of `DefaultStickyHeaderController.of` will be used. | 否 |
+| header | Widget? | - | The header to display before the sliver. | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| overlapsContent | bool | false | Whether the header should be drawn on top of the sliver instead of before. | 否 |
+| pinnedOffset | double | 0.0 | The offset at which to pin the header. Defaults to 0.0. | 否 |
+| sliver | Widget? | - | The sliver to display after the header. | 否 |
+| sticky | bool | true | Whether to stick the header. Defaults to true. | 否 |
+
+##### SliverStickyHeader.builder
+
+Creates a widget that builds the header of a `SliverStickyHeader`
+each time its scroll percentage changes.
+
+The `builder`, `overlapsContent` and `sticky` arguments must not be null.
+
+If a `StickyHeaderController` is not provided, then the value of
+`DefaultStickyHeaderController.of` will be used.
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| builder | SliverStickyHeaderWidgetBuilder | - | 接收构建上下文及吸顶状态的标题构建器。 | 是 |
+| sliver | Widget? | - | The sliver to display after the header. | 否 |
+| overlapsContent | bool | false | Whether the header should be drawn on top of the sliver instead of before. | 否 |
+| sticky | bool | true | Whether to stick the header. Defaults to true. | 否 |
+| pinnedOffset | double | 0.0 | The offset at which to pin the header. Defaults to 0.0. | 否 |
+| controller | StickyHeaderController? | - | The controller used to interact with this sliver. If a `StickyHeaderController` is not provided, then the value of `DefaultStickyHeaderController.of` will be used. | 否 |
+
+### SliverStickyHeaderRenderObjectElement
+
+管理吸顶标题和内容 Sliver 子元素的 RenderObjectElement。
+
+#### 构造方法
+
+##### SliverStickyHeaderRenderObjectElement
+
+位置参数：`widget`
+
+Creates an element that uses the given widget as its configuration.
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| widget | SliverStickyHeader | - | 用于配置吸顶标题和内容 Sliver 的组件。 | 是 |
+
+### SliverStickyHeaderWidgetBuilder
+
+根据吸顶状态构建头部内容。
+
+位置参数：`context, state`
+
+#### 回调参数
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 吸顶头部的构建上下文。 | 是 |
+| state | SliverStickyHeaderState | - | 当前吸顶及滚动进度状态。 | 是 |
+
+#### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Widget | - | 当前状态下的头部内容。 | - |
+
+### TIndexesThemeData
+
+索引组件的子树级视觉主题。
+
+仅管理尺寸、颜色和字体。吸顶、滚动方向与胶囊模式属于组件实例行为。
+
+#### 配置项
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| activeAnchorBackgroundColor | Color? | - | 激活锚点背景色。 | 否 |
+| activeAnchorColor | Color? | - | 激活锚点文字颜色。 | 否 |
+| activeAnchorFont | Font? | - | 激活锚点字体。 | 否 |
+| activeIndexBackgroundColor | Color? | - | 激活索引背景色。 | 否 |
+| activeIndexColor | Color? | - | 激活索引文字颜色。 | 否 |
+| activeIndexFont | Font? | - | 激活索引字体。 | 否 |
+| anchorBackgroundColor | Color? | - | 普通锚点背景色。 | 否 |
+| anchorBorderColor | Color? | - | 激活锚点边框颜色。 | 否 |
+| anchorColor | Color? | - | 普通锚点文字颜色。 | 否 |
+| anchorFont | Font? | - | 普通锚点字体。 | 否 |
+| anchorHorizontalPadding | double? | - | 锚点水平内边距。 | 否 |
+| anchorVerticalPadding | double? | - | 锚点垂直内边距。 | 否 |
+| capsuleMargin | double? | - | 胶囊锚点的水平外边距。 | 否 |
+| indexColor | Color? | - | 普通索引文字颜色。 | 否 |
+| indexFont | Font? | - | 普通索引字体。 | 否 |
+| indexItemSize | double? | - | 单个索引的尺寸；显式值保持固定，默认至少 20 并随内置文字自然行高增长。 | 否 |
+| indexItemSpacing | double? | - | 相邻索引之间的距离。 | 否 |
+| indexListMaxHeight | double? | - | 索引列表最大高度占父容器高度的比例。 | 否 |
+| sidebarRight | double? | - | 侧栏距容器右侧的距离。 | 否 |
+| tipBackgroundColor | Color? | - | 按压提示背景色。 | 否 |
+| tipColor | Color? | - | 按压提示文字颜色。 | 否 |
+| tipFont | Font? | - | 按压提示字体。 | 否 |
+| tipGap | double? | - | 按压提示与索引之间的距离。 | 否 |
+| tipMaxWidth | double? | - | 按压提示的最大宽度。 | 否 |
+| tipSize | double? | - | 按压提示的最小尺寸；显式值保持固定，默认可随内置文字自然行高增长。 | 否 |
 
 ## 设计指南
 
@@ -260,19 +550,19 @@ Widget _buildOther(BuildContext context) {
 3. [推荐/慎用示例](#推荐-慎用示例)
 4. [相似组件](#相似组件)
 
-#### 何时使用
+### 何时使用
 
 当数据项较多时，为方便用户快速找到目标数据项时使用。
 
-#### 组件搭配使用
+### 组件搭配使用
 
-###### 索引与[单选框](<../输入/Radio 单选框.md>)、[多选框](<../输入/CheckBox 多选框.md>)组合使用，在选择数据的场景配合索引有利于用户快速找到目标选项。
+##### 索引与[单选框](<../输入/Radio 单选框.md>)、[多选框](<../输入/CheckBox 多选框.md>)组合使用，在选择数据的场景配合索引有利于用户快速找到目标选项。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/indexes/indexes-1.png)
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 索引项需要跟数据项小标题保持一致。
+##### 索引项需要跟数据项小标题保持一致。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/indexes/indexes-2.png)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
@@ -282,7 +572,7 @@ Widget _buildOther(BuildContext context) {
 
 ---
 
-###### 索引项排序应具备一定的逻辑相关性。
+##### 索引项排序应具备一定的逻辑相关性。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/indexes/indexes-4.png)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
@@ -290,7 +580,7 @@ Widget _buildOther(BuildContext context) {
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/indexes/indexes-5.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
 
-#### 相似组件
+### 相似组件
 
 | 组件名 | 何时使用 |
 | --- | --- |

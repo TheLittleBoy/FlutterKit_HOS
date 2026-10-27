@@ -6,10 +6,11 @@ FlutterKit 的深色模式建立在 TDesign Flutter 多主题能力、Flutter `T
 
 TDesign 深色模式的原始说明已归档在仓库：
 
-- `docs/tdesign-flutter/全局配置/深色模式.md`
+- `docs/tdesign-flutter/全局配置/自定义主题.md`
+- `docs/tdesign-flutter/全局配置/Theme 主题.md`
 - `docs/tdesign-flutter/开始/快速开始.md`
 
-官方文档说明如何生成 JSON、开启 `TDTheme.needMultiTheme()` 和配置 Flutter 的 `theme / darkTheme / themeMode`。FlutterKit 在此基础上增加颜色预设、GetX 响应状态、持久化、`AppTheme` 语义色与系统栏同步。
+官方文档说明如何组织浅色、深色 token，并配置 Flutter 的 `theme / darkTheme / themeMode`。FlutterKit 在此基础上增加颜色预设、GetX 响应状态、持久化、`AppTheme` 语义色与系统栏同步。
 
 ## 当前主题链路
 

@@ -3,15 +3,13 @@
 > 用于实时展示计时数值。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/time-counter)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,509 +17,454 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_time-counter_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_time-counter_page.dart)
+#### 组件类型
 
-#### 1 组件类型
+##### 时分秒
 
-时分秒
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
-TDTimeCounter _buildSimple(BuildContext context) {
-  return const TDTimeCounter(time: 60 * 60 * 1000);
+class TimeCounterSimpleExample extends StatelessWidget {
+  const TimeCounterSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildSimple(context);
+  }
+}
+
+Widget _buildSimple(BuildContext context) {
+  return const TTimeCounter(time: 96 * 60 * 1000);
 }
 ```
 
-带毫秒
+##### 带毫秒
 
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterMillisecondSimpleExample extends StatelessWidget {
+  const TimeCounterMillisecondSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildMillisecondSimple(context);
+  }
+}
+
+Widget _buildMillisecondSimple(BuildContext context) {
+  return const TTimeCounter(time: 96 * 60 * 1000, format: 'HH:mm:ss:SSS');
+}
 ```
-TDTimeCounter _buildMillisecondSimple(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    millisecond: true,
+
+##### 带方形底
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterSquareSimpleExample extends StatelessWidget {
+  const TimeCounterSquareSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildSquareSimple(context);
+  }
+}
+
+Widget _buildSquareSimple(BuildContext context) {
+  return const TTimeCounter(
+    time: 96 * 60 * 1000,
+    variant: TTimeCounterVariant.square,
   );
 }
 ```
 
-正向计时
+##### 带圆形底
 
-```
-TDTimeCounter _buildUpSimple(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    millisecond: true,
-    direction: TDTimeCounterDirection.up,
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterRoundSimpleExample extends StatelessWidget {
+  const TimeCounterRoundSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildRoundSimple(context);
+  }
+}
+
+Widget _buildRoundSimple(BuildContext context) {
+  return const TTimeCounter(
+    time: 96 * 60 * 1000,
+    variant: TTimeCounterVariant.round,
   );
 }
 ```
 
-带方形底
+##### 带单位
 
-```
-TDTimeCounter _buildSquareSimple(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    theme: TDTimeCounterTheme.square,
-  );
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterUnitSimpleExample extends StatelessWidget {
+  const TimeCounterUnitSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildUnitSimple(context);
+  }
 }
-```
 
-带圆形底
-
-```
-TDTimeCounter _buildRoundSimple(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-带单位
-
-```
-TDTimeCounter _buildUnitSimple(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    theme: TDTimeCounterTheme.square,
+Widget _buildUnitSimple(BuildContext context) {
+  return const TTimeCounter(
+    time: 96 * 60 * 1000,
+    variant: TTimeCounterVariant.round,
     splitWithUnit: true,
   );
 }
 ```
 
-无底色带单位
+##### 无底色带单位
 
-```
-TDTimeCounter _buildCustomUnitSimple(BuildContext context) {
-  var style = TDTimeCounterStyle.generateStyle(context);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterCustomUnitSimpleExample extends StatelessWidget {
+  const TimeCounterCustomUnitSimpleExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCustomUnitSimple(context);
+  }
 }
-```
 
-#### 1 组件尺寸
-
-纯数字
-
-```
-TDTimeCounter _buildSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-  );
-}
-```
-
-带方形底
-
-```
-TDTimeCounter _buildSquareSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSquareMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSquareLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSquareSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSquareMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildSquareLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.square,
-  );
-}
-```
-
-带圆形底
-
-```
-TDTimeCounter _buildRoundSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildRoundMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildRoundLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildRoundSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildRoundMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildRoundLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.round,
-  );
-}
-```
-
-带单位
-
-```
-TDTimeCounter _buildUnitSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.square,
+Widget _buildCustomUnitSimple(BuildContext context) {
+  return const TTimeCounter(
+    time: 96 * 60 * 1000,
+    variant: TTimeCounterVariant.highlight,
     splitWithUnit: true,
   );
 }
 ```
 
+#### 组件尺寸
 
-```
-TDTimeCounter _buildUnitMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.square,
-    splitWithUnit: true,
+##### 时分秒
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterDefaultSizesExample extends StatelessWidget {
+  const TimeCounterDefaultSizesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDefaultSizes(context);
+  }
+}
+
+Widget _buildDefaultSizes(BuildContext context) {
+  return const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TTimeCounter(time: 96 * 60 * 1000, size: TTimeCounterSize.small),
+      SizedBox(height: 24),
+      TTimeCounter(time: 96 * 60 * 1000),
+      SizedBox(height: 24),
+      TTimeCounter(time: 96 * 60 * 1000, size: TTimeCounterSize.large),
+    ],
   );
 }
 ```
 
+##### 带毫秒
 
-```
-TDTimeCounter _buildUnitLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.square,
-    splitWithUnit: true,
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterMillisecondSizesExample extends StatelessWidget {
+  const TimeCounterMillisecondSizesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildMillisecondSizes(context);
+  }
+}
+
+Widget _buildMillisecondSizes(BuildContext context) {
+  return const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        format: 'HH:mm:ss:SSS',
+        size: TTimeCounterSize.small,
+      ),
+      SizedBox(height: 24),
+      TTimeCounter(time: 96 * 60 * 1000, format: 'HH:mm:ss:SSS'),
+      SizedBox(height: 24),
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        format: 'HH:mm:ss:SSS',
+        size: TTimeCounterSize.large,
+      ),
+    ],
   );
 }
 ```
 
+##### 带方形底
 
-```
-TDTimeCounter _buildUnitSmallSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.small,
-    theme: TDTimeCounterTheme.square,
-    splitWithUnit: true,
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterSquareSizesExample extends StatelessWidget {
+  const TimeCounterSquareSizesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildSquareSizes(context);
+  }
+}
+
+Widget _buildSquareSizes(BuildContext context) {
+  return const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.small,
+        variant: TTimeCounterVariant.square,
+      ),
+      SizedBox(height: 24),
+      TTimeCounter(time: 96 * 60 * 1000, variant: TTimeCounterVariant.square),
+      SizedBox(height: 24),
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.large,
+        variant: TTimeCounterVariant.square,
+      ),
+    ],
   );
 }
 ```
 
+##### 带圆形底
 
-```
-TDTimeCounter _buildUnitMediumSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.medium,
-    theme: TDTimeCounterTheme.square,
-    splitWithUnit: true,
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterRoundSizesExample extends StatelessWidget {
+  const TimeCounterRoundSizesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildRoundSizes(context);
+  }
+}
+
+Widget _buildRoundSizes(BuildContext context) {
+  return const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.small,
+        variant: TTimeCounterVariant.round,
+      ),
+      SizedBox(height: 24),
+      TTimeCounter(time: 96 * 60 * 1000, variant: TTimeCounterVariant.round),
+      SizedBox(height: 24),
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.large,
+        variant: TTimeCounterVariant.round,
+      ),
+    ],
   );
 }
 ```
 
+##### 带单位
 
-```
-TDTimeCounter _buildUnitLargeSize(BuildContext context) {
-  return const TDTimeCounter(
-    time: 60 * 60 * 1000,
-    size: TDTimeCounterSize.large,
-    theme: TDTimeCounterTheme.square,
-    splitWithUnit: true,
-  );
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TimeCounterUnitSizesExample extends StatelessWidget {
+  const TimeCounterUnitSizesExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildUnitSizes(context);
+  }
 }
-```
 
-无底色带单位
-
-```
-TDTimeCounter _buildCustomUnitSmallSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.small);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildCustomUnitMediumSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.medium);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildCustomUnitLargeSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.large);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildCustomUnitSmallSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.small);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildCustomUnitMediumSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.medium);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
-  );
-}
-```
-
-
-```
-TDTimeCounter _buildCustomUnitLargeSize(BuildContext context) {
-  var style =
-      TDTimeCounterStyle.generateStyle(context, size: TDTimeCounterSize.large);
-  style.timeColor = TDTheme.of(context).errorNormalColor;
-  return TDTimeCounter(
-    time: 60 * 60 * 1000,
-    splitWithUnit: true,
-    style: style,
+Widget _buildUnitSizes(BuildContext context) {
+  return const Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.small,
+        variant: TTimeCounterVariant.round,
+        splitWithUnit: true,
+      ),
+      SizedBox(height: 24),
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        variant: TTimeCounterVariant.round,
+        splitWithUnit: true,
+      ),
+      SizedBox(height: 24),
+      TTimeCounter(
+        time: 96 * 60 * 1000,
+        size: TTimeCounterSize.large,
+        variant: TTimeCounterVariant.round,
+        splitWithUnit: true,
+      ),
+    ],
   );
 }
 ```
 
 ## API
 
-1. [TDTimeCounter](#tdtimecounter)
-2. [TDTimeCounterController](#tdtimecountercontroller)
-3. [TDTimeCounterStyle](#tdtimecounterstyle)
+1. [TTimeCounter](#ttimecounter)
+2. [TTimeCounterController](#ttimecountercontroller)
+3. [TTimeCounterDirection](#ttimecounterdirection)
+4. [TTimeCounterSize](#ttimecountersize)
+5. [TTimeCounterVariant](#ttimecountervariant)
+6. [TTimeCounterBuilder](#ttimecounterbuilder)
+7. [TTimeCounterThemeData](#ttimecounterthemedata)
 
-#### TDTimeCounter
+### TTimeCounter
 
-##### 简介
+#### 构造方法
 
-计时组件
+##### TTimeCounter
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| autoStart | bool | true | 首次挂载时是否自动开始计时，默认为 true。 该值只决定初始行为；挂载后的开始、暂停和重置由 `controller` 控制。 设置为 false 后仍需启动计时时，应同时传入 `controller`。 | 否 |
+| content | TTimeCounterBuilder? | - | 自定义计时内容；为空时使用标准数字块。 | 否 |
+| controller | TTimeCounterController? | - | 控制器，可控制开始、暂停和重置。 | 否 |
+| direction | TTimeCounterDirection | TTimeCounterDirection.down | 计时方向，默认倒计时。 | 否 |
+| format | String | 'HH:mm:ss' | 时间格式，D-日、H-时、m-分、s-秒、S-毫秒，默认为 `HH:mm:ss`。 每段可重复字符控制最小位数，相邻时间段之间仅允许一个非空白分隔符； 最后一段后可追加一个单位字符。例如 `HH:mm:ss`、`mmmm分sss秒`。 两位 `H`、`m`、`s` 分别按 24、60、60 取余；需要展示累计值时， 可将对应时间段扩展为三位及以上，例如 `HHH:mm:ss` 会展示累计小时数。 包含 `S` 段时按绘制帧更新，否则仅在格式化后的可见值变化时更新。 使用 `content` 时，该字段仍决定计时更新精度。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| onChanged | ValueChanged<int>? | - | 计时推进或控制器 reset 导致格式化后的可见值变化时触发，回调值为当前毫秒数。 `format` 包含毫秒段时随绘制帧更新，否则仅在可见时间段变化时通知。 父组件更新 time 或 direction 导致的声明式重置不触发本回调；初始化也不触发。 | 否 |
+| onFinish | VoidCallback? | - | 计时到达终点时触发一次回调。 初始值或重置值已在终点时不会自动触发；此时显式调用 `TTimeCounterController.start` 会触发一次。 | 否 |
+| size | TTimeCounterSize? | - | 计时器尺寸；null 时使用 TTimeCounterSize.medium。 | 否 |
+| splitWithUnit | bool | false | 是否使用本地化时间单位分隔，默认为 false。 | 否 |
+| time | int | - | 必需；计时时长，单位毫秒。 父组件更新该值时会按新的声明式配置重置计时，并覆盖此前 `TTimeCounterController.reset` 传入的临时目标时长。 必须大于或等于 0。 | 是 |
+| variant | TTimeCounterVariant? | - | 视觉形态；null 时使用 TTimeCounterVariant.plain。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| autoStart | bool | true | 是否自动开始倒计时 |
-| content | dynamic | 'default' | 'default' / Widget Function(int time) / Widget |
-| controller | TDTimeCounterController? | - | 控制器，可控制开始/暂停/继续/重置 |
-| direction | TDTimeCounterDirection | TDTimeCounterDirection.down | 计时方向，默认倒计时 |
-| format | String | 'HH:mm:ss' | 时间格式，DD-日，HH-时，mm-分，ss-秒，SSS-毫秒（分隔符必须为长度为1的非空格的字符） |
-| key |  | - |  |
-| millisecond | bool | false | 是否开启毫秒级渲染 |
-| onChange | Function(int time)? | - | 时间变化时触发回调 |
-| onFinish | VoidCallback? | - | 计时结束时触发回调 |
-| size | TDTimeCounterSize | TDTimeCounterSize.medium | 尺寸 |
-| splitWithUnit | bool | false | 使用时间单位分割 |
-| style | TDTimeCounterStyle? | - | 自定义样式，有则优先用它，没有则根据size和theme选取 |
-| theme | TDTimeCounterTheme | TDTimeCounterTheme.defaultTheme | 风格 |
-| time | int | - | 必需；计时时长，单位毫秒 |
+### TTimeCounterController
 
-#### TDTimeCounterController
+计时器控制器，可控制开始、暂停和重置。
 
-##### 简介
+Controller 由调用方创建并负责释放。绑定多个 `TTimeCounter` 时，
+每条命令会广播给所有已绑定组件。
 
-倒计时组件控制器，可控制开始(`start()`)/暂停(`pause()`)/继续(`resume()`)/重置(`reset([int? time])`)
+#### 构造方法
 
-#### TDTimeCounterStyle
+##### TTimeCounterController
 
-##### 简介
+无参数。
 
-计时组件样式
+#### 实例方法
 
-##### 默认构造方法
+##### TTimeCounterController.pause
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| space | double? | - | 时间与分隔符的间隔 |
-| splitColor | Color? | - | 分隔符字体颜色 |
-| splitFontHeight | double? | - | 分隔符字体行高 |
-| splitFontSize | double? | - | 分隔符字体尺寸 |
-| splitFontWeight | FontWeight? | - | 分隔符字体粗细 |
-| timeBox | BoxDecoration? | - | 时间容器装饰 |
-| timeColor | Color? | - | 时间字体颜色 |
-| timeFontFamily | FontFamily? | - | 时间字体 |
-| timeFontHeight | double? | - | 时间字体行高 |
-| timeFontSize | double? | - | 时间字体尺寸 |
-| timeFontWeight | FontWeight? | - | 时间字体粗细 |
-| timeHeight | double? | - | 时间容器高度 |
-| timeMargin | EdgeInsets? | - | 时间容器外边距 |
-| timePadding | EdgeInsets? | - | 时间容器内边距 |
-| timeWidth | double? | - | 时间容器宽度 |
+无参数。
 
-##### 工厂构造方法
+暂停计时。
 
-| 名称 | 说明 |
-| --- | --- |
-| TDTimeCounterStyle.generateStyle | 生成默认样式 |
+##### TTimeCounterController.reset
+
+位置参数：`time`
+
+重置计时并保持暂停；`time` 为空时恢复为组件当前配置的时长。
+
+重置后如需继续计时，请显式调用 `start`。
+父组件后续更新 `TTimeCounter.time` 时，新的声明式配置优先。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| time | int? | - | 重置时长，单位为毫秒；为空时恢复组件当前时长，负数抛出 ArgumentError。 | 否 |
+
+##### TTimeCounterController.start
+
+无参数。
+
+开始或继续计时。
+
+### TTimeCounterDirection
+
+计时方向。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| down | TTimeCounterDirection | - | 倒计时。 | - |
+| up | TTimeCounterDirection | - | 正向计时。 | - |
+
+### TTimeCounterSize
+
+计时器尺寸。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| small | TTimeCounterSize | - | 小尺寸。 | - |
+| medium | TTimeCounterSize | - | 中等尺寸。 | - |
+| large | TTimeCounterSize | - | 大尺寸。 | - |
+
+### TTimeCounterVariant
+
+计时器视觉形态。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| plain | TTimeCounterVariant | - | 无数字块背景。 | - |
+| highlight | TTimeCounterVariant | - | 无数字块背景，并以错误色突出数字。 | - |
+| round | TTimeCounterVariant | - | 圆形数字块。 | - |
+| square | TTimeCounterVariant | - | 方形数字块。 | - |
+
+### TTimeCounterBuilder
+
+自定义计时内容构建器。
+
+位置参数：`time`
+
+#### 回调参数
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| time | int | - | 当前计时值，单位为毫秒。 | 是 |
+
+#### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Widget | - | 自定义计时展示内容。 | - |
+
+### TTimeCounterThemeData
+
+计时器组件的具体视觉默认值。
+
+尺寸档位与形态由 `TTimeCounter.size` / `variant` 唯一选择；未设置的视觉值
+在使用时回退当前 TDesign 全局 Token，而不是在 Theme 中冻结默认值。
+
+#### 配置项
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| blockBackgroundColor | Color? | - | 圆形、方形数字块的背景色；未设置时回退 `errorColor`。 | 否 |
+| blockTextColor | Color? | - | 圆形、方形数字块的文字颜色；未设置时回退 `textColorAnti`。 | 否 |
+| defaultTextColor | Color? | - | 纯文本计时数字颜色；未设置时回退 `textColorPrimary`。 | 否 |
+| roundBorderRadius | double? | - | 圆形数字块的圆角，单位为逻辑像素；未设置时回退 `radiusCircle`。 默认数字块宽高相等，故固定大半径显示为正圆。自定义较小半径时显示 对应的圆角方块，不再被固定 `BoxShape.circle` 忽略。 | 否 |
+| squareBorderRadius | double? | - | 方形数字块的圆角，单位为逻辑像素；未设置时回退 `radiusSmall`。 | 否 |

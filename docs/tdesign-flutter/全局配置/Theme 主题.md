@@ -1,0 +1,1310 @@
+# Theme 主题
+
+> 查看功能色、文字与图标颜色和中性色板，以及主题与资源 API。主题配置方法见自定义主题指南。
+
+> 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/theme)
+> 归档时间：2026-10-27
+
+## 示例
+
+### 代码演示
+
+#### 颜色示例
+
+##### 功能色
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ThemeFunctionColorExample extends StatefulWidget {
+  const ThemeFunctionColorExample({super.key});
+
+  @override
+  State<ThemeFunctionColorExample> createState() =>
+      _ThemeFunctionColorExampleState();
+}
+
+class _ThemeFunctionColorExampleState extends State<ThemeFunctionColorExample> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    brandMap.clear();
+    errorMap.clear();
+    warningMap.clear();
+    successMap.clear();
+    _collect(context.tTheme.colorMap);
+    for (final key in context.tTheme.refMap.keys) {
+      final color = context.tTheme.colorMap[key];
+      if (color != null) {
+        _collect({key: color});
+      }
+    }
+  }
+
+  void _collect(Map<String, Color> colors) {
+    colors.forEach((key, value) {
+      if (key.startsWith('brand')) {
+        brandMap[key] = value;
+      }
+      if (key.startsWith('error')) {
+        errorMap[key] = value;
+      }
+      if (key.startsWith('warning')) {
+        warningMap[key] = value;
+      }
+      if (key.startsWith('success')) {
+        successMap[key] = value;
+      }
+    });
+  }
+
+  Widget _buildFunctionColor(BuildContext context) {
+    var functionList = ['brand', 'error', 'warning', 'success'];
+    if (brandMap.length == errorMap.length &&
+        warningMap.length == successMap.length &&
+        brandMap.length == warningMap.length) {
+      return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: brandMap.length * 4,
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(16),
+        itemBuilder: (context, index) {
+          var type = index ~/ brandMap.length;
+          index = index % brandMap.length;
+          var function = functionList[type];
+          var map = {};
+          if (type == 0) {
+            map = brandMap;
+          } else if (type == 1) {
+            map = errorMap;
+          } else if (type == 2) {
+            map = warningMap;
+          } else if (type == 3) {
+            map = successMap;
+          }
+          if (index < 10) {
+            return Container(
+              color: context.tTheme.colorMap['${function}Color${index + 1}'],
+              child: TText('${function}Color${index + 1}'),
+            );
+          } else {
+            return Container(
+              color: map.values.elementAt(index),
+              child: TText(map.keys.elementAt(index)),
+            );
+          }
+        },
+      );
+    } else {
+      return TText(
+        '功能色数量不一样',
+        style: TextStyle(color: context.tTheme.errorColor),
+      );
+    }
+  }
+
+  var brandMap = <String, Color>{};
+
+  var errorMap = <String, Color>{};
+
+  var warningMap = <String, Color>{};
+
+  var successMap = <String, Color>{};
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildFunctionColor(context);
+  }
+}
+```
+
+##### 文字&图标颜色
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ThemeTextColorExample extends StatefulWidget {
+  const ThemeTextColorExample({super.key});
+
+  @override
+  State<ThemeTextColorExample> createState() => _ThemeTextColorExampleState();
+}
+
+class _ThemeTextColorExampleState extends State<ThemeTextColorExample> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fontMap
+      ..clear()
+      ..addEntries(
+        context.tTheme.colorMap.entries.where(
+          (entry) => entry.key.startsWith('fontGray'),
+        ),
+      )
+      ..addEntries(
+        context.tTheme.colorMap.entries.where(
+          (entry) => entry.key.startsWith('fontWhite'),
+        ),
+      );
+  }
+
+  Widget _buildTextColor(BuildContext context) {
+    final entries = fontMap.entries.toList();
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: entries.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final entry = entries[index];
+        final base = entry.key.startsWith('fontGray')
+            ? Colors.white
+            : Colors.black;
+        final effectiveColor = Color.alphaBlend(entry.value, base);
+        return Container(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          color: base,
+          child: Container(
+            color: entry.value,
+            child: TText(
+              entry.key,
+              style: TextStyle(
+                color: effectiveColor.computeLuminance() < 0.5
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  var fontMap = <String, Color>{};
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTextColor(context);
+  }
+}
+```
+
+##### 中性色板
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ThemeOtherColorExample extends StatefulWidget {
+  const ThemeOtherColorExample({super.key});
+
+  @override
+  State<ThemeOtherColorExample> createState() => _ThemeOtherColorExampleState();
+}
+
+class _ThemeOtherColorExampleState extends State<ThemeOtherColorExample> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final colors = context.tTheme.colorMap;
+    final keys = {
+      ...TThemeData.defaultData().colorMap.keys,
+      ...colors.keys,
+    }.where((key) => key.startsWith('grayColor'));
+    grayMap.clear();
+    for (final key in keys) {
+      final color = colors[key];
+      if (color != null) {
+        grayMap[key] = color;
+      }
+    }
+  }
+
+  Widget _buildOtherColor(BuildContext context) {
+    final entries = grayMap.entries.toList();
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: entries.length + 1,
+      padding: const EdgeInsets.all(16),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Container(
+            color: context.tTheme.bgColorContainer,
+            child: const TText('bgColorContainer'),
+          );
+        } else {
+          final entry = entries[index - 1];
+          return Container(
+            color: entry.value,
+            child: TText(
+              entry.key,
+              style: TextStyle(
+                color: entry.value.computeLuminance() < 0.5
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  var grayMap = <String, Color>{};
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildOtherColor(context);
+  }
+}
+```
+
+## API
+
+1. [TThemeData](#tthemedata)
+2. [Font](#font)
+3. [FontFamily](#fontfamily)
+4. [TResourceManager](#tresourcemanager)
+5. [TResourceDelegate](#tresourcedelegate)
+6. [TStyleResolver](#tstyleresolver)
+7. [TMaterialThemeBuilder](#tmaterialthemebuilder)
+8. [TThemeBuilder](#tthemebuilder)
+9. [TExtraThemeData](#textrathemedata)
+10. [TMap](#tmap)
+11. [PlatformUtil](#platformutil)
+12. [TToolbarPressable](#ttoolbarpressable)
+13. [FontExtensions](#fontextensions)
+14. [TColors](#tcolors)
+15. [TResolvedFontFamily](#tresolvedfontfamily)
+16. [TFontFamilies](#tfontfamilies)
+17. [TFontMetrics](#tfontmetrics)
+18. [TFonts](#tfonts)
+19. [TRadius](#tradius)
+20. [TBoxShadows](#tboxshadows)
+21. [TInsetShadows](#tinsetshadows)
+22. [TSpacers](#tspacers)
+23. [TSizes](#tsizes)
+24. [TThemeContextExtension](#tthemecontextextension)
+25. [TThemeDataMergeExtension](#tthemedatamergeextension)
+26. [setTResourceBuilder](#settresourcebuilder)
+27. [TResourceBuilder](#tresourcebuilder)
+28. [DefaultMapFactory](#defaultmapfactory)
+
+### TThemeData
+
+#### 构造方法
+
+##### TThemeData
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| colorMap | TMap<String, Color> | - | 颜色 | 是 |
+| extraThemeData | TExtraThemeData? | - | 额外定义的结构 | 否 |
+| fontFamilyMap | TMap<String, FontFamily> | - | 字体样式 | 是 |
+| fontMap | TMap<String, Font> | - | 字体尺寸 | 是 |
+| fontMetricMap | TMap<String, double>? | - | 独立字号与行高 Token，单位为 Flutter 逻辑像素。 | 否 |
+| insetShadowMap | TMap<String, BorderSide>? | - | 内投影对应的定向内侧边线。 | 否 |
+| name | String | - | 名称 | 是 |
+| radiusMap | TMap<String, double> | - | 圆角 | 是 |
+| refMap | TMap<String, String> | - | 映射关系 | 是 |
+| shadowMap | TMap<String, List<BoxShadow>> | - | 阴影 | 是 |
+| sizeMap | TMap<String, double>? | - | 全局尺寸刻度，单位为逻辑像素；与间距 Token 独立。 | 否 |
+| spacerMap | TMap<String, double> | - | 间隔 | 是 |
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| dark | TThemeData? | - | 暗色主题 | - |
+| light | TThemeData | - | 亮色主题 | - |
+
+#### 静态方法
+
+##### TThemeData.defaultData
+
+获取默认Data，一个App里只有一个，用于没有context的地方
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| extraThemeData | TExtraThemeData? | - | 扩展主题数据；默认主题仅在首次初始化时读取。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TThemeData | - | 全局默认 Token 主题；首次调用时创建并缓存，后续调用返回同一默认主题。 | - |
+
+##### TThemeData.fromJson
+
+位置参数：`name, themeJson`
+
+解析主题 JSON；空字符串、格式错误或缺少 name 对应配置时返回 null。
+浅色与深色块中未配置的 Token 分别回退默认浅色与深色主题；
+深色块不存在时不自动创建，暗色构建仍回退当前 Token。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| name | String | - | 主题名称，目前只支持一级键 | 是 |
+| themeJson | String | - | 主题json字符串，要求json配置必须正确 | 是 |
+| darkName | String? | - | 暗色主题名称；为空时使用 `\${name}Dark`。 | 否 |
+| recoverDefault | bool | false | 解析成功后是否将结果设为全局默认主题，默认 false | 否 |
+| extraThemeData | TExtraThemeData? | - | 额外扩展的主题数据 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TThemeData? | - | 解析成功的 Token 主题；空字符串、格式错误或缺少指定配置时为 null。 | - |
+
+#### 实例方法
+
+##### TThemeData.copyWith
+
+复制主题配置。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| name | String? | - | 字段含义：名称 调用时的空值行为见方法说明。 | 否 |
+| colorMap | Map<String, Color>? | - | 字段含义：颜色 调用时的空值行为见方法说明。 | 否 |
+| fontMap | Map<String, Font>? | - | 字段含义：字体尺寸 调用时的空值行为见方法说明。 | 否 |
+| fontMetricMap | Map<String, double>? | - | 字段含义：独立字号与行高 Token，单位为 Flutter 逻辑像素。 调用时的空值行为见方法说明。 | 否 |
+| radiusMap | Map<String, double>? | - | 字段含义：圆角 调用时的空值行为见方法说明。 | 否 |
+| fontFamilyMap | Map<String, FontFamily>? | - | 字段含义：字体样式 调用时的空值行为见方法说明。 | 否 |
+| shadowMap | Map<String, List<BoxShadow>>? | - | 字段含义：阴影 调用时的空值行为见方法说明。 | 否 |
+| insetShadowMap | Map<String, BorderSide>? | - | 字段含义：内投影对应的定向内侧边线。 调用时的空值行为见方法说明。 | 否 |
+| spacerMap | Map<String, double>? | - | 间距 Token 的增量映射；传入值覆盖同名 Token，其他值沿用当前配置。 | 否 |
+| sizeMap | Map<String, double>? | - | 尺寸刻度的增量映射；未提供时保留当前值。 | 否 |
+| extraThemeData | TExtraThemeData? | - | 字段含义：额外定义的结构 调用时的空值行为见方法说明。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TThemeData | - | 复制 Token 主题并合并传入的映射；未传入的映射值沿用当前配置。 name 和 extraThemeData 为空时保留当前名称和扩展数据。 | - |
+
+##### TThemeData.lerp
+
+位置参数：`other, t`
+
+在当前主题与目标主题间生成过渡配置。
+
+t 为 0 或 1 时返回对应端点；目标为空时返回当前主题。
+颜色、字号、行高、圆角、阴影和间距按有效 Token 值插值，
+单侧存在的 Token 保留；名称、字体族、业务扩展和明暗关联在 t=0.5 切换。
+相同且未显式覆盖的 Token 引用继续沿用，其他值保存在新的映射中。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| other | ThemeExtension<TThemeData>? | - | 目标主题；为空或类型不匹配时返回当前主题。 | 是 |
+| t | double | - | 过渡进度；0 为当前主题，1 为目标主题，离散配置在 0.5 切换。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TThemeData | - | 两端之间的 Token 主题；端点返回原主题，中间值返回独立映射。 | - |
+
+### Font
+
+字体宽高数据
+
+#### 构造方法
+
+##### Font
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| fontWeight | FontWeight | FontWeight.w400 | 字重，默认 FontWeight.w400。 | 否 |
+| lineHeight | int | - | 行高，单位为逻辑像素；构造后转换为相对于字号的比例。 | 是 |
+| size | int | - | 字体大小，单位为逻辑像素。 | 是 |
+
+##### Font.fromJson
+
+位置参数：`map`
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| map | Map<String, dynamic> | - | 字体 JSON 配置，包含 size、lineHeight 和可选的 fontWeight（1 至 9，默认 4）。 | 是 |
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| height | double | - | 行高与字号的比值，用于 TextStyle.height；构造时按 lineHeight / size 计算。 | - |
+
+### FontFamily
+
+字体样式
+
+#### 构造方法
+
+##### FontFamily
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| fallback | List<String>? | - | 主字体不可用时按顺序尝试的备用字体名称。 | 否 |
+| fontFamily | String | - | 主字体名称。 | 是 |
+| package | String? | - | 字体所在资源包；为空时从应用或系统字体解析。 | 否 |
+
+##### FontFamily.fromJson
+
+位置参数：`map`
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| map | Map<String, dynamic> | - | 字体栈 JSON 配置，包含 fontFamily、可选 package 和 fallback。 | 是 |
+
+### TResourceManager
+
+资源管理器
+
+#### 构造方法
+
+##### TResourceManager
+
+无参数。
+
+#### 静态成员
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| instance | TResourceManager | - | 单例对象 | - |
+
+#### 实例方法
+
+##### TResourceManager.delegate
+
+位置参数：`context`
+
+获取资源
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 当前构建上下文，用于读取祖先配置。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TResourceDelegate | - | 当前上下文的资源代理；构建器不存在或返回 null 时使用默认资源代理。 | - |
+
+##### TResourceManager.setResourceBuilder
+
+位置参数：`delegate, needAlwaysBuild`
+
+设置资源代理
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| delegate | TResourceBuilder | - | 根据构建上下文提供资源代理的回调。 | 是 |
+| needAlwaysBuild | dynamic | - | 是否每次读取资源时调用构建器；false 时复用首次成功构建的缓存，返回 null 时继续尝试构建。 | 是 |
+
+### TResourceDelegate
+
+资源管理器，允许外部重写，设计成抽象类，防止有新增字段时，用户没有感知
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| april | String | - | `TCalendar` 四月 | - |
+| august | String | - | `TCalendar` 八月 | - |
+| back | String | - | `TBackTop` 返回 | - |
+| badgeZero | String | - | `TBadge`为0时的默认文案 | - |
+| cancel | String | - | TDialog等 取消 | - |
+| cascadeLabel | String | - | `TRate` 选择选项 | - |
+| close | String | - | `TSwitch`的关闭状态文案 | - |
+| completeRefresh | String | - | `TPullDownRefresh` 刷新完成 | - |
+| confirm | String | - | TDialog等 确认 | - |
+| dateLabel | String | - | 日 | - |
+| days | String | - | `TTimeCounter` 天 | - |
+| december | String | - | `TCalendar` 十二月 | - |
+| emptyData | String | - | `TTable` 空数据 | - |
+| end | String | - | `TCalendar` 结束 | - |
+| february | String | - | `TCalendar` 二月 | - |
+| friday | String | - | `TCalendar` 星期五 | - |
+| hours | String | - | `TTimeCounter` 时 | - |
+| january | String | - | `TCalendar` 一月 | - |
+| july | String | - | `TCalendar` 七月 | - |
+| june | String | - | `TCalendar` 六月 | - |
+| knew | String | - | `TConfirmDialog` 知道了 | - |
+| loading | String | - | `TLoading` 加载中 | - |
+| loadingWithPoint | String | - | `TToast` 加载中... | - |
+| march | String | - | `TCalendar` 三月 | - |
+| may | String | - | `TCalendar` 五月 | - |
+| milliseconds | String | - | `TTimeCounter` 毫秒 | - |
+| minutes | String | - | `TTimeCounter` 分 | - |
+| monday | String | - | `TCalendar` 星期一 | - |
+| monthLabel | String | - | 月 | - |
+| notRated | String | - | `TRate` 未评分 | - |
+| november | String | - | `TCalendar` 十一月 | - |
+| october | String | - | `TCalendar` 十月 | - |
+| open | String | - | `TSwitch`的打开状态文案 | - |
+| other | String | - | `TDropdownMenu` 其他 | - |
+| picker | String | - | `TPicker` 整组无障碍容器 label | - |
+| pullToRefresh | String | - | `TPullDownRefresh` 下拉刷新 | - |
+| refreshing | String | - | `TPullDownRefresh` 正在刷新 | - |
+| releaseRefresh | String | - | `TPullDownRefresh` 松手刷新 | - |
+| reset | String | - | `TDropdownMenu` 重置 | - |
+| saturday | String | - | `TCalendar` 星期六 | - |
+| seconds | String | - | `TTimeCounter` 秒 | - |
+| september | String | - | `TCalendar` 九月 | - |
+| start | String | - | `TCalendar` 开始 | - |
+| sunday | String | - | `TCalendar` 星期日 | - |
+| thursday | String | - | `TCalendar` 星期四 | - |
+| time | String | - | `TCalendar` 时间 | - |
+| top | String | - | `TBackTop` 顶部 | - |
+| tuesday | String | - | `TCalendar` 星期二 | - |
+| uploadFailed | String | - | `TUpload` 上传失败。 | - |
+| uploading | String | - | `TUpload` 上传中。 | - |
+| uploadPending | String | - | `TUpload` 待上传状态。 | - |
+| uploadRetry | String | - | `TUpload` 重新上传。 | - |
+| uploadSelect | String | - | `TUpload` 选择文件的无障碍标签。 | - |
+| uploadSuccess | String | - | `TUpload` 上传成功。 | - |
+| wednesday | String | - | `TCalendar` 星期三 | - |
+| weeksLabel | String | - | 周 | - |
+| year | String | - | `TCalendar` 年 | - |
+| yearLabel | String | - | 年 | - |
+
+#### 实例方法
+
+##### TResourceDelegate.pickerColumn
+
+位置参数：`colIndex`
+
+`TPicker` 第 `colIndex` 列（1-based）的无障碍 label
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| colIndex | int | - | 从 1 开始的滚轮列序号。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | String | - | 第 colIndex 列的本地化无障碍标签；列序号从 1 开始。 | - |
+
+### TStyleResolver
+
+TDesign 样式解析器。
+
+实例显式样式、组件 Theme 和全局 Token 是单向样式链。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| token | TThemeData | - | 全局设计 Token（色板 / 间距原始值）。 | - |
+
+#### 静态方法
+
+##### TStyleResolver.of
+
+位置参数：`context`
+
+创建解析器实例
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 当前构建上下文，用于读取祖先配置。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TStyleResolver | - | 绑定当前 context 的样式解析器。 | - |
+
+#### 实例方法
+
+##### TStyleResolver.componentExtension
+
+类型参数：`E extends ThemeExtension&lt;E&gt;`
+
+无参数。
+
+组件 ThemeExtension。
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | E? | - | 上下文主题中的指定 ThemeExtension；未配置时为 null。 | - |
+
+### TMaterialThemeBuilder
+
+Token → 完整 ThemeData 的构建器
+
+将 `TThemeData` 的颜色与字体映射为 Material 配色、文字样式和组件主题，
+同时保留该 Token 主题作为 ThemeExtension。
+
+此映射供原生 Material Widget 使用；TD 内置样式仅使用受支持的实例配置、
+TD ThemeExtension 与 Token，不反向继承外部 Material/M2/M3 样式配置。
+调用方自定义内容保留其 Flutter 主题行为；原生选择、编辑、反馈和焦点能力继续支持。
+
+通常不直接使用，通过 `TThemeBuilder.light` / `TThemeBuilder.dark` 入口。
+
+#### 构造方法
+
+##### TMaterialThemeBuilder
+
+位置参数：`token`
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| token | TThemeData | - | Token 数据源 | 是 |
+
+#### 实例方法
+
+##### TMaterialThemeBuilder.buildDark
+
+无参数。
+
+构建暗色 ThemeData
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | ThemeData | - | 由暗色 Token 构建的 Material ThemeData；无暗色配置时回退当前 Token。 | - |
+
+##### TMaterialThemeBuilder.buildLight
+
+无参数。
+
+构建亮色 ThemeData
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | ThemeData | - | 由亮色 Token 构建的 Material ThemeData。 | - |
+
+### TThemeBuilder
+
+应用入口：Token → 完整 ThemeData
+
+对齐 `MaterialApp.theme` / `darkTheme` / `themeMode` 三参数模式。
+
+#### 静态方法
+
+##### TThemeBuilder.dark
+
+位置参数：`token`
+
+暗色主题
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| token | TThemeData | - | 用于构建完整 Material 主题的 Token 数据源。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | ThemeData | - | 由指定 Token 构建的暗色 Material ThemeData。 | - |
+
+##### TThemeBuilder.light
+
+位置参数：`token`
+
+亮色主题
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| token | TThemeData | - | 用于构建完整 Material 主题的 Token 数据源。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | ThemeData | - | 由指定 Token 构建的亮色 Material ThemeData。 | - |
+
+### TExtraThemeData
+
+扩展主题数据
+
+#### 实例方法
+
+##### TExtraThemeData.parse
+
+位置参数：`name, curThemeMap`
+
+解析json
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| name | String | - | 待解析主题的名称。 | 是 |
+| curThemeMap | Map<String, dynamic> | - | 当前主题对应的已解析 JSON 映射。 | 是 |
+
+### TMap
+
+类型参数：`K, V`
+
+自定义Map
+
+#### 构造方法
+
+##### TMap
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| factory | DefaultMapFactory? | - | 查不到本地值或引用值时获取默认映射的回调；为空时不使用默认映射。 | 否 |
+| refs | TMap? | - | Token 名称到引用名称的映射；本地显式值优先于引用，循环引用会中止该引用链的解析。 | 否 |
+
+#### 实例方法
+
+##### TMap.[]
+
+位置参数：`key`
+
+读取 Token 值：依次尝试本地显式值、引用链和默认映射。
+循环引用会中止该引用链；仍可尝试默认映射，全部未命中时返回 null。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Object? | - | 要查询的 Token 键；支持当前映射的键类型。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | V? | - | 依次查找本地值、引用链和默认映射得到的 Token；全部未命中时为 null。 | - |
+
+##### TMap.get
+
+位置参数：`key`
+
+仅读取 `key` 的本地存储值，不解析引用或默认映射。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Object? | - | 要读取本地存储值的键；不解析引用或默认映射。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | V? | - | 本地存储的 Token 值；不存在时为 null，不解析引用链或默认映射。 | - |
+
+### PlatformUtil
+
+区分 Flutter Web 与原生宿主平台的工具。
+
+#### 构造方法
+
+##### PlatformUtil
+
+无参数。
+
+#### 静态成员
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| isAndroid | bool | - | 当前是否运行于 Android 原生平台；Web 始终返回 false。 | - |
+| isFuchsia | bool | - | 当前是否运行于 Fuchsia 原生平台；Web 始终返回 false。 | - |
+| isIOS | bool | - | 当前是否运行于 IOS 原生平台；Web 始终返回 false。 | - |
+| isLinux | bool | - | 当前是否运行于 Linux 原生平台；Web 始终返回 false。 | - |
+| isMacOS | bool | - | 当前是否运行于 MacOS 原生平台；Web 始终返回 false。 | - |
+| isOhos | bool | - | 当前是否运行于 Ohos 原生平台；Web 始终返回 false。 | - |
+| isWeb | bool | - | 当前是否编译并运行于 Flutter Web。 | - |
+| isWindows | bool | - | 当前是否运行于 Windows 原生平台；Web 始终返回 false。 | - |
+
+### TToolbarPressable
+
+工具栏文字/图标按钮统一按压反馈：按下时整体透明度动画。
+
+用于 `TPicker`、`TPopup` 等「取消 | 标题 | 确认」类工具栏，后续组件请复用。
+
+#### 构造方法
+
+##### TToolbarPressable
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| child | Widget | - | 工具栏按钮内容。 | 是 |
+| enabled | bool | true | 是否允许交互，默认 true；还需要 `onTap` 非空。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| mergeIconTheme | IconThemeData? | - | 为子树 `Icon` 提供默认样式。 | 否 |
+| mergeTextStyle | TextStyle? | - | 为子树 `Text` 提供默认样式（merge 语义，子控件已有样式优先）。 | 否 |
+| onTap | VoidCallback? | - | 点击回调；为空时不响应点击或显示按压反馈。 | 否 |
+| padding | EdgeInsetsGeometry? | - | 内容内边距；为空时使用全局 spacer 水平间距和 spacer1 垂直间距。 | 否 |
+| pressDuration | Duration | kToolbarPressDuration | 按压透明度动画时长，默认 100ms。 | 否 |
+| pressedOpacity | double | kToolbarPressedOpacity | 按下时整体透明度，默认 0.5。 | 否 |
+
+#### 静态成员
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| kToolbarPressDuration | Duration | Duration(milliseconds: 100) | 按压动画时长（与 TDesign 工具栏规范一致）。 | - |
+| kToolbarPressedOpacity | double | 0.5 | 按下时的目标透明度。 | - |
+
+### FontExtensions
+
+适用类型：`Font`
+
+Font字体宽高的扩展
+
+#### 实例方法
+
+##### FontExtensions.withSize
+
+位置参数：`newSize`
+
+调整字体大小。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| newSize | int | - | 字体大小，单位为逻辑像素。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Font | - | 使用 `newSize` 字号的字体副本，保留字重，并按当前行高比例计算新行高后取整。 | - |
+
+### TColors
+
+适用类型：`TThemeData`
+
+业务使用时有两种方法替换主题：
+第一种：有独立设计风格的app，明确知道哪些色值用到，哪些设置没用到，有自己设计规范，则可单独配置色值。
+第二种：直接接入TDesign，配置所有色值组，此时不需再自定义key-value，可以直接使用。
+
+如果业务需要扩展，可以按以下方式定义自己的 ColorData；只要 key 能在主题中找到对应颜色即可。
+TDesign 主题包含完整色值组，业务可以按需二次封装。未显式配置的颜色通常会按各 getter
+的 Token 回退规则取默认值；只有依赖特定业务语义的自定义组件才需要额外保证对应 key 存在。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| bgColorComponent | Color | - | 组件默认背景色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorComponentActive | Color | - | 组件按压态背景色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorComponentDisabled | Color | - | 组件禁用态背景色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorContainer | Color | - | 容器背景色；浅色默认引用 `fontWhite1`。 | - |
+| bgColorContainerActive | Color | - | 容器背景的按压态颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorPage | Color | - | 页面背景色；优先同名 Token，未解析到时回退 grayColor1。 | - |
+| bgColorSecondaryComponent | Color | - | 次要组件背景色，默认引用灰阶 4。 | - |
+| bgColorSecondaryComponentActive | Color | - | 次要组件激活背景色，默认引用灰阶 6。 | - |
+| bgColorSecondaryContainer | Color | - | 次级容器背景色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorSecondaryContainerActive | Color | - | 次级容器背景的按压态颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| bgColorSpecialComponent | Color | - | 特殊组件背景色；暗色主题默认透明。 | - |
+| borderLevel1Color | Color | - | 一级分割线颜色，默认与 `componentStroke` 使用同一色阶。 | - |
+| borderLevel2Color | Color | - | 二级边框颜色，默认与 `componentBorder` 使用同一色阶。 | - |
+| brandColor | Color | - | 未解析到同名 Token 时的回退色：#0052D9。 | - |
+| brandColor1 | Color | - | 未解析到同名 Token 时的回退色：#F2F3FF。 | - |
+| brandColor10 | Color | - | 未解析到同名 Token 时的回退色：#001A57。 | - |
+| brandColor2 | Color | - | 未解析到同名 Token 时的回退色：#D9E1FF。 | - |
+| brandColor3 | Color | - | 未解析到同名 Token 时的回退色：#B5C7FF。 | - |
+| brandColor4 | Color | - | 未解析到同名 Token 时的回退色：#8EABFF。 | - |
+| brandColor5 | Color | - | 未解析到同名 Token 时的回退色：#618DFF。 | - |
+| brandColor6 | Color | - | 未解析到同名 Token 时的回退色：#366EF4。 | - |
+| brandColor7 | Color | - | 未解析到同名 Token 时的回退色：#0052D9。 | - |
+| brandColor8 | Color | - | 未解析到同名 Token 时的回退色：#003CAB。 | - |
+| brandColor9 | Color | - | 未解析到同名 Token 时的回退色：#002A7C。 | - |
+| brandColorActive | Color | - | 未解析到同名 Token 时的回退色：#003CAB。 | - |
+| brandColorDisabled | Color | - | 未解析到同名 Token 时的回退色：#B5C7FF。 | - |
+| brandColorFocus | Color | - | 未解析到同名 Token 时的回退色：#F2F3FF。 | - |
+| brandColorLight | Color | - | 未解析到同名 Token 时的回退色：#F2F3FF。 | - |
+| brandColorLightActive | Color | - | 浅色品牌色点击态，默认使用品牌色阶 2。 | - |
+| componentBorder | Color | - | 组件边框颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| componentStroke | Color | - | 组件分隔线颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| errorColor | Color | - | 未解析到同名 Token 时的回退色：#D54941。 | - |
+| errorColor1 | Color | - | 未解析到同名 Token 时的回退色：#FFF0ED。 | - |
+| errorColor10 | Color | - | 未解析到同名 Token 时的回退色：#490002。 | - |
+| errorColor2 | Color | - | 未解析到同名 Token 时的回退色：#FFD8D2。 | - |
+| errorColor3 | Color | - | 未解析到同名 Token 时的回退色：#FFB9B0。 | - |
+| errorColor4 | Color | - | 未解析到同名 Token 时的回退色：#FF9285。 | - |
+| errorColor5 | Color | - | 未解析到同名 Token 时的回退色：#F6685D。 | - |
+| errorColor6 | Color | - | 未解析到同名 Token 时的回退色：#D54941。 | - |
+| errorColor7 | Color | - | 未解析到同名 Token 时的回退色：#AD352F。 | - |
+| errorColor8 | Color | - | 未解析到同名 Token 时的回退色：#881F1C。 | - |
+| errorColor9 | Color | - | 未解析到同名 Token 时的回退色：#68070A。 | - |
+| errorColorActive | Color | - | 未解析到同名 Token 时的回退色：#AD352F。 | - |
+| errorColorDisabled | Color | - | 未解析到同名 Token 时的回退色：#FFB9B0。 | - |
+| errorColorFocus | Color | - | 未解析到同名 Token 时的回退色：#FFD8D2。 | - |
+| errorColorLight | Color | - | 未解析到同名 Token 时的回退色：#FFF0ED。 | - |
+| errorColorLightActive | Color | - | 浅色错误色点击态，默认使用错误色阶 2。 | - |
+| fontGray1 | Color | - | 未解析到同名 Token 时的回退色：#e6000000。 | - |
+| fontGray2 | Color | - | 未解析到同名 Token 时的回退色：#99000000。 | - |
+| fontGray3 | Color | - | 未解析到同名 Token 时的回退色：#66000000。 | - |
+| fontGray4 | Color | - | 未解析到同名 Token 时的回退色：#42000000。 | - |
+| fontWhite1 | Color | - | 未解析到同名 Token 时的回退色：#FFFFFFFF。 | - |
+| fontWhite2 | Color | - | 未解析到同名 Token 时的回退色：#8CFFFFFF。 | - |
+| fontWhite3 | Color | - | 未解析到同名 Token 时的回退色：#59FFFFFF。 | - |
+| fontWhite4 | Color | - | 未解析到同名 Token 时的回退色：#38FFFFFF。 | - |
+| grayColor1 | Color | - | 未解析到同名 Token 时的回退色：#F3F3F3。 | - |
+| grayColor10 | Color | - | 未解析到同名 Token 时的回退色：#4B4B4B。 | - |
+| grayColor11 | Color | - | 未解析到同名 Token 时的回退色：#383838。 | - |
+| grayColor12 | Color | - | 未解析到同名 Token 时的回退色：#2C2C2C。 | - |
+| grayColor13 | Color | - | 未解析到同名 Token 时的回退色：#242424。 | - |
+| grayColor14 | Color | - | 未解析到同名 Token 时的回退色：#181818。 | - |
+| grayColor2 | Color | - | 未解析到同名 Token 时的回退色：#EEEEEE。 | - |
+| grayColor3 | Color | - | 未解析到同名 Token 时的回退色：#E8E8E8。 | - |
+| grayColor4 | Color | - | 未解析到同名 Token 时的回退色：#DCDCDC。 | - |
+| grayColor5 | Color | - | 未解析到同名 Token 时的回退色：#C5C5C5。 | - |
+| grayColor6 | Color | - | 未解析到同名 Token 时的回退色：#A6A6A6。 | - |
+| grayColor7 | Color | - | 未解析到同名 Token 时的回退色：#8B8B8B。 | - |
+| grayColor8 | Color | - | 未解析到同名 Token 时的回退色：#777777。 | - |
+| grayColor9 | Color | - | 未解析到同名 Token 时的回退色：#5E5E5E。 | - |
+| maskActive | Color | - | 弹层遮罩色。 | - |
+| maskBackground | Color | - | 二维码等背景遮罩色。 | - |
+| maskDisabled | Color | - | 禁用态遮罩色。 | - |
+| primaryColor1 | Color | - | 主色阶；默认分别引用同级品牌色阶。 | - |
+| primaryColor10 | Color | - | 主色第 10 级色阶；未配置时使用 `brandColor10`。 | - |
+| primaryColor2 | Color | - | 主色第 2 级色阶；未配置时使用 `brandColor2`。 | - |
+| primaryColor3 | Color | - | 主色第 3 级色阶；未配置时使用 `brandColor3`。 | - |
+| primaryColor4 | Color | - | 主色第 4 级色阶；未配置时使用 `brandColor4`。 | - |
+| primaryColor5 | Color | - | 主色第 5 级色阶；未配置时使用 `brandColor5`。 | - |
+| primaryColor6 | Color | - | 主色第 6 级色阶；未配置时使用 `brandColor6`。 | - |
+| primaryColor7 | Color | - | 主色第 7 级色阶；未配置时使用 `brandColor7`。 | - |
+| primaryColor8 | Color | - | 主色第 8 级色阶；未配置时使用 `brandColor8`。 | - |
+| primaryColor9 | Color | - | 主色第 9 级色阶；未配置时使用 `brandColor9`。 | - |
+| scrollbarColor | Color | - | 滚动条颜色。 | - |
+| scrollbarHoverColor | Color | - | 滚动条悬停颜色。 | - |
+| scrollTrackColor | Color | - | 滚动条轨道颜色。 | - |
+| successColor | Color | - | 未解析到同名 Token 时的回退色：#2BA471。 | - |
+| successColor1 | Color | - | 未解析到同名 Token 时的回退色：#E3F9E9。 | - |
+| successColor10 | Color | - | 未解析到同名 Token 时的回退色：#002515。 | - |
+| successColor2 | Color | - | 未解析到同名 Token 时的回退色：#C6F3D7。 | - |
+| successColor3 | Color | - | 未解析到同名 Token 时的回退色：#92DAB2。 | - |
+| successColor4 | Color | - | 未解析到同名 Token 时的回退色：#56C08D。 | - |
+| successColor5 | Color | - | 未解析到同名 Token 时的回退色：#2BA471。 | - |
+| successColor6 | Color | - | 未解析到同名 Token 时的回退色：#008858。 | - |
+| successColor7 | Color | - | 未解析到同名 Token 时的回退色：#006C45。 | - |
+| successColor8 | Color | - | 未解析到同名 Token 时的回退色：#005334。 | - |
+| successColor9 | Color | - | 未解析到同名 Token 时的回退色：#003B23。 | - |
+| successColorActive | Color | - | 未解析到同名 Token 时的回退色：#008858。 | - |
+| successColorDisabled | Color | - | 未解析到同名 Token 时的回退色：#92DAB2。 | - |
+| successColorFocus | Color | - | 未解析到同名 Token 时的回退色：#C6F3D7。 | - |
+| successColorLight | Color | - | 未解析到同名 Token 时的回退色：#E3F9E9。 | - |
+| successColorLightActive | Color | - | 浅色成功色点击态，默认使用成功色阶 2。 | - |
+| tableShadowColor | Color | - | 表格专用阴影色。 | - |
+| textColorAnti | Color | - | 反色文字颜色，默认引用 `fontWhite1`。 | - |
+| textColorBrand | Color | - | 品牌文字颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| textColorDisabled | Color | - | 禁用文字颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| textColorLink | Color | - | 链接文字颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| textColorPlaceholder | Color | - | 占位文字颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| textColorPrimary | Color | - | 主要文字颜色；优先同名 Token，未解析到时回退 fontGray1。 | - |
+| textColorSecondary | Color | - | 次要文字颜色；优先读取同名颜色 Token，否则使用内置回退色。 | - |
+| warningColor | Color | - | 未解析到同名 Token 时的回退色：#E37318。 | - |
+| warningColor1 | Color | - | 未解析到同名 Token 时的回退色：#FFF1E9。 | - |
+| warningColor10 | Color | - | 未解析到同名 Token 时的回退色：#3B1700。 | - |
+| warningColor2 | Color | - | 未解析到同名 Token 时的回退色：#FFD9C2。 | - |
+| warningColor3 | Color | - | 未解析到同名 Token 时的回退色：#FFB98C。 | - |
+| warningColor4 | Color | - | 未解析到同名 Token 时的回退色：#FA9550。 | - |
+| warningColor5 | Color | - | 未解析到同名 Token 时的回退色：#E37318。 | - |
+| warningColor6 | Color | - | 未解析到同名 Token 时的回退色：#BE5A00。 | - |
+| warningColor7 | Color | - | 未解析到同名 Token 时的回退色：#954500。 | - |
+| warningColor8 | Color | - | 未解析到同名 Token 时的回退色：#713300。 | - |
+| warningColor9 | Color | - | 未解析到同名 Token 时的回退色：#532300。 | - |
+| warningColorActive | Color | - | 未解析到同名 Token 时的回退色：#BE5A00。 | - |
+| warningColorDisabled | Color | - | 未解析到同名 Token 时的回退色：#FFB98C。 | - |
+| warningColorFocus | Color | - | 未解析到同名 Token 时的回退色：#FFD9C2。 | - |
+| warningColorLight | Color | - | 未解析到同名 Token 时的回退色：#FFF1E9。 | - |
+| warningColorLightActive | Color | - | 浅色警告色点击态，默认使用警告色阶 2。 | - |
+| whiteColor1 | Color | - | 未解析到同名 Token 时的回退色：#FFFFFF。 | - |
+
+### TResolvedFontFamily
+
+适用类型：`FontFamily`
+
+将主题字体栈解析为当前 Flutter 平台可绘制的字体选择。
+保留 Token 原值；非 Apple 平台对默认栈使用 Roboto 作为主字体。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| flutterFontFamily | String | - | Flutter 使用的主字体；非 Apple 平台的默认中文字体栈回退为 Roboto，其他配置保持原值。 | - |
+| flutterFontFamilyFallback | List<String>? | - | Flutter 的备用字体栈；PingFang SC 栈未包含 Roboto 时追加它，其他配置保持原值。 | - |
+
+### TFontFamilies
+
+适用类型：`TThemeData`
+
+按主题 Token 读取主字体与中等字重字体栈。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| fontFamily | FontFamily? | - | 默认字体栈；可用于 Flutter `TextStyle.fontFamily` 和 `fontFamilyFallback`。`TText` 在非 Apple 平台会为默认字体栈选择 Flutter 可用的主字体，不改变这里保存的 Token 原值。 | - |
+| fontFamilyMedium | FontFamily? | - | 中等字重字体栈。 | - |
+
+### TFontMetrics
+
+适用类型：`TThemeData`
+
+独立字号与行高 Token，用于组合字体样式。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| fontSize | double | - | 读取 `fontSize` 的字号 Token，单位为逻辑像素；未配置时回退为 10 逻辑像素。 | - |
+| fontSizeBase | double | - | 读取 `fontSizeBase` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeTitleSmall`。 | - |
+| fontSizeBodyExtraSmall | double | - | 读取 `fontSizeBodyExtraSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 10 逻辑像素。 | - |
+| fontSizeBodyLarge | double | - | 读取 `fontSizeBodyLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| fontSizeBodyMedium | double | - | 读取 `fontSizeBodyMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 14 逻辑像素。 | - |
+| fontSizeBodySmall | double | - | 读取 `fontSizeBodySmall` 的字号 Token，单位为逻辑像素；未配置时回退为 12 逻辑像素。 | - |
+| fontSizeDisplayLarge | double | - | 读取 `fontSizeDisplayLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 64 逻辑像素。 | - |
+| fontSizeDisplayMedium | double | - | 读取 `fontSizeDisplayMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 48 逻辑像素。 | - |
+| fontSizeHeadlineLarge | double | - | 读取 `fontSizeHeadlineLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 36 逻辑像素。 | - |
+| fontSizeHeadlineMedium | double | - | 读取 `fontSizeHeadlineMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 28 逻辑像素。 | - |
+| fontSizeHeadlineSmall | double | - | 读取 `fontSizeHeadlineSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 24 逻辑像素。 | - |
+| fontSizeL | double | - | 读取 `fontSizeL` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeTitleLarge`。 | - |
+| fontSizeLinkLarge | double | - | 读取 `fontSizeLinkLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| fontSizeLinkMedium | double | - | 读取 `fontSizeLinkMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 14 逻辑像素。 | - |
+| fontSizeLinkSmall | double | - | 读取 `fontSizeLinkSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 12 逻辑像素。 | - |
+| fontSizeM | double | - | 读取 `fontSizeM` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeTitleMedium`。 | - |
+| fontSizeMarkExtraSmall | double | - | 读取 `fontSizeMarkExtraSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 10 逻辑像素。 | - |
+| fontSizeMarkLarge | double | - | 读取 `fontSizeMarkLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| fontSizeMarkMedium | double | - | 读取 `fontSizeMarkMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 14 逻辑像素。 | - |
+| fontSizeMarkSmall | double | - | 读取 `fontSizeMarkSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 12 逻辑像素。 | - |
+| fontSizeS | double | - | 读取 `fontSizeS` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeBodySmall`。 | - |
+| fontSizeTitleExtraLarge | double | - | 读取 `fontSizeTitleExtraLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 20 逻辑像素。 | - |
+| fontSizeTitleLarge | double | - | 读取 `fontSizeTitleLarge` 的字号 Token，单位为逻辑像素；未配置时回退为 18 逻辑像素。 | - |
+| fontSizeTitleMedium | double | - | 读取 `fontSizeTitleMedium` 的字号 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| fontSizeTitleSmall | double | - | 读取 `fontSizeTitleSmall` 的字号 Token，单位为逻辑像素；未配置时回退为 14 逻辑像素。 | - |
+| fontSizeXl | double | - | 读取 `fontSizeXl` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeTitleExtraLarge`。 | - |
+| fontSizeXs | double | - | 读取 `fontSizeXs` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeBodyExtraSmall`。 | - |
+| fontSizeXxl | double | - | 读取 `fontSizeXxl` 的字号 Token，单位为逻辑像素；未配置时回退为 `fontSizeHeadlineLarge`。 | - |
+| lineHeightBodyExtraSmall | double | - | 读取 `lineHeightBodyExtraSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| lineHeightBodyLarge | double | - | 读取 `lineHeightBodyLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 24 逻辑像素。 | - |
+| lineHeightBodyMedium | double | - | 读取 `lineHeightBodyMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 22 逻辑像素。 | - |
+| lineHeightBodySmall | double | - | 读取 `lineHeightBodySmall` 的行高 Token，单位为逻辑像素；未配置时回退为 20 逻辑像素。 | - |
+| lineHeightDisplayLarge | double | - | 读取 `lineHeightDisplayLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 72 逻辑像素。 | - |
+| lineHeightDisplayMedium | double | - | 读取 `lineHeightDisplayMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 56 逻辑像素。 | - |
+| lineHeightHeadlineLarge | double | - | 读取 `lineHeightHeadlineLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 44 逻辑像素。 | - |
+| lineHeightHeadlineMedium | double | - | 读取 `lineHeightHeadlineMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 36 逻辑像素。 | - |
+| lineHeightHeadlineSmall | double | - | 读取 `lineHeightHeadlineSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 32 逻辑像素。 | - |
+| lineHeightLinkLarge | double | - | 读取 `lineHeightLinkLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 24 逻辑像素。 | - |
+| lineHeightLinkMedium | double | - | 读取 `lineHeightLinkMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 22 逻辑像素。 | - |
+| lineHeightLinkSmall | double | - | 读取 `lineHeightLinkSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 20 逻辑像素。 | - |
+| lineHeightMarkExtraSmall | double | - | 读取 `lineHeightMarkExtraSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 16 逻辑像素。 | - |
+| lineHeightMarkLarge | double | - | 读取 `lineHeightMarkLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 24 逻辑像素。 | - |
+| lineHeightMarkMedium | double | - | 读取 `lineHeightMarkMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 22 逻辑像素。 | - |
+| lineHeightMarkSmall | double | - | 读取 `lineHeightMarkSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 20 逻辑像素。 | - |
+| lineHeightTitleExtraLarge | double | - | 读取 `lineHeightTitleExtraLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 28 逻辑像素。 | - |
+| lineHeightTitleLarge | double | - | 读取 `lineHeightTitleLarge` 的行高 Token，单位为逻辑像素；未配置时回退为 26 逻辑像素。 | - |
+| lineHeightTitleMedium | double | - | 读取 `lineHeightTitleMedium` 的行高 Token，单位为逻辑像素；未配置时回退为 24 逻辑像素。 | - |
+| lineHeightTitleSmall | double | - | 读取 `lineHeightTitleSmall` 的行高 Token，单位为逻辑像素；未配置时回退为 22 逻辑像素。 | - |
+
+### TFonts
+
+适用类型：`TThemeData`
+
+复合字体 Token。显式覆盖复合 `Font` 时以它为准；否则随独立字号和行高变化。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| fontBodyExtraSmall | Font? | - | 读取 `fontBodyExtraSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontBodyLarge | Font? | - | 读取 `fontBodyLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontBodyMedium | Font? | - | 读取 `fontBodyMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontBodySmall | Font? | - | 读取 `fontBodySmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontDisplayLarge | Font? | - | 读取 `fontDisplayLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontDisplayMedium | Font? | - | 读取 `fontDisplayMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontHeadlineLarge | Font? | - | 读取 `fontHeadlineLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontHeadlineMedium | Font? | - | 读取 `fontHeadlineMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontHeadlineSmall | Font? | - | 读取 `fontHeadlineSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontLinkLarge | Font? | - | 读取 `fontLinkLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontLinkMedium | Font? | - | 读取 `fontLinkMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontLinkSmall | Font? | - | 读取 `fontLinkSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontMarkExtraSmall | Font? | - | 读取 `fontMarkExtraSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontMarkLarge | Font? | - | 读取 `fontMarkLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontMarkMedium | Font? | - | 读取 `fontMarkMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontMarkSmall | Font? | - | 读取 `fontMarkSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontTitleExtraLarge | Font? | - | 读取 `fontTitleExtraLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontTitleLarge | Font? | - | 读取 `fontTitleLarge` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontTitleMedium | Font? | - | 读取 `fontTitleMedium` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+| fontTitleSmall | Font? | - | 读取 `fontTitleSmall` 复合字体 Token；显式配置的复合字体优先，否则结合对应独立字号、行高 Token 解析；未配置时返回 null。 | - |
+
+### TRadius
+
+适用类型：`TThemeData`
+
+内置圆角数据
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| radiusCircle | double | - | Flutter 固定逻辑像素圆角，默认 9999。 自定义值仍按逻辑像素解释，不按宽高比例解释。 | - |
+| radiusDefault | double | - | 默认圆角，默认 6 逻辑像素。 | - |
+| radiusExtraLarge | double | - | 特大圆角，默认 12 逻辑像素。 | - |
+| radiusLarge | double | - | 大圆角，默认 9 逻辑像素。 | - |
+| radiusRound | double | - | 胶囊圆角，默认 999 逻辑像素。 | - |
+| radiusSmall | double | - | 小圆角，默认 3 逻辑像素。 | - |
+
+### TBoxShadows
+
+适用类型：`TThemeData`
+
+全局外投影 Token，使用 Flutter `BoxShadow` 表达。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| shadow1 | List<BoxShadow>? | - | 基础投影。 | - |
+| shadow2 | List<BoxShadow>? | - | 中层投影。 | - |
+| shadow3 | List<BoxShadow>? | - | 上层投影。 | - |
+| shadow4 | List<BoxShadow>? | - | 轻投影。 | - |
+
+### TInsetShadows
+
+适用类型：`TThemeData`
+
+四个方向的内投影使用定向内侧边线表达。
+使用方应把对应 `BorderSide` 放入 `Border.top` / right / bottom / left。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| shadowInsetBottom | BorderSide? | - | 底部内投影对应的边线 Token；未配置时返回 null。 | - |
+| shadowInsetLeft | BorderSide? | - | 左侧内投影对应的边线 Token；未配置时返回 null。 | - |
+| shadowInsetRight | BorderSide? | - | 右侧内投影对应的边线 Token；未配置时返回 null。 | - |
+| shadowInsetTop | BorderSide? | - | 顶部内投影对应的边线 Token；未配置时返回 null。 | - |
+
+### TSpacers
+
+适用类型：`TThemeData`
+
+全局间距 Token，单位为 Flutter 逻辑像素。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| spacer | double | - | 间距 Token，未配置时回退为 8 逻辑像素。 | - |
+| spacer1 | double | - | 间距 Token，未配置时回退为 12 逻辑像素。 | - |
+| spacer2 | double | - | 间距 Token，未配置时回退为 16 逻辑像素。 | - |
+| spacer3 | double | - | 间距 Token，未配置时回退为 24 逻辑像素。 | - |
+| spacer4 | double | - | 间距 Token，未配置时回退为 32 逻辑像素。 | - |
+| spacer5 | double | - | 间距 Token，未配置时回退为 48 逻辑像素。 | - |
+| spacer6 | double | - | 间距 Token，未配置时回退为 80 逻辑像素。 | - |
+
+### TSizes
+
+适用类型：`TThemeData`
+
+全局尺寸刻度，单位为逻辑像素；与布局间距独立。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| size1 | double | - | 第 1 档尺寸，默认 2 逻辑像素。 | - |
+| size10 | double | - | 第 10 档尺寸，默认 32 逻辑像素。 | - |
+| size11 | double | - | 第 11 档尺寸，默认 36 逻辑像素。 | - |
+| size12 | double | - | 第 12 档尺寸，默认 40 逻辑像素。 | - |
+| size13 | double | - | 第 13 档尺寸，默认 48 逻辑像素。 | - |
+| size14 | double | - | 第 14 档尺寸，默认 56 逻辑像素。 | - |
+| size15 | double | - | 第 15 档尺寸，默认 64 逻辑像素。 | - |
+| size16 | double | - | 第 16 档尺寸，默认 72 逻辑像素。 | - |
+| size2 | double | - | 第 2 档尺寸，默认 4 逻辑像素。 | - |
+| size3 | double | - | 第 3 档尺寸，默认 6 逻辑像素。 | - |
+| size4 | double | - | 第 4 档尺寸，默认 8 逻辑像素。 | - |
+| size5 | double | - | 第 5 档尺寸，默认 12 逻辑像素。 | - |
+| size6 | double | - | 第 6 档尺寸，默认 16 逻辑像素。 | - |
+| size7 | double | - | 第 7 档尺寸，默认 20 逻辑像素。 | - |
+| size8 | double | - | 第 8 档尺寸，默认 24 逻辑像素。 | - |
+| size9 | double | - | 第 9 档尺寸，默认 28 逻辑像素。 | - |
+
+### TThemeContextExtension
+
+适用类型：`BuildContext`
+
+BuildContext 扩展：便捷获取全局 TThemeData Token
+
+统一走 Material 的 `Theme.of(context)`。
+全库读取全局 Token（色板/间距/圆角/字体）统一用 `context.tTheme`。
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| tTheme | TThemeData | - | 获取当前主题中的全局 Token；未配置时回退默认主题。 | - |
+
+### TThemeDataMergeExtension
+
+适用类型：`ThemeData`
+
+ThemeData 扩展：在子树中替换一个组件 ThemeExtension，同时保留其他扩展。
+
+子树覆盖统一用 `mergeExtension(...)`；直接使用 `copyWith(extensions: [...])` 时，
+调用方需要自行保留未修改的其他扩展。
+
+#### 实例方法
+
+##### TThemeDataMergeExtension.mergeExtension
+
+类型参数：`T extends ThemeExtension&lt;T&gt;`
+
+位置参数：`extension`
+
+合并指定类型的主题扩展。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| extension | T | - | 要安装到主题中的扩展；仅替换同类型扩展，其他扩展保持不变。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | ThemeData | - | 保留当前其他主题配置与扩展、仅替换指定类型扩展的新 ThemeData。 | - |
+
+### setTResourceBuilder
+
+#### 顶层函数
+
+设置全局资源代理。
+
+`needAlwaysBuild`=true: 每次都会走 build 方法；如果全局有多个 Delegate，
+需要区分情况去获取，则可以设置 needAlwaysBuild 为 true，业务自己判断返回哪个 delegate。
+`needAlwaysBuild`=false: 返回 delegate 为 null，则每次都会走 build 方法。
+
+位置参数：`delegate`
+
+#### 参数
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| delegate | TResourceBuilder | - | 根据构建上下文提供资源代理的回调。 | 是 |
+| needAlwaysBuild | bool | false | 是否每次读取资源时调用构建器；false 时复用首次成功构建的缓存，返回 null 时继续尝试构建。 | 否 |
+
+### TResourceBuilder
+
+根据当前构建上下文提供资源代理；返回 null 时使用默认文案。
+
+位置参数：`context`
+
+#### 回调参数
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 当前资源查询的构建上下文。 | 是 |
+
+#### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TResourceDelegate? | - | 资源代理；返回 null 时使用默认资源文案。 | - |
+
+### DefaultMapFactory
+
+创建默认 Token 映射的回调；返回 null 时不提供默认值。
+
+#### 回调参数
+
+无参数。
+
+#### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TMap? | - | 默认 Token 映射；返回 null 时不提供默认映射。 | - |

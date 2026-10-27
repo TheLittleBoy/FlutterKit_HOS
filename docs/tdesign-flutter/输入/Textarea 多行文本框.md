@@ -3,15 +3,13 @@
 > 用于多行文本信息输入。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/textarea)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,254 +17,285 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_textarea_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_textarea_page.dart)
+#### 组件类型
 
-#### 1 组件类型
+##### 基础多行文本框
 
-基础多文本输入框
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
-  Widget _basicType(BuildContext context) {
-    return TDTextarea(
-      controller: controller[0],
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      onChanged: (value) {
-        setState(() {});
-      },
-    );
+class TextareaBasicExample extends StatelessWidget {
+  const TextareaBasicExample({super.key});
+
+  Widget _buildBasic(BuildContext context) =>
+      const SizedBox(height: 128, child: TTextarea(hintText: '请输入文字'));
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildBasic(context);
   }
+}
 ```
 
-带标题多文本输入框
+##### 带标题多行文本框
 
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaLabelExample extends StatelessWidget {
+  const TextareaLabelExample({super.key});
+
+  Widget _buildLabel(BuildContext context) => const SizedBox(
+    height: 128,
+    child: TTextarea(label: '标签文字', hintText: '请输入文字', minLines: 2),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildLabel(context);
+  }
+}
 ```
-  Widget _basicTypeByTitle(BuildContext context) {
-    return TDTextarea(
-      controller: controller[1],
+
+##### 自动增高多行文本框
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaAutosizeExample extends StatelessWidget {
+  const TextareaAutosizeExample({super.key});
+
+  Widget _buildAutosize(BuildContext context) =>
+      const TTextarea(label: '标签文字', hintText: '请输入文字', minLines: 1);
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildAutosize(context);
+  }
+}
+```
+
+##### 设置字符数限制
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaMaxLengthExample extends StatelessWidget {
+  const TextareaMaxLengthExample({super.key});
+
+  Widget _buildMaxLength(BuildContext context) => const SizedBox(
+    height: 128,
+    child: TTextarea(
       label: '标签文字',
       hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      onChanged: (value) {},
-    );
-  }
-```
-
-自动增高多文本输入框
-
-```
-  Widget _autoHeightType(BuildContext context) {
-    return TDTextarea(
-      controller: controller[2],
-      hintText: '请输入文字',
-      minLines: 1,
-      onChanged: (value) {},
-    );
-  }
-```
-
-设置字符数限制
-
-```
-  Widget _maxLengthType(BuildContext context) {
-    return TDTextarea(
-      controller: controller[3],
-      label: '标签文字',
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
+      minLines: 2,
       maxLength: 500,
       indicator: true,
-      onChanged: (value) {},
-    );
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildMaxLength(context);
   }
+}
 ```
 
-#### 1 组件状态
+#### 组件状态
 
-禁用状态
+##### 禁用状态
 
-```
-  Widget _disabledState(BuildContext context) {
-    return TDTextarea(
-      controller: controller[4],
-      label: '标签文字',
-      hintText: '不可编辑文字',
-      maxLines: 4,
-      minLines: 4,
-      readOnly: true,
-      onChanged: (value) {},
-    );
-  }
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-#### 1 组件样式
+class TextareaDisabledExample extends StatelessWidget {
+  const TextareaDisabledExample({super.key});
 
-竖排样式
-
-```
-  Widget _verticalStyle(BuildContext context) {
-    return TDTextarea(
-      controller: controller[5],
+  Widget _buildDisabled(BuildContext context) => const SizedBox(
+    height: 128,
+    child: TTextarea(
       label: '标签文字',
       hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      maxLength: 500,
-      indicator: true,
-      layout: TDTextareaLayout.vertical,
-      onChanged: (value) {},
-    );
+      initialValue: '不可编辑文字',
+      enabled: false,
+      minLines: 2,
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildDisabled(context);
   }
+}
 ```
 
-卡片样式
+#### 组件样式
 
-```
-  Widget _cardStyle(BuildContext context) {
-    return TDTextarea(
-      controller: controller[6],
+##### 竖排样式
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaVerticalExample extends StatelessWidget {
+  const TextareaVerticalExample({super.key});
+
+  Widget _buildVertical(BuildContext context) => const SizedBox(
+    height: 162,
+    child: TTextarea(
       label: '标签文字',
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
+      hintText: '预设长文本预设长文本',
+      layout: TTextareaLayout.vertical,
+      minLines: 2,
       maxLength: 500,
       indicator: true,
-      decoration: BoxDecoration(
-        color: TDTheme.of(context).bgColorContainer,
-        borderRadius:
-            BorderRadius.circular(TDTheme.of(context).radiusExtraLarge),
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildVertical(context);
+  }
+}
+```
+
+##### 卡片样式
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaCardExample extends StatelessWidget {
+  const TextareaCardExample({super.key});
+
+  Widget _buildCard(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: Theme(
+      data: Theme.of(
+        context,
+      ).mergeExtension(const TInputThemeData(borderRadius: 9)),
+      child: const SizedBox(
+        height: 156,
+        child: TTextarea(
+          label: '标签文字',
+          hintText: '请输入文字',
+          minLines: 2,
+          maxLength: 500,
+          indicator: true,
+        ),
       ),
-      margin: EdgeInsets.only(
-          right: TDTheme.of(context).spacer16,
-          left: TDTheme.of(context).spacer16),
-      onChanged: (value) {},
-    );
+    ),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCard(context);
   }
+}
 ```
 
-#### 1 特殊样式
+#### 特殊样式
 
-标签外置输入框
+##### 标签外置输入框
 
-```
-  Widget _extensionStyle(BuildContext context) {
-    return TDTextarea(
-      controller: controller[7],
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextareaCustomExample extends StatelessWidget {
+  const TextareaCustomExample({super.key});
+
+  Widget _buildCustom(BuildContext context) => Theme(
+    data: Theme.of(context)
+        .mergeExtension(
+          TFormThemeData(
+            layout: TFormLayout.vertical,
+            backgroundColor: context.tTheme.bgColorContainer,
+            borderColor: Colors.transparent,
+            itemPadding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            labelGap: context.tTheme.spacer,
+            labelStyle: TextStyle(
+              fontSize: context.tTheme.fontBodySmall?.size,
+              height: context.tTheme.fontBodySmall?.height,
+              fontWeight: context.tTheme.fontBodySmall?.fontWeight,
+            ),
+          ),
+        )
+        .mergeExtension(
+          const TInputThemeData(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          ),
+        ),
+    child: const TFormItem(
       label: '标签文字',
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      maxLength: 500,
-      indicator: true,
-      layout: TDTextareaLayout.vertical,
-      bordered: true,
-      onChanged: (value) {},
-    );
-  }
-```
-
-自定义标题
-
-```
-  Widget _setLabel(BuildContext context) {
-    return TDTextarea(
-      controller: controller[9],
-      label: '地址信息',
-      // labelWidth: 100,
-      labelIcon: Icon(
-        TDIcons.location,
-        size: 20,
-        color: TDTheme.of(context).textColorPrimary,
+      child: SizedBox(
+        height: 124,
+        child: TTextarea(
+          hintText: '请输入文字',
+          bordered: true,
+          minLines: 2,
+          maxLength: 100,
+          indicator: true,
+        ),
       ),
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      maxLength: 500,
-      indicator: true,
-      onChanged: (value) {},
-    );
-  }
-```
+    ),
+  );
 
-必填和辅助说明
-
-```
-  Widget _setStatus(BuildContext context) {
-    return TDTextarea(
-      controller: controller[10],
-      label: '标签文字',
-      hintText: '请输入文字',
-      maxLines: 4,
-      minLines: 4,
-      maxLength: 500,
-      indicator: true,
-      layout: TDTextareaLayout.vertical,
-      required: true,
-      additionInfo: '辅助说明',
-      onChanged: (value) {},
-    );
+  @override
+  Widget build(BuildContext context) {
+    return _buildCustom(context);
   }
+}
 ```
 
 ## API
 
-1. [TDTextarea](#tdtextarea)
+1. [TTextarea](#ttextarea)
+2. [TTextareaLayout](#ttextarealayout)
 
-#### TDTextarea
+### TTextarea
 
-##### 简介
+#### 构造方法
 
-用于多行文本信息输入
+##### TTextarea
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| autofocus | bool | false | 是否自动聚焦。 | 否 |
+| bordered | bool | false | 是否显示外边框。 | 否 |
+| clearButtonMode | TInputClearButtonMode? | - | 清除按钮显示模式；未传时不显示清除按钮。 | 否 |
+| controller | TextEditingController? | - | 文本控制器；与 initialValue 互斥。外部控制器由调用方释放， 未提供时由组件创建并释放内部控制器。 | 否 |
+| enabled | bool | true | 是否可交互。 | 否 |
+| focusNode | FocusNode? | - | 焦点节点；外部节点由调用方释放，未提供时由组件管理内部节点。 | 否 |
+| hintText | String? | - | 占位提示文案。 | 否 |
+| indicator | bool | false | 是否显示当前字符计数。 | 否 |
+| initialValue | String? | - | 内部控制器的初始文本，仅初始化一次。 | 否 |
+| inputAction | TextInputAction? | - | 键盘动作。 | 否 |
+| inputFormatters | List<TextInputFormatter>? | - | 输入格式化器。 | 否 |
+| inputType | TextInputType | TextInputType.multiline | 键盘类型。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| label | String? | - | 输入框内部标题。 表单中的字段标签请使用 `TFormItem.label`，避免与表单必填、校验语义重复。 | 否 |
+| layout | TTextareaLayout | TTextareaLayout.horizontal | 内部标题与编辑区的排列方式。 | 否 |
+| maxCharacter | int? | - | 最大字符权重，按 Unicode code point 计算：ASCII code point 计 1， 非 ASCII code point 计 2；非空时必须大于或等于 0，与 maxLength 互斥。 | 否 |
+| maxLength | int? | - | 最大字符数；非空时必须大于或等于 0，与 maxCharacter 互斥。 | 否 |
+| maxLines | int? | - | 最大行数；null 表示不限制。 | 否 |
+| minLines | int? | - | 最小行数；未传时使用 4 行，并限制到非空 maxLines。 | 否 |
+| onChanged | ValueChanged<String>? | - | 文本变化通知。 | 否 |
+| onEditingComplete | VoidCallback? | - | 编辑完成回调。 | 否 |
+| onSubmitted | ValueChanged<String>? | - | 提交回调。 | 否 |
+| prefix | Widget? | - | 前缀组件。 | 否 |
+| readOnly | bool | false | 是否只读。 | 否 |
+| status | TInputStatus | TInputStatus.normal | 输入框语义状态。 | 否 |
+| suffix | Widget? | - | 后缀组件。 | 否 |
+| textAlign | TextAlign | TextAlign.start | 文本对齐方式。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| additionInfo | String? | '' | 错误提示信息 |
-| additionInfoColor | Color? | - | 错误提示颜色 |
-| allowInputOverMax | bool? | false | 超出[maxLength]之后是否还允许输入 |
-| autofocus | bool? | false | 是否自动获取焦点 |
-| autosize | bool? | - | 是否自动增高，值为 true 时，[maxLines]不生效 |
-| backgroundColor | Color? | - | 输入框背景色 |
-| bordered | bool? | - | 是否显示外边框 |
-| controller | TextEditingController? | - | controller 用户获取或者赋值输入内容 |
-| cursorColor | Color? | - | 游标颜色 |
-| decoration | Decoration? | - | 输入框样式(包括标签) |
-| focusNode | FocusNode? | - | 获取或者取消焦点使用 |
-| hintText | String? | - | 提示文案 |
-| hintTextStyle | TextStyle? | - | 提示文本颜色，默认为文本颜色 |
-| indicator | bool? | false | 否显示文本计数器，如 0/140（必须设置maxLength） |
-| inputDecoration | InputDecoration? | - | 自定义输入框TextField组件样式 |
-| inputFormatters | List? | - | 显示输入内容，如限制长度(LengthLimitingTextInputFormatter(6)) |
-| inputType | TextInputType? | - | 键盘类型，数字、字母 |
-| key |  | - |  |
-| label | String? | - | 输入框标题 |
-| labelIcon | Widget? | - | 输入框标题图标 |
-| labelStyle | TextStyle? | - | 左侧标签文本样式 |
-| labelWidget | Widget? | - | label组件，支持自定义 |
-| labelWidth | double? | - | 输入框标题宽度 |
-| layout | TDTextareaLayout? | TDTextareaLayout.horizontal | 标题输入框布局方式。可选项：vertical/horizontal |
-| margin | EdgeInsetsGeometry? | - | 外边距 |
-| maxLength | int? | - | 最大字数限制 |
-| maxLengthEnforcement | MaxLengthEnforcement? | - | 如何执行输入长度限制 |
-| maxLines | int? | - | 最大输入行数 |
-| minLines | int? | 4 | 最小输入行数 |
-| onChanged | ValueChanged? | - | 输入文本变化时回调 |
-| onEditingComplete | VoidCallback? | - | 点击键盘完成按钮时触发的回调 |
-| onSubmitted | ValueChanged? | - | 点击键盘完成按钮时触发的回调, 参数值为输入的内容 |
-| padding | EdgeInsetsGeometry? | - | 内边距 |
-| readOnly | bool? | false | 是否只读 |
-| required | bool? | - | 是否必填标志（红色*） |
-| showBottomDivider | bool? | true | 边框外部下划线 |
-| size | TDInputSize? | TDInputSize.large | 输入框规格 |
-| textAlign | TextAlign? | - | 文字对齐方向 |
-| textareaDecoration | Decoration? | - | 输入框样式(不包括标签) |
-| textInputBackgroundColor | Color? | - | 文本框背景色 |
-| textStyle | TextStyle? | - | 文本颜色 |
-| width | double? | - | 输入框宽度 |
+### TTextareaLayout
+
+多行文本框内部标题与编辑区的排列方式。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| horizontal | TTextareaLayout | - | 标题与编辑区横向排列。 | - |
+| vertical | TTextareaLayout | - | 标题与编辑区竖向排列。 | - |
 
 ## 设计指南
 
@@ -275,21 +304,21 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 3. [推荐/慎用示例](#推荐-慎用示例)
 4. [相似组件](#相似组件)
 
-#### 何时使用
+### 何时使用
 
 需要进行文字输入，且需填写的字数较多时使用。
 
-#### 常见用法
+### 常见用法
 
-###### 常见于表单、内容发布的场景中，用于输入较长的文本内容。
+##### 常见于表单、内容发布的场景中，用于输入较长的文本内容。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/textarea/textarea-1.png)
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/textarea/textarea-2.png)
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 尽量避免输入过于复杂的文本内容，考虑将内容拆分，让用户分步输入。
+##### 尽量避免输入过于复杂的文本内容，考虑将内容拆分，让用户分步输入。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/textarea/textarea-3.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
@@ -299,7 +328,7 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ---
 
-###### 建议根据待输入的内容决定多行文本框的高度。
+##### 建议根据待输入的内容决定多行文本框的高度。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/textarea/textarea-5.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
@@ -307,7 +336,7 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/textarea/textarea-6.png)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
 
-#### 相似组件
+### 相似组件
 
 | 组件名 | 何时使用 |
 | --- | --- |

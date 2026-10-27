@@ -3,15 +3,13 @@
 > 在导航栏下方，用于给用户显示提示消息。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/notice-bar)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,273 +17,368 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_notice-bar_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_notice-bar_page.dart)
+#### 组件类型
 
-#### 1 组件类型
+##### 纯文字的公告栏
 
-纯文字的公告栏
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
+class TextNoticeBarExample extends StatelessWidget {
+  const TextNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _textNoticeBar(context);
+  }
+}
+
 Widget _textNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条普通的通知信息',
-  );
+  return const TNoticeBar(content: '这是一条普通的通知信息', prefix: SizedBox.shrink());
 }
 ```
 
-可滚动的公告栏
+##### 带图标的公告栏
 
-```
-Widget _scrollNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '提示文字描述提示文字描述提示文字描述提示文字描述提示文字',
-    marquee: true,
-    speed: 50,
-  );
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class IconNoticeBarExample extends StatelessWidget {
+  const IconNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _iconNoticeBar(context);
+  }
 }
-```
 
-
-```
-Widget _scrollIconNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '提示文字描述提示文字描述提示文字描述提示文字描述提示文字',
-    speed: 50,
-    prefixIcon: TDIcons.sound,
-    marquee: true,
-  );
-}
-```
-
-带图标的公告栏
-
-```
 Widget _iconNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
+  return const TNoticeBar(
+    content: '提示文字描述提示文字描述提示文字描述',
+    prefix: Icon(TIcons.error_circle_filled),
   );
 }
 ```
 
-带关闭的公告栏
+##### 带关闭的公告栏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CloseNoticeBarExample extends StatelessWidget {
+  const CloseNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _closeNoticeBar(context);
+  }
+}
+
 Widget _closeNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
+  return TNoticeBar(
     content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    suffixIcon: TDIcons.close,
+    suffixIcon: TIcons.close,
+    onPressed: (target) {
+      if (target == TNoticeBarTapTarget.suffix) {
+        TToast.showText('点击了关闭按钮', context: context);
+      }
+    },
   );
 }
 ```
 
-带入口的公告栏
+##### 带入口的公告栏
 
-```
-Widget _entranceNoticeBar1(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    right: TDButton(
-      text: '文字按钮',
-      type: TDButtonType.text,
-      theme: TDButtonTheme.primary,
-      size: TDButtonSize.extraSmall,
-      height: 22,
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-    ),
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class EntranceNoticeBarExample extends StatelessWidget {
+  const EntranceNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _entranceNoticeBar(context);
+  }
+}
+
+Widget _entranceNoticeBar(BuildContext context) {
+  return Column(
+    children: [
+      TNoticeBar(
+        content: '这是一条普通的通知信息',
+        operation: TLink(
+          child: const Text('详情'),
+          colorPreset: TLinkColorPreset.primary,
+          onPressed: () => TToast.showText('点击了详情', context: context),
+        ),
+        suffixIcon: TIcons.chevron_right,
+      ),
+      const SizedBox(height: 16),
+      TNoticeBar(
+        content: '这是一条普通的通知信息',
+        suffixIcon: TIcons.chevron_right,
+        onPressed: (target) {
+          if (target == TNoticeBarTapTarget.suffix) {
+            TToast.showText('点击了入口图标', context: context);
+          }
+        },
+      ),
+    ],
   );
 }
 ```
 
+##### 自定义样式的公告栏
 
-```
-Widget _entranceNoticeBar2(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    suffixIcon: TDIcons.chevron_right,
-  );
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CustomNoticeBarExample extends StatelessWidget {
+  const CustomNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _customNoticeBar(context);
+  }
 }
-```
 
-自定义样式的公告栏
-
-```
 Widget _customNoticeBar(BuildContext context) {
-  return TDNoticeBar(
-    content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.notification,
-    suffixIcon: TDIcons.chevron_right,
-    style: TDNoticeBarStyle.generateTheme(context, theme: TDNoticeBarTheme.info)
-      ..backgroundColor = TDTheme.of(context).bgColorComponent,
-  );
-}
-```
-
-#### 1 组件状态
-
-普通通知
-
-```
-Widget _normalNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条普通的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    theme: TDNoticeBarTheme.info,
-  );
-}
-```
-
-成功通知
-
-```
-Widget _successNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条成功的通知信息',
-    prefixIcon: TDIcons.check_circle_filled,
-    theme: TDNoticeBarTheme.success,
-  );
-}
-```
-
-警示通知
-
-```
-Widget _warningNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条警示的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    theme: TDNoticeBarTheme.warning,
-  );
-}
-```
-
-错误通知
-
-```
-Widget _errorNoticeBar(BuildContext context) {
-  return const TDNoticeBar(
-    content: '这是一条错误的通知信息',
-    prefixIcon: TDIcons.error_circle_filled,
-    theme: TDNoticeBarTheme.error,
-  );
-}
-```
-
-#### 1 组件样式
-
-卡片顶部
-
-```
-Widget _cardNoticeBar(BuildContext context) {
-  var size = MediaQuery.of(context).size;
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 16),
-    decoration: BoxDecoration(
-      color: TDNoticeBarStyle.generateTheme(context).backgroundColor,
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x0d000000),
-          blurRadius: 8,
-          spreadRadius: 2,
-          offset: Offset(0, 2),
-        ),
-        BoxShadow(
-          color: Color(0x0f000000),
-          blurRadius: 10,
-          spreadRadius: 1,
-          offset: Offset(0, 8),
-        ),
-        BoxShadow(
-          color: Color(0x1a000000),
-          blurRadius: 5,
-          spreadRadius: -3,
-          offset: Offset(0, 5),
-        ),
-      ],
+  return Theme(
+    data: Theme.of(context).mergeExtension(
+      TNoticeBarThemeData(
+        backgroundColor: context.tTheme.bgColorComponent,
+        leftIconColor: context.tTheme.textColorPrimary,
+      ),
     ),
-    child: Column(
-      children: [
-        Container(
-          width: size.width - 32,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          clipBehavior: Clip.hardEdge,
-          child: const TDNoticeBar(
-            content: '这是一条普通的通知信息',
-            prefixIcon: TDIcons.error_circle_filled,
-            suffixIcon: TDIcons.chevron_right,
-          ),
-        ),
-        Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: TDTheme.of(context).bgColorContainer,
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-          ),
-        )
-      ],
+    child: const TNoticeBar(
+      content: '提示文字描述提示文字描述提示文字描述',
+      prefix: Icon(TIcons.sound),
+      suffixIcon: TIcons.chevron_right,
     ),
+  );
+}
+```
+
+##### 自定义内容的公告栏
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CustomContentNoticeBarExample extends StatelessWidget {
+  const CustomContentNoticeBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _customContentNoticeBar(context);
+  }
+}
+
+Widget _customContentNoticeBar(BuildContext context) {
+  return TNoticeBar(
+    content: '提示文字描述提示文字描述提示文字描述提示文字描述提示文字描述提示文字描述',
+    operation: TLink(
+      child: const Text('详情'),
+      colorPreset: TLinkColorPreset.primary,
+      onPressed: () => TToast.showText('点击了详情', context: context),
+    ),
+    suffixIcon: TIcons.close,
+  );
+}
+```
+
+#### 组件状态
+
+##### 公告栏类型有普通（info）、警示（warning）、成功（success）、错误（error）
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ThemeNoticeBarsExample extends StatelessWidget {
+  const ThemeNoticeBarsExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _themeNoticeBars(context);
+  }
+}
+
+Widget _themeNoticeBars(BuildContext context) {
+  return const Column(
+    children: [
+      TNoticeBar(content: '默认状态公告栏默认状态公告栏'),
+      SizedBox(height: 16),
+      TNoticeBar(status: TNoticeBarStatus.success, content: '成功状态公告栏成功状态公告栏'),
+      SizedBox(height: 16),
+      TNoticeBar(status: TNoticeBarStatus.warning, content: '警示状态公告栏警示状态公告栏'),
+      SizedBox(height: 16),
+      TNoticeBar(status: TNoticeBarStatus.error, content: '错误状态公告栏错误状态公告栏'),
+    ],
+  );
+}
+```
+
+#### 可滚动公告栏
+
+##### 可滚动公告栏有水平（horizontal）和垂直（vertical）
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ScrollingNoticeBarsExample extends StatelessWidget {
+  const ScrollingNoticeBarsExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _scrollingNoticeBars(context);
+  }
+}
+
+Widget _scrollingNoticeBars(BuildContext context) {
+  return const Column(
+    children: [
+      TNoticeBar(
+        content: '提示文字描述提示文字描述提示文字描述提示文字描述文',
+        prefix: SizedBox.shrink(),
+        marquee: true,
+        speed: 80,
+      ),
+      SizedBox(height: 16),
+      TNoticeBar(
+        content: '提示文字描述提示文字描述提示文字描述提示文字描述文',
+        marquee: true,
+        speed: 60,
+      ),
+      SizedBox(height: 16),
+      TNoticeBar(
+        prefix: Icon(TIcons.sound),
+        items: ['君不见', '高堂明镜悲白发', '朝如青丝暮成雪', '人生得意须尽欢', '莫使金樽空对月'],
+        direction: Axis.vertical,
+        interval: Duration(seconds: 3),
+      ),
+    ],
   );
 }
 ```
 
 ## API
 
-1. [TDNoticeBar](#tdnoticebar)
-2. [TDNoticeBarStyle](#tdnoticebarstyle)
+1. [TNoticeBar](#tnoticebar)
+2. [TNoticeBarTapTarget](#tnoticebartaptarget)
+3. [TNoticeBarStatus](#tnoticebarstatus)
+4. [TNoticeBarThemeData](#tnoticebarthemedata)
 
-#### TDNoticeBar
+### TNoticeBar
 
-##### 简介
+#### 构造方法
 
-##### 默认构造方法
+##### TNoticeBar
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| content | dynamic | - | 文本内容（字符串或字符串数组等） |
-| context | dynamic | - | 文本内容（请使用content属性） |
-| direction | Axis? | Axis.horizontal | 滚动方向 |
-| height | double | 22 | 文字高度 (当使用prefixIcon或suffixIcon时，icon大小值等于该属性） |
-| interval | int? | 3000 | 步进滚动间隔时间（毫秒） |
-| key |  | - |  |
-| left | Widget? | - | 左侧内容（自定义左侧内容，优先级高于prefixIcon） |
-| marquee | bool? | false | 跑马灯效果 |
-| maxLines | int? | 1 | 文本行数（仅静态有效） |
-| onTap | ValueChanged? | - | 点击事件 |
-| prefixIcon | IconData? | - | 左侧图标 |
-| right | Widget? | - | 右侧内容（自定义右侧内容，优先级高于suffixIcon） |
-| speed | double? | 50 | 滚动速度 |
-| style | TDNoticeBarStyle? | - | 公告栏样式 [TDNoticeBarStyle] |
-| suffixIcon | IconData? | - | 右侧图标 |
-| theme | TDNoticeBarTheme? | TDNoticeBarTheme.info | 主题 |
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| content | String | '' | 单条公告内容。 当 `items` 非空时不显示此内容。 | 否 |
+| direction | Axis | Axis.horizontal | 滚动方向 | 否 |
+| interval | Duration | const Duration(seconds: 2) | 垂直轮播的切换间隔，仅在 `direction` 为 `Axis.vertical` 时生效。 | 否 |
+| items | List<String> | const <String>[] | 多条公告内容，主要用于垂直轮播。 非空时作为内容数据源，并优先于 `content`。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| marquee | bool | false | 是否启用横向跑马灯展示。 | 否 |
+| maxLines | int | 1 | 文本行数（仅静态有效），必须大于 0。 | 否 |
+| onPressed | ValueChanged<TNoticeBarTapTarget>? | - | 点击事件 | 否 |
+| operation | Widget? | - | 内容右侧、`suffixIcon` 左侧的自定义操作区。 可以和 `suffixIcon` 同时显示。 | 否 |
+| prefix | Widget? | - | 自定义前缀区域。 为 null 时根据 `status` 显示默认图标；传入 `SizedBox.shrink` 可隐藏 前缀区域。组件统一在非空前缀与正文之间保留 `TSpacers.spacer` 间距 （默认 8 逻辑像素）；自定义 `Icon` 中未显式指定的颜色或尺寸会继承公告栏 状态色和标准图标尺寸。 | 否 |
+| speed | double | 50 | 横向跑马灯每秒滚动的逻辑像素，仅在 `direction` 为 `Axis.horizontal` 且 marquee 为 true 时生效；必须大于 0。 | 否 |
+| status | TNoticeBarStatus | TNoticeBarStatus.info | 公告栏业务状态，决定默认配色和默认前缀图标。 | 否 |
+| suffixIcon | IconData? | - | 尾部图标，可以和 `operation` 同时显示。 | 否 |
 
-#### TDNoticeBarStyle
+### TNoticeBarTapTarget
 
-##### 简介
+公告栏点击区域
 
-公告栏样式
+#### 枚举值
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| prefix | TNoticeBarTapTarget | - | 前缀区域 | - |
+| content | TNoticeBarTapTarget | - | 公告内容 | - |
+| operation | TNoticeBarTapTarget | - | 右侧操作区 | - |
+| suffix | TNoticeBarTapTarget | - | 尾部图标 | - |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| backgroundColor | Color? | - | 公告栏背景色 |
-| context | BuildContext? | - | 上下文 |
-| leftIconColor | Color? | - | 公告栏左侧图标颜色 |
-| padding | EdgeInsetsGeometry? | - | 公告栏内边距 |
-| rightIconColor | Color? | - | 公告栏右侧图标颜色 |
-| textStyle | TextStyle? | - | 公告栏内容样式 |
+### TNoticeBarStatus
 
-##### 工厂构造方法
+公告栏业务状态。
 
-| 名称 | 说明 |
-| --- | --- |
-| TDNoticeBarStyle.generateTheme | 根据主题生成样式 |
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| info | TNoticeBarStatus | - | 普通信息（默认）。 | - |
+| success | TNoticeBarStatus | - | 成功信息。 | - |
+| warning | TNoticeBarStatus | - | 警示信息。 | - |
+| error | TNoticeBarStatus | - | 错误信息。 | - |
+
+### TNoticeBarThemeData
+
+TNoticeBar 组件级 ThemeExtension
+
+通过 Theme 子树注入，控制子树的默认公告栏样式。
+
+#### 配置项
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| backgroundColor | Color? | - | 公告栏背景色 | 否 |
+| height | double? | - | 文字高度 未配置时为 22 逻辑像素，表示正文区域高度，外层内边距另计。 | 否 |
+| leftIconColor | Color? | - | 公告栏左侧图标颜色 | 否 |
+| padding | EdgeInsetsGeometry? | - | 公告栏内边距 未配置时使用 defaultPadding，即上/下 13、左 16、右 12 逻辑像素。 | 否 |
+| rightIconColor | Color? | - | 公告栏右侧图标颜色 | 否 |
+| textStyle | TextStyle? | - | 公告栏内容样式 | 否 |
+
+#### 静态成员
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| defaultPadding | EdgeInsets | EdgeInsets.only(top: 13, bottom: 13, left: 16, right: 12) | 默认内边距 | - |
+
+#### 静态方法
+
+##### TNoticeBarThemeData.lerpDouble
+
+位置参数：`a, b, t`
+
+在两个可选数值之间插值。
+
+当仅一端有值时采用离散切换，避免把缺省值错误地当作 0。组件已知默认值
+的字段会在 `lerp` 内使用其实际默认值平滑插值。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| a | double? | - | 起始值。 | 是 |
+| b | double? | - | 目标值。 | 是 |
+| t | double | - | 插值进度。 | 是 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | double? | - | 按 t 线性插值的数值；两端均为 null 时为 null，仅一端为 null 时将该端按 0 计算。 | - |
+
+#### 实例方法
+
+##### TNoticeBarThemeData.resolve
+
+位置参数：`context`
+
+根据状态和上下文解析出完整的样式（颜色等）
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 当前构建上下文，用于读取祖先配置。 | 是 |
+| status | TNoticeBarStatus | TNoticeBarStatus.info | 公告栏语义状态，默认 info，用于解析状态对应的颜色。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | TNoticeBarThemeData | - | 将状态预设与当前主题覆盖合并后的 NoticeBar 视觉配置。 | - |
 
 ## 设计指南
 
@@ -295,50 +388,50 @@ Widget _cardNoticeBar(BuildContext context) {
 4. [推荐/慎用示例](#推荐-慎用示例)
 5. [相似组件](#相似组件)
 
-#### 何时使用
+### 何时使用
 
 当需要对用户进行较明显的反馈或提示，需要用户关注时使用，一段时间后不会自动消失，通常是自动触发
 
-#### 页面布局相关
+### 页面布局相关
 
-###### 公告栏位于页面或模块的顶部，让用户能够快速关注到重要信息
+##### 公告栏位于页面或模块的顶部，让用户能够快速关注到重要信息
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-1.png)
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-2.png)
 
-#### 常见用法
+### 常见用法
 
-###### 经常用于系统状态的通知，如警示或错误信息的展示，告知用户具体的系统状态、出现原因、和解决方式
+##### 经常用于系统状态的通知，如警示或错误信息的展示，告知用户具体的系统状态、出现原因、和解决方式
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-3.png)
 
 ---
 
-###### 展示当前场景的重要公告，这类公告通常比较重要，需要用户务必关注
+##### 展示当前场景的重要公告，这类公告通常比较重要，需要用户务必关注
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-4.gif)
 
 ---
 
-###### 在营销场景，经常用于广告或促销信息的展示，提高用户转化率
+##### 在营销场景，经常用于广告或促销信息的展示，提高用户转化率
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-5.png)
 
 ---
 
-###### 当需要同时展示多条公告时，通常使用可滚动的公告栏，依次展示多条公告信息
+##### 当需要同时展示多条公告时，通常使用可滚动的公告栏，依次展示多条公告信息
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-6.gif)
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 可以同时展示多个公告栏，但不建议超过2个，过多的公告栏会占用过多屏幕空间、分散用户的注意力
+##### 可以同时展示多个公告栏，但不建议超过2个，过多的公告栏会占用过多屏幕空间、分散用户的注意力
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/notice-bar/notice-bar-7.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
 
-#### 相似组件
+### 相似组件
 
 | 组件名 | 何时使用 |
 | --- | --- |

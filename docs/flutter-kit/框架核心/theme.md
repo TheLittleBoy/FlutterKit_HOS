@@ -2,7 +2,7 @@
 
 FlutterKit 同时维护 TDesign、Material 与项目语义主题。主题并非页面自己切换几组颜色：启动时从 JSON 资源解析 `TDThemeData`，恢复用户的颜色和模式，`main.dart` 通过 `Obx` 重建 `GetMaterialApp`，`AppTheme` 再将当前 TDesign token 暴露给项目业务代码。
 
-TDesign 组件主题 API 与 JSON token 以仓库 `docs/tdesign-flutter/开始/快速开始.md` 为本地参考；深色主题配置、`TDTheme.needMultiTheme()` 与 Flutter `ThemeMode` 的官方说明见 `docs/tdesign-flutter/全局配置/深色模式.md`。本章只说明 FlutterKit 的项目级接入，深色模式的完整流程见 [深色模式](./dark-mode.md)。
+TDesign 组件主题 API 与 JSON token 以仓库 `docs/tdesign-flutter/全局配置/Theme 主题.md` 与 `docs/tdesign-flutter/全局配置/自定义主题.md` 为本地参考；深色主题与 Flutter `ThemeMode` 的官方说明见 `docs/tdesign-flutter/全局配置/自定义主题.md`。本章只说明 FlutterKit 的项目级接入，深色模式的完整流程见 [深色模式](./dark-mode.md)。
 
 ## 完整链路
 

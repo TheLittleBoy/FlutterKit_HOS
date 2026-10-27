@@ -13,7 +13,7 @@ description: 实现和维护 FlutterKit 主题、深色模式、主题颜色预�
 - `docs/flutter-kit/框架核心/dark-mode.md`
 - `docs/flutter-kit/框架核心/localization.md`
 - `docs/flutter-kit/框架核心/design-system.md`
-- `docs/tdesign-flutter/全局配置/深色模式.md`
+- `docs/tdesign-flutter/全局配置/自定义主题.md`
 
 核对 `ThemeInitializer`、`Application`、`main.dart`、`ThemeColorPreset`、主题 Repository/DataSource 和现有主题测试。
 

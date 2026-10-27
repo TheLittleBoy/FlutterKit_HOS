@@ -3,15 +3,13 @@
 > 用于任务步骤展示或任务进度展示。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/steps)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,636 +17,489 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_steps_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_steps_page.dart)
+#### 组件类型
 
-#### 1 水平默认步骤条
+##### Horizontal Default Steps 水平默认步骤条
 
-水平默认步骤条1
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
-  Widget _buildBasicHSteps1(BuildContext context) {
-    return TDSteps(
+class StepsHorizontalDefaultExample extends StatelessWidget {
+  const StepsHorizontalDefaultExample({super.key});
+
+  /// Horizontal Default Steps 水平默认步骤条
+  Widget _buildHorizontalDefault(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
+        TStepsItemData(title: 'Finish', content: 'Content'),
+        TStepsItemData(title: 'Process', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
       ],
+      value: 1,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildHorizontalDefault(context);
+  }
+}
 ```
 
-水平默认步骤条2
+##### Horizontal Icon Steps 水平图标步骤条
 
-```
-  Widget _buildBasicHSteps2(BuildContext context) {
-    return TDSteps(
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsHorizontalIconExample extends StatelessWidget {
+  const StepsHorizontalIconExample({super.key});
+
+  /// Horizontal Icon Steps 水平图标步骤条
+  Widget _buildHorizontalIcon(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
-        TDStepsItemData(title: 'Steps3', content: 'Content3'),
+        TStepsItemData(title: 'Finish', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Process', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Default', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Default', content: 'Content', icon: TIcons.cart),
       ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
+      value: 1,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildHorizontalIcon(context);
+  }
+}
 ```
 
-水平默认步骤条3
+##### Horizontal Dot Steps 水平简略步骤条
 
-```
-  Widget _buildBasicHSteps3(BuildContext context) {
-    return TDSteps(
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsHorizontalDotExample extends StatelessWidget {
+  const StepsHorizontalDotExample({super.key});
+
+  /// Horizontal Dot Steps 水平简略步骤条
+  Widget _buildHorizontalDot(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
-        TDStepsItemData(title: 'Steps3', content: 'Content3'),
-        TDStepsItemData(title: 'Steps4', content: 'Content4'),
+        TStepsItemData(title: 'Finish', content: 'Content'),
+        TStepsItemData(title: 'Process', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
       ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
+      value: 1,
+      indicator: TStepsIndicator.dot,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildHorizontalDot(context);
+  }
+}
 ```
 
-#### 1 水平图标步骤条
+##### Vertical Default Steps 垂直默认步骤条
 
-水平图标步骤条1
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
-  Widget _buildHIconSteps1(BuildContext context) {
-    return TDSteps(
+class StepsVerticalDefaultExample extends StatelessWidget {
+  const StepsVerticalDefaultExample({super.key});
+
+  /// Vertical Default Steps 垂直默认步骤条
+  Widget _buildVerticalDefault(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(
-          title: 'Steps1',
-          content: 'Content1',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps2',
-          content: 'Content2',
-          successIcon: TDIcons.cart,
-        ),
+        TStepsItemData(title: 'Finish', content: 'Content'),
+        TStepsItemData(title: 'Process', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
       ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 0,
+      value: 1,
+      direction: TStepsDirection.vertical,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildVerticalDefault(context);
+  }
+}
 ```
 
-水平图标步骤条2
+##### Vertical Icon Steps 垂直图标步骤条
 
-```
-  Widget _buildHIconSteps2(BuildContext context) {
-    return TDSteps(
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsVerticalIconExample extends StatelessWidget {
+  const StepsVerticalIconExample({super.key});
+
+  /// Vertical Icon Steps 垂直图标步骤条
+  Widget _buildVerticalIcon(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(
-          title: 'Steps1',
-          content: 'Content1',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps2',
-          content: 'Content2',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps3',
-          content: 'Content3',
-          successIcon: TDIcons.cart,
-        ),
+        TStepsItemData(title: 'Finish', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Process', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Default', content: 'Content', icon: TIcons.cart),
+        TStepsItemData(title: 'Default', content: 'Content', icon: TIcons.cart),
       ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
+      value: 1,
+      direction: TStepsDirection.vertical,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildVerticalIcon(context);
+  }
+}
 ```
 
-水平图标步骤条3
+##### Vertical Dot Steps 垂直简略步骤条
 
-```
-  Widget _buildHIconSteps3(BuildContext context) {
-    return TDSteps(
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsVerticalDotExample extends StatelessWidget {
+  const StepsVerticalDotExample({super.key});
+
+  /// Vertical Dot Steps 垂直简略步骤条
+  Widget _buildVerticalDot(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(
-          title: 'Steps1',
-          content: 'Content1',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps2',
-          content: 'Content2',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps3',
-          content: 'Content3',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps4',
-          content: 'Content4',
-          successIcon: TDIcons.cart,
-        ),
+        TStepsItemData(title: 'Finish', content: 'Content'),
+        TStepsItemData(title: 'Process', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
+        TStepsItemData(title: 'Default', content: 'Content'),
       ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
+      value: 1,
+      direction: TStepsDirection.vertical,
+      indicator: TStepsIndicator.dot,
     );
   }
-```
 
-#### 1 水平简略步骤条
-
-水平简略步骤条1
-
-```
-  Widget _buildSimpleHSteps1(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 0,
-      // 简略模式
-      simple: true,
-    );
+  @override
+  Widget build(BuildContext context) {
+    return _buildVerticalDot(context);
   }
+}
 ```
 
-水平简略步骤条2
+##### Customize Steps Content 自定义步骤条内容
 
-```
-  Widget _buildSimpleHSteps2(BuildContext context) {
-    return TDSteps(
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsCustomContentExample extends StatelessWidget {
+  const StepsCustomContentExample({super.key});
+
+  /// Customize Steps Content 自定义步骤条内容
+  Widget _buildCustomContent(BuildContext context) {
+    return const TSteps.progress(
       steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
-        TDStepsItemData(title: 'Steps3', content: 'Content3'),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
-      // 简略模式
-      simple: true,
-    );
-  }
-```
-
-水平简略步骤条3
-
-```
-  Widget _buildSimpleHSteps3(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Steps2', content: 'Content2'),
-        TDStepsItemData(title: 'Steps3', content: 'Content3'),
-        TDStepsItemData(title: 'Steps4', content: 'Content4'),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
-      // 简略模式
-      simple: true,
-    );
-  }
-```
-
-#### 1 水平错误状态步骤条
-
-水平错误状态基本步骤条
-
-```
-  Widget _buildHErrorSteps1(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Steps1', content: 'Content1'),
-        TDStepsItemData(title: 'Error', content: 'Content2'),
-        TDStepsItemData(title: 'Steps3', content: 'Content3'),
-        TDStepsItemData(title: 'Steps4', content: 'Content4'),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
-      // 错误状态
-      status: TDStepsStatus.error,
-    );
-  }
-```
-
-水平错误状态图标步骤条
-
-```
-  Widget _buildHErrorSteps2(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Steps1',
-          content: 'Content1',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Error',
-          content: 'Content2',
-          successIcon: TDIcons.cart,
-          errorIcon: TDIcons.close_circle,
-        ),
-        TDStepsItemData(
-          title: 'Steps3',
-          content: 'Content3',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps4',
-          content: 'Content4',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
-      // 错误状态
-      status: TDStepsStatus.error,
-    );
-  }
-```
-
-水平错误状态简略步骤条
-
-```
-  Widget _buildHErrorSteps3(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Steps1',
-          content: 'Content1',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Error',
-          content: 'Content2',
-          successIcon: TDIcons.cart,
-          errorIcon: TDIcons.close_circle,
-        ),
-        TDStepsItemData(
-          title: 'Steps3',
-          content: 'Content3',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Steps4',
-          content: 'Content4',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 水平方向
-      direction: TDStepsDirection.horizontal,
-      activeIndex: 1,
-      // 错误状态
-      status: TDStepsStatus.error,
-      // 简略模式
-      simple: true,
-    );
-  }
-```
-
-#### 1 垂直步骤条
-
-垂直默认步骤条
-
-```
-  Widget _buildVBasicSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Finish', content: 'Customize content'),
-        TDStepsItemData(title: 'Process', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-    );
-  }
-```
-
-垂直图标步骤条
-
-```
-  Widget _buildVIconSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Finish',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
+        TStepsItemData(title: 'Finish', content: 'Customize content'),
+        TStepsItemData(
           title: 'Process',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-    );
-  }
-```
-
-垂直简略步骤条
-
-```
-  Widget _buildVSimpleSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Finish',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Process',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-            title: 'Default',
-            content: 'Customize content',
-            successIcon: TDIcons.cart),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-      // 简略模式
-      simple: true,
-    );
-  }
-```
-
-垂直错误状态基本步骤条
-
-```
-  Widget _buildVErrorBasicSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Finish', content: 'Customize content'),
-        TDStepsItemData(title: 'Process', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-      // 错误状态
-      status: TDStepsStatus.error,
-    );
-  }
-```
-
-垂直错误状态图标步骤条
-
-```
-  Widget _buildVErrorIconSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Finish',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Process',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-          errorIcon: TDIcons.close_circle,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-      // 错误状态
-      status: TDStepsStatus.error,
-    );
-  }
-```
-
-垂直错误状态简略步骤条
-
-```
-  Widget _buildVErrorSimpleSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(
-          title: 'Finish',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Process',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-        TDStepsItemData(
-          title: 'Default',
-          content: 'Customize content',
-          successIcon: TDIcons.cart,
-        ),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-      // 简略模式
-      simple: true,
-      // 错误状态
-      status: TDStepsStatus.error,
-    );
-  }
-```
-
-垂直自定义标题基本步骤条
-
-```
-  Widget _buildVCustomTitleBaseSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Finish', content: 'Customize content'),
-        TDStepsItemData(
-          title: 'Process',
-          content: 'Customize content',
-          customTitle: const TDText(
-            '这是一个很长很长的自定义标题，可以自动换行的一个标题内容',
-            softWrap: true,
-            maxLines: 2,
-            overflow: TextOverflow.visible,
-          ),
-        ),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
-    );
-  }
-```
-
-垂直自定义内容基本步骤条
-
-```
-  Widget _buildVCustomContentBaseSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Finish', content: 'Customize content'),
-        TDStepsItemData(
-          title: '这是一个很长很长很长很长的文字，他是用来展示这个步骤的标题',
-          content: 'Customize content',
-          customContent: Container(
-            margin: const EdgeInsets.only(bottom: 16, top: 4),
-            child: const TDImage(
-              assetUrl: 'assets/img/image.png',
-              type: TDImageType.roundedSquare,
+          customContent: Padding(
+            padding: EdgeInsets.only(top: 4, bottom: 16),
+            child: TImage(
+              src: 'assets/img/image.png',
+              width: 280,
+              height: 100,
+              fit: BoxFit.cover,
+              shape: TImageShape.roundedSquare,
             ),
           ),
         ),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
+        TStepsItemData(title: 'Default', content: 'Customize content'),
       ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 1,
+      value: 1,
+      direction: TStepsDirection.vertical,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildCustomContent(context);
+  }
+}
 ```
 
-#### 1 Extension 步骤条
+#### 组件状态
 
-Read-only Steps 纯展示水平步骤条
+##### Error 错误状态
 
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsErrorStatesExample extends StatelessWidget {
+  const StepsErrorStatesExample({super.key});
+
+  /// Error 错误状态
+  Widget _buildErrorStates(BuildContext context) {
+    return const Column(
+      children: [
+        TSteps.progress(
+          steps: [
+            TStepsItemData(title: 'Finish', content: 'Content'),
+            TStepsItemData(title: 'Error', content: 'Content'),
+            TStepsItemData(title: 'Default', content: 'Content'),
+            TStepsItemData(title: 'Default', content: 'Content'),
+          ],
+          value: 1,
+          status: TStepsStatus.error,
+        ),
+        SizedBox(height: 32),
+        TSteps.progress(
+          steps: [
+            TStepsItemData(
+              title: 'Finish',
+              content: 'Content',
+              icon: TIcons.cart,
+            ),
+            TStepsItemData(
+              title: 'Error',
+              content: 'Content',
+              icon: TIcons.cart,
+              errorIcon: TIcons.close_circle,
+            ),
+            TStepsItemData(
+              title: 'Default',
+              content: 'Content',
+              icon: TIcons.cart,
+            ),
+            TStepsItemData(
+              title: 'Default',
+              content: 'Content',
+              icon: TIcons.cart,
+            ),
+          ],
+          value: 1,
+          status: TStepsStatus.error,
+        ),
+        SizedBox(height: 32),
+        TSteps.progress(
+          steps: [
+            TStepsItemData(title: 'Finish', content: 'Content'),
+            TStepsItemData(title: 'Error', content: 'Content'),
+            TStepsItemData(title: 'Default', content: 'Content'),
+            TStepsItemData(title: 'Default', content: 'Content'),
+          ],
+          value: 1,
+          status: TStepsStatus.error,
+          indicator: TStepsIndicator.dot,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildErrorStates(context);
+  }
+}
 ```
-  Widget _buildHReadOnlySteps(BuildContext context) {
-    return TDSteps(
+
+#### 特殊类型
+
+##### Vertical Customize Steps 垂直自定义步骤条
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class StepsVerticalSelectableExample extends StatefulWidget {
+  const StepsVerticalSelectableExample({super.key});
+
+  @override
+  State<StepsVerticalSelectableExample> createState() =>
+      _StepsVerticalSelectableExampleState();
+}
+
+class _StepsVerticalSelectableExampleState
+    extends State<StepsVerticalSelectableExample> {
+  /// Vertical Customize Steps 垂直自定义步骤条
+  ///
+  /// 核心片段：导入 Flutter material.dart 和 tdesign_flutter.dart，
+  /// 将此方法放在 StatefulWidget 的 State 中，由 build 调用。
+  /// State 声明 `int _selectedStep = 3;` 保存当前步骤；
+  /// 不在 build 中重新初始化，回调通过 setState 更新受控值。
+  Widget _buildVerticalSelectable(BuildContext context) {
+    return TSteps.selectable(
+      steps: List.generate(
+        4,
+        (index) => TStepsItemData(
+          title: index < _selectedStep
+              ? '已完成步骤'
+              : index == _selectedStep
+              ? '当前步骤'
+              : '未完成步骤',
+        ),
+      ),
+      value: _selectedStep,
+      onChange: (index) {
+        setState(() => _selectedStep = index);
+        TToast.showText('选择了步骤 ${index + 1}', context: context);
+      },
+    );
+  }
+
+  int _selectedStep = 3;
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildVerticalSelectable(context);
+  }
+}
+```
+
+##### Read-only Steps 纯展示步骤条
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class DisplayStepsExample extends StatelessWidget {
+  const DisplayStepsExample({super.key});
+
+  /// Read-only Steps 纯展示步骤条
+  Widget _buildDisplaySteps(BuildContext context) {
+    return const TSteps.display(
       steps: [
-        TDStepsItemData(title: 'Finish', content: 'content'),
-        TDStepsItemData(title: 'Process', content: 'content'),
-        TDStepsItemData(title: 'Default', content: 'content'),
-        TDStepsItemData(title: 'Default', content: 'content'),
+        TStepsItemData(title: '步骤展示', content: '可自定义此处内容'),
+        TStepsItemData(title: '步骤展示', content: '可自定义此处内容'),
+        TStepsItemData(title: '步骤展示', content: '可自定义此处内容'),
+        TStepsItemData(title: '步骤展示', content: '可自定义此处内容'),
       ],
-      // 只读模式
-      readOnly: true,
+      direction: TStepsDirection.vertical,
     );
   }
-```
 
-Read-only Steps 纯展示垂直步骤条
-
-```
-  Widget _buildVReadOnlySteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Finish', content: 'Customize content'),
-        TDStepsItemData(title: 'Process', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-        TDStepsItemData(title: 'Default', content: 'Customize content'),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      activeIndex: 0,
-      // 只读模式
-      readOnly: true,
-    );
+  @override
+  Widget build(BuildContext context) {
+    return _buildDisplaySteps(context);
   }
-```
-
-Vertical Customize Steps 垂直自定义步骤条
-
-```
-  Widget _buildVCustomizeSteps(BuildContext context) {
-    return TDSteps(
-      steps: [
-        TDStepsItemData(title: 'Selected'),
-        TDStepsItemData(title: 'Selected'),
-        TDStepsItemData(title: 'Selected'),
-        TDStepsItemData(title: 'Please Selected'),
-      ],
-      // 垂直方向
-      direction: TDStepsDirection.vertical,
-      // 简略模式
-      simple: true,
-      activeIndex: 3,
-      // 步骤条垂直自定义步骤条选择模式
-      verticalSelect: true,
-    );
-  }
+}
 ```
 
 ## API
 
-1. [TDStepsItemData](#tdstepsitemdata)
-2. [TDSteps](#tdsteps)
+1. [TSteps](#tsteps)
+2. [TStepsItemData](#tstepsitemdata)
+3. [TStepsDirection](#tstepsdirection)
+4. [TStepsIndicator](#tstepsindicator)
+5. [TStepsStatus](#tstepsstatus)
 
-#### TDStepsItemData
+### TSteps
 
-##### 默认构造方法
+#### 构造方法
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| content | String? | - | 内容 |
-| customContent | Widget? | - | 自定义内容 |
-| customTitle | Widget? | - | 自定义标题 |
-| errorIcon | IconData? | - | 失败图标 |
-| successIcon | IconData? | - | 成功图标 |
-| title | String? | - | 标题 |
+##### TSteps.display
 
-#### TDSteps
+纯展示步骤条。
 
-##### 默认构造方法
+所有节点和连线均使用完成态，不接收进度、状态或交互参数。
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| activeIndex | int | 0 | 步骤条当前激活的索引 |
-| direction | TDStepsDirection | TDStepsDirection.horizontal | 步骤条方向 |
-| key |  | - |  |
-| readOnly | bool | false | 步骤条readOnly模式 |
-| simple | bool | false | 步骤条simple模式 |
-| status | TDStepsStatus | TDStepsStatus.success | 步骤条状态 |
-| steps | List | - | 步骤条数据 |
-| verticalSelect | bool | false | 步骤条垂直自定义步骤条选择模式 |
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| steps | List<TStepsItemData> | - | 步骤条数据 | 是 |
+| direction | TStepsDirection | TStepsDirection.vertical | 步骤条方向 | 否 |
+
+##### TSteps.progress
+
+普通进度步骤条。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| steps | List<TStepsItemData> | - | 步骤条数据 | 是 |
+| value | int | 0 | 进度或可选择步骤条当前激活的索引；越界值会收敛到有效范围。 | 否 |
+| direction | TStepsDirection | TStepsDirection.horizontal | 步骤条方向 | 否 |
+| status | TStepsStatus | TStepsStatus.process | 进度步骤条当前 `value` 对应步骤的状态。 | 否 |
+| indicator | TStepsIndicator | TStepsIndicator.standard | 进度步骤条的指示器样式。 | 否 |
+| onChange | ValueChanged<int>? | - | 为空时只读；非空时只报告用户点击的索引；当前进度仍由调用方更新 `value` 控制。 | 否 |
+
+##### TSteps.selectable
+
+垂直可选择步骤条。
+
+固定使用点状指示器并显示右侧箭头：已完成节点实心，
+当前与未完成节点空心。`onChange` 只报告用户选择的索引，
+调用方需要更新 `value` 完成受控重建。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| steps | List<TStepsItemData> | - | 步骤条数据 | 是 |
+| value | int | - | 进度或可选择步骤条当前激活的索引；越界值会收敛到有效范围。 | 是 |
+| onChange | ValueChanged<int> | - | 用户选择步骤时触发；调用方通过更新 `value` 实现受控模式。 `TSteps.progress` 中为空时只读，非空时不改变指示器视觉； `TSteps.selectable` 中必填。`TSteps.display` 不接收此参数。 | 是 |
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| direction | TStepsDirection | - | 步骤条方向 | - |
+| indicator | TStepsIndicator | - | 进度步骤条的指示器样式。 | - |
+| onChange | ValueChanged<int>? | - | 用户选择步骤时触发；调用方通过更新 `value` 实现受控模式。 `TSteps.progress` 中为空时只读，非空时不改变指示器视觉； `TSteps.selectable` 中必填。`TSteps.display` 不接收此参数。 | - |
+| status | TStepsStatus | - | 进度步骤条当前 `value` 对应步骤的状态。 | - |
+| steps | List<TStepsItemData> | - | 步骤条数据 | - |
+| value | int | - | 进度或可选择步骤条当前激活的索引；越界值会收敛到有效范围。 | - |
+
+### TStepsItemData
+
+步骤条的数据模型。
+
+#### 构造方法
+
+##### TStepsItemData
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| content | String? | - | 内容 | 否 |
+| customContent | Widget? | - | 自定义内容 | 否 |
+| customTitle | Widget? | - | 自定义标题 | 否 |
+| errorIcon | IconData? | - | 失败图标 | 否 |
+| icon | IconData? | - | 步骤图标；未设置时使用数字或状态图标。 | 否 |
+| title | String? | - | 标题 | 否 |
+
+### TStepsDirection
+
+Steps步骤条方向
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| horizontal | TStepsDirection | - | 水平方向 | - |
+| vertical | TStepsDirection | - | 垂直方向 | - |
+
+### TStepsIndicator
+
+步骤条指示器样式。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| standard | TStepsIndicator | - | 标准的数字或图标步骤条。 | - |
+| dot | TStepsIndicator | - | 点状进度指示器；横向与纵向均以当前节点实心表达进度。 在 `TSteps.progress` 中是否传入 `TSteps.onChange` 不改变该视觉语义。 | - |
+
+### TStepsStatus
+
+steps步骤条状态
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| process | TStepsStatus | - | 当前步骤进行中。 | - |
+| error | TStepsStatus | - | 错误状态 | - |
 
 ## 设计指南
 
@@ -657,19 +508,19 @@ Vertical Customize Steps 垂直自定义步骤条
 3. [推荐/慎用示例](#推荐-慎用示例)
 4. [相似组件](#相似组件)
 
-#### 何时使用
+### 何时使用
 
 当需要展示较为复杂的线性流程时使用。
 
-#### 与页面布局相关
+### 与页面布局相关
 
-###### 位于页面或模块的顶部，统领下方内容的切换，通常设置吸顶，方便用户快速切换。
+##### 位于页面或模块的顶部，统领下方内容的切换，通常设置吸顶，方便用户快速切换。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/steps/steps-1.png)
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 步骤不宜过多，过长的步骤建议优化流程或使用其它交互方式。
+##### 步骤不宜过多，过长的步骤建议优化流程或使用其它交互方式。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/steps/steps-2.png)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
@@ -679,7 +530,7 @@ Vertical Customize Steps 垂直自定义步骤条
 
 ---
 
-###### 每个小步骤建议尽量简洁清晰，以降低用户的理解和操作成本；若小步骤本身已经具有较高的复杂度，建议使用其它方式呈现。
+##### 每个小步骤建议尽量简洁清晰，以降低用户的理解和操作成本；若小步骤本身已经具有较高的复杂度，建议使用其它方式呈现。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/steps/steps-4.png)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
@@ -689,19 +540,19 @@ Vertical Customize Steps 垂直自定义步骤条
 
 ---
 
-###### 建议用简明的语言对步骤进行描述，描述文案不宜过长。
+##### 建议用简明的语言对步骤进行描述，描述文案不宜过长。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/steps/steps-6.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
 
 ---
 
-###### 尽量避免嵌套步骤条。
+##### 尽量避免嵌套步骤条。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/steps/steps-7.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
 
-#### 相似组件
+### 相似组件
 
 | 组件名 | 何时使用 |
 | --- | --- |

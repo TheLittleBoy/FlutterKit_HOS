@@ -3,15 +3,13 @@
 > 当网络较慢时，在页面真实数据加载之前，给用户展示出页面的大致结构。
 
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/skeleton)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -19,248 +17,629 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ### 代码演示
 
-[td_skeleton_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_skeleton_page.dart)
+#### 骨架屏类型
 
-#### 1 类型
+##### 头像骨架屏
 
-头像骨架屏
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
+class AvatarSkeletonExample extends StatelessWidget {
+  const AvatarSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildAvatarSkeleton(BuildContext context) {
-    return TDSkeleton(theme: TDSkeletonTheme.avatar);
+    return const TSkeleton(variant: TSkeletonVariant.avatar);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildAvatarSkeleton))(context);
+  }
+}
 ```
 
-图片骨架屏
+##### 图片骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ImageSkeletonExample extends StatelessWidget {
+  const ImageSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildImageSkeleton(BuildContext context) {
-    return TDSkeleton(theme: TDSkeletonTheme.image);
+    return const TSkeleton(variant: TSkeletonVariant.image);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildImageSkeleton))(context);
+  }
+}
 ```
 
-文本骨架屏
+##### 文本骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class TextSkeletonExample extends StatelessWidget {
+  const TextSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildTextSkeleton(BuildContext context) {
-    return TDSkeleton(theme: TDSkeletonTheme.text);
+    return const TSkeleton(variant: TSkeletonVariant.text);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildTextSkeleton, isFlexible: true))(context);
+  }
+}
 ```
 
-段落骨架屏
+##### 段落骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ParagraphSkeletonExample extends StatelessWidget {
+  const ParagraphSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildParagraphSkeleton(BuildContext context) {
-    return TDSkeleton(theme: TDSkeletonTheme.paragraph);
+    return const TSkeleton(variant: TSkeletonVariant.paragraph);
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildParagraphSkeleton, isFlexible: true))(context);
+  }
+}
 ```
 
-单元格骨架屏
+##### 单元格骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CellSkeletonExample extends StatelessWidget {
+  const CellSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildCellSkeleton(BuildContext context) {
-    var rowColsAvatar = TDSkeleton(theme: TDSkeletonTheme.avatar);
-    var rowColsImage = TDSkeleton.fromRowCol(
-      rowCol: TDSkeletonRowCol(objects: const [
-        [TDSkeletonRowColObj.rect(width: 48, height: 48, flex: null)]
-      ]),
-    );
-    var rowColsContent = TDSkeleton.fromRowCol(
-      rowCol: TDSkeletonRowCol(
-        objects: const [
-          [TDSkeletonRowColObj(), TDSkeletonRowColObj.spacer(flex: 1)],
-          [TDSkeletonRowColObj()]
-        ],
-      ),
-    );
-
     return Column(
-      children: [
+      children: <Widget>[
         Row(
-          children: [
-            rowColsAvatar,
-            const SizedBox(width: 12),
-            rowColsContent,
+          children: <Widget>[
+            const TSkeleton(variant: TSkeletonVariant.avatar),
+            SizedBox(width: context.tTheme.spacer1),
+            const Expanded(
+              child: TSkeleton.custom(
+                layout: TSkeletonLayout(
+                  rows: [
+                    [TSkeletonBlock.line(), TSkeletonBlock.spacer(flex: 1)],
+                    [TSkeletonBlock.line()],
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: context.tTheme.spacer2),
         Row(
-          children: [
-            rowColsImage,
-            const SizedBox(width: 12),
-            rowColsContent,
+          children: <Widget>[
+            TSkeleton.custom(
+              layout: TSkeletonLayout(
+                rows: [
+                  [
+                    TSkeletonBlock(
+                      width: 48,
+                      height: 48,
+                      style: TSkeletonBlockStyle(
+                        borderRadius: context.tTheme.radiusDefault,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            SizedBox(width: context.tTheme.spacer1),
+            const Expanded(
+              child: TSkeleton.custom(
+                layout: TSkeletonLayout(
+                  rows: [
+                    [TSkeletonBlock.line(), TSkeletonBlock.spacer(flex: 1)],
+                    [TSkeletonBlock.line()],
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ],
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildCellSkeleton))(context);
+  }
+}
 ```
 
-宫格骨架屏
+##### 宫格骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class GridSkeletonExample extends StatelessWidget {
+  const GridSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildGridSkeleton(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        for (var i = 0; i < 5; i++)
-          TDSkeleton.fromRowCol(
-            rowCol: TDSkeletonRowCol(objects: const [
-              [TDSkeletonRowColObj.rect(width: 48, height: 48, flex: null)],
-              [TDSkeletonRowColObj.text(width: 48, flex: null)],
-            ]),
+      children: List.generate(5, (index) {
+        return TSkeleton.custom(
+          layout: TSkeletonLayout(
+            rows: [
+              [
+                TSkeletonBlock(
+                  width: 48,
+                  height: 48,
+                  flex: null,
+                  style: TSkeletonBlockStyle(
+                    borderRadius: context.tTheme.radiusDefault,
+                  ),
+                ),
+              ],
+              const [TSkeletonBlock.line(width: 48, flex: null)],
+            ],
           ),
-      ],
+        );
+      }),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildGridSkeleton))(context);
+  }
+}
 ```
 
-图文组合骨架屏
+##### 图文组合骨架屏
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CombineSkeletonExample extends StatelessWidget {
+  const CombineSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildCombineSkeleton(BuildContext context) {
-    var rowCols = Flexible(
+    Widget buildRowCols() {
+      return Expanded(
         child: LayoutBuilder(
-            builder: (context, constraints) => Row(children: [
-                  TDSkeleton.fromRowCol(
-                    rowCol: TDSkeletonRowCol(
-                      objects: [
-                        [
-                          TDSkeletonRowColObj(
-                              width: constraints.maxWidth*0.96,
-                              height: constraints.maxWidth,
-                              flex: null,
-                              style: TDSkeletonRowColObjStyle(
-                                  borderRadius: (context) =>
-                                      TDTheme.of(context).radiusExtraLarge))
-                        ],
-                        [TDSkeletonRowColObj.text(
-                          width: constraints.maxWidth*0.96,
-                        )],
-                        const [
-                          TDSkeletonRowColObj.text(),
-                          TDSkeletonRowColObj.spacer(flex: 1),
-                        ],
-                      ],
+          builder: (context, constraints) => TSkeleton.custom(
+            layout: TSkeletonLayout(
+              rows: [
+                [
+                  TSkeletonBlock(
+                    width: constraints.maxWidth,
+                    height: constraints.maxWidth,
+                    flex: null,
+                    style: TSkeletonBlockStyle(
+                      borderRadius: context.tTheme.radiusExtraLarge,
                     ),
-                  )
-                ])));
+                  ),
+                ],
+                [TSkeletonBlock.line(width: constraints.maxWidth)],
+                const [TSkeletonBlock.line(), TSkeletonBlock.spacer(flex: 1)],
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Row(
       children: [
-        rowCols,
-        SizedBox(width: TDTheme.of(context).spacer4),
-        rowCols,
+        buildRowCols(),
+        SizedBox(width: context.tTheme.spacer2),
+        buildRowCols(),
       ],
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildCombineSkeleton))(context);
+  }
+}
 ```
 
-#### 1 组件动效
+#### 组件动效
 
-渐变加载效果
+##### 渐变加载效果
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class GradientSkeletonExample extends StatelessWidget {
+  const GradientSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildGradientSkeleton(BuildContext context) {
-    return TDSkeleton(
-      animation: TDSkeletonAnimation.gradient,
-      theme: TDSkeletonTheme.paragraph,
+    return const TSkeleton(
+      animation: TSkeletonAnimation.gradient,
+      variant: TSkeletonVariant.paragraph,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildGradientSkeleton, isFlexible: true))(context);
+  }
+}
 ```
 
-闪烁加载效果
+##### 闪烁加载效果
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class FlashedSkeletonExample extends StatelessWidget {
+  const FlashedSkeletonExample({super.key});
+
+  Widget Function(BuildContext) _wrapper(
+    Function(BuildContext) builder, {
+    bool isFlexible = false,
+  }) =>
+      (context) => Container(
+        alignment: Alignment.topLeft,
+        padding: EdgeInsets.fromLTRB(
+          context.tTheme.spacer2,
+          0,
+          context.tTheme.spacer2,
+          0,
+        ),
+        child: isFlexible
+            ? Row(children: [Expanded(child: builder(context))])
+            : builder(context),
+      );
+
   Widget _buildFlashedSkeleton(BuildContext context) {
-    return TDSkeleton(
-      animation: TDSkeletonAnimation.flashed,
-      theme: TDSkeletonTheme.paragraph,
+    return const TSkeleton(
+      animation: TSkeletonAnimation.flashed,
+      variant: TSkeletonVariant.paragraph,
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return (_wrapper(_buildFlashedSkeleton, isFlexible: true))(context);
+  }
+}
 ```
 
 ## API
 
-1. [TDSkeleton](#tdskeleton)
-2. [TDSkeletonRowColStyle](#tdskeletonrowcolstyle)
-3. [TDSkeletonRowCol](#tdskeletonrowcol)
-4. [TDSkeletonRowColObjStyle](#tdskeletonrowcolobjstyle)
-5. [TDSkeletonRowColObj](#tdskeletonrowcolobj)
+1. [TSkeleton](#tskeleton)
+2. [TSkeletonLayout](#tskeletonlayout)
+3. [TSkeletonBlockStyle](#tskeletonblockstyle)
+4. [TSkeletonBlock](#tskeletonblock)
+5. [TSkeletonAnimation](#tskeletonanimation)
+6. [TSkeletonVariant](#tskeletonvariant)
+7. [TSkeletonBlockShape](#tskeletonblockshape)
+8. [TSkeletonThemeData](#tskeletonthemedata)
 
-#### TDSkeleton
+### TSkeleton
 
-##### 默认构造方法
+#### 构造方法
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| key |  | - |  |
-| animation | TDSkeletonAnimation? | null | 动画效果 |
-| delay | int | 0 | 延迟显示加载时间 |
-| theme | TDSkeletonTheme | TDSkeletonTheme.text | 风格 |
+##### TSkeleton
 
-##### 命名构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| animation | TSkeletonAnimation? | - | 动画效果；为 null 时保持静态。 | 否 |
+| delay | Duration | Duration.zero | 骨架屏的延迟显示时间，用于避免短请求产生闪烁。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| variant | TSkeletonVariant | TSkeletonVariant.text | 预设形态；自定义布局时为空。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| key |  | - |  |
-| animation | TDSkeletonAnimation? | null | 动画效果 |
-| delay | int | 0 | 延迟显示加载时间 |
-| rowCol | TDSkeletonRowCol | - | 自定义行列数量、宽度高度、间距等 |
+##### TSkeleton.custom
 
-#### TDSkeletonRowColStyle
+使用自定义行列布局创建骨架屏。
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| layout | TSkeletonLayout | - | 自定义布局；预设形态时为空。 | 是 |
+| animation | TSkeletonAnimation? | - | 动画效果；为 null 时保持静态。 | 否 |
+| delay | Duration | Duration.zero | 骨架屏的延迟显示时间，用于避免短请求产生闪烁。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| rowSpacing | double Function(BuildContext) | (context) => TDTheme.of(context).spacer16 | 行间距 |
+#### 属性
 
-#### TDSkeletonRowCol
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| layout | TSkeletonLayout? | - | 自定义布局；预设形态时为空。 | - |
 
-##### 默认构造方法
+### TSkeletonLayout
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| objects | List<List> | - | 行列对象 |
-| style | TDSkeletonRowColStyle | TDSkeletonRowColStyle() | 样式 |
+骨架屏的行列布局。
 
-#### TDSkeletonRowColObjStyle
+#### 构造方法
 
-##### 默认构造方法
+##### TSkeletonLayout
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| background | double Function(BuildContext) | (context) => TDTheme.of(context).grayColor1 | 背景颜色 |
-| borderRadius | double Function(BuildContext) | (context) => TDTheme.of(context).radiusSmall | 圆角 |
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| rows | List<List<TSkeletonBlock>> | - | 每个内层列表表示一行骨架块。 | 是 |
+| rowSpacing | double? | - | 行间距；未设置时读取组件主题和 TDesign token。 | 否 |
 
-##### 工厂构造方法
+### TSkeletonBlockStyle
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| background | double Function(BuildContext) | (context) => TDTheme.of(context).grayColor1 | 背景颜色 |
+单个骨架块的视觉样式。
 
-#### TDSkeletonRowColObj
+#### 构造方法
 
-##### 默认构造方法
+##### TSkeletonBlockStyle
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| width | double? | null | 宽度 |
-| height | double? | 16 | 高度 |
-| flex | int? | 1 | 弹性因子 |
-| margin | EdgeInsets | EdgeInsets.zero | 间距 |
-| style | TDSkeletonRowColObjStyle | TDSkeletonRowColObjStyle() | 样式 |
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| borderRadius | double? | - | 骨架块圆角；优先于 `shape` 和组件主题。 | 否 |
+| color | Color? | - | 骨架块颜色；优先于组件主题。 | 否 |
+| shape | TSkeletonBlockShape | TSkeletonBlockShape.rounded | 骨架块形状。 | 否 |
 
-##### 工厂构造方法
+### TSkeletonBlock
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| width | double? | 48 / null | 宽度 |
-| height | double? | 48 / 16 / null | 高度 |
-| flex | int? | null / 1 | 弹性因子 |
-| margin | EdgeInsets | EdgeInsets.zero | 间距 |
-| style | TDSkeletonRowColObjStyle | TDSkeletonRowColObjStyle.circle() / TDSkeletonRowColObjStyle.rect() / TDSkeletonRowColObjStyle.text() / TDSkeletonRowColObjStyle.spacer() | 样式 |
+骨架屏中的一个占位块。
+
+#### 构造方法
+
+##### TSkeletonBlock
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| flex | int? | 1 | 同一行内的弹性因子；为 null 时按固定宽度布局。 | 否 |
+| height | double? | 16 | 高度。 | 否 |
+| margin | EdgeInsets | EdgeInsets.zero | 外边距。 | 否 |
+| style | TSkeletonBlockStyle | const TSkeletonBlockStyle() | 视觉样式。 | 否 |
+| width | double? | - | 宽度。 | 否 |
+
+##### TSkeletonBlock.circle
+
+圆形占位块。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| width | double? | 48 | 宽度。 | 否 |
+| height | double? | 48 | 高度。 | 否 |
+| flex | int? | - | 同一行内的弹性因子；为 null 时按固定宽度布局。 | 否 |
+| margin | EdgeInsets | EdgeInsets.zero | 外边距。 | 否 |
+| style | TSkeletonBlockStyle | const TSkeletonBlockStyle(shape: TSkeletonBlockShape.circle) | 视觉样式。 | 否 |
+
+##### TSkeletonBlock.line
+
+文本行占位块。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| width | double? | - | 宽度。 | 否 |
+| height | double? | 16 | 高度。 | 否 |
+| flex | int? | 1 | 同一行内的弹性因子；为 null 时按固定宽度布局。 | 否 |
+| margin | EdgeInsets | EdgeInsets.zero | 外边距。 | 否 |
+| style | TSkeletonBlockStyle | const TSkeletonBlockStyle() | 视觉样式。 | 否 |
+
+##### TSkeletonBlock.rectangle
+
+无圆角矩形占位块。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| width | double? | - | 宽度。 | 否 |
+| height | double? | 16 | 高度。 | 否 |
+| flex | int? | 1 | 同一行内的弹性因子；为 null 时按固定宽度布局。 | 否 |
+| margin | EdgeInsets | EdgeInsets.zero | 外边距。 | 否 |
+| style | TSkeletonBlockStyle | const TSkeletonBlockStyle(shape: TSkeletonBlockShape.rectangle) | 视觉样式。 | 否 |
+
+##### TSkeletonBlock.spacer
+
+透明间隔块。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| width | double? | - | 宽度。 | 否 |
+| height | double? | - | 高度。 | 否 |
+| flex | int? | - | 同一行内的弹性因子；为 null 时按固定宽度布局。 | 否 |
+| margin | EdgeInsets | EdgeInsets.zero | 外边距。 | 否 |
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| isSpacer | bool | - | 是否是透明间隔块。 | - |
+
+### TSkeletonAnimation
+
+骨架屏动画。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| gradient | TSkeletonAnimation | - | 高亮渐变扫过骨架块。 | - |
+| flashed | TSkeletonAnimation | - | 骨架块透明度闪烁。 | - |
+
+### TSkeletonVariant
+
+骨架屏预设形态。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| avatar | TSkeletonVariant | - | 头像占位。 | - |
+| image | TSkeletonVariant | - | 图片占位。 | - |
+| text | TSkeletonVariant | - | 双行文本占位。 | - |
+| paragraph | TSkeletonVariant | - | 四行段落占位。 | - |
+
+### TSkeletonBlockShape
+
+骨架块形状。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| rounded | TSkeletonBlockShape | - | 使用组件主题或 TDesign token 提供的圆角。 | - |
+| circle | TSkeletonBlockShape | - | 圆形或胶囊形。 | - |
+| rectangle | TSkeletonBlockShape | - | 无圆角矩形。 | - |
+
+### TSkeletonThemeData
+
+骨架屏组件级 ThemeExtension。
+
+仅保存占位块的视觉和布局默认值；动画、延迟与具体布局由实例决定。
+
+#### 配置项
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| blockColor | Color? | - | 占位块背景色。 未配置时使用 bgColorSecondaryContainer Token。 | 否 |
+| borderRadius | double? | - | 普通占位块圆角。 未配置时使用 radiusSmall Token，必须大于或等于 0。 | 否 |
+| highlightColor | Color? | - | 渐变动画高亮色。 未配置时使用 bgColorSecondaryContainerActive Token。 | 否 |
+| rowSpacing | double? | - | 多行布局的默认行间距。 未配置时使用 spacer2 Token，必须大于或等于 0。 | 否 |
 
 ## 设计指南
 
@@ -268,13 +647,13 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 2. [推荐/慎用示例](#推荐-慎用示例)
 3. [相似组件](#相似组件)
 
-#### 何时使用
+### 何时使用
 
 当整个页面需要加载时使用
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 建议骨架屏的元素构成和排布方式与页面自身保持一致
+##### 建议骨架屏的元素构成和排布方式与页面自身保持一致
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/skeleton/skeleton-1.gif)
 ![](https://tdesign.gtimg.com/site/doc/good.png)
@@ -282,7 +661,7 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/skeleton/skeleton-2.gif)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
 
-#### 相似组件
+### 相似组件
 
 | 组件名 | 何时使用 |
 | --- | --- |

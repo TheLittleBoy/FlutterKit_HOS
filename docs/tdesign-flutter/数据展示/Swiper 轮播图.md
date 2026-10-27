@@ -1,267 +1,627 @@
 # Swiper 轮播图
 
+> 用于轮播展示一组内容，支持手动切换和自动播放。
+
 > 来源：[TDesign Flutter 官方文档](https://tdesign.tencent.com/flutter/components/swiper)
-> 归档时间：2026-07-16T07:37:59.655Z
+> 归档时间：2026-10-27
 
 ## 示例
 
-![](https://img.shields.io/badge/coverages%3A%20lines-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20functions-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20statements-100%25-blue)![](https://img.shields.io/badge/coverages%3A%20branches-83%25-blue)
-
 ### 引入
 
-在tdesign_flutter/tdesign_flutter.dart中有所有组件的路径。
+在 tdesign_flutter/tdesign_flutter.dart 中有所有组件的路径。
 
 ```dart
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 ```
 
 ### 代码演示
 
-[td_swiper_page.dart](https://github.com/Tencent/tdesign-flutter/blob/main/tdesign-component/example/lib/page/td_swiper_page.dart)
+#### 组件类型
 
-#### 1 组件类型
+##### 点状（dots）
 
-点状(dots)
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-```
+class DotsSwiperExample extends StatelessWidget {
+  const DotsSwiperExample({super.key});
+
   Widget _buildDotsSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
+    return TSwiper(
       loop: true,
-      pagination: const SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        builder: TDSwiperPagination.dots,
+      autoplay: false,
+      animationDuration: const Duration(milliseconds: 500),
+      autoplayInterval: const Duration(seconds: 5),
+      pagination: TSwiperPaginationVariant.dots,
+      children: List.generate(
+        6,
+        (index) => Image.asset(
+          index.isEven ? 'assets/img/swiper1.png' : 'assets/img/swiper2.png',
+          fit: BoxFit.cover,
+          semanticLabel: '图片 ${index + 1}',
+        ),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = (() {
+      return _buildDotsSwiper(context);
+    })();
+    return SizedBox(height: 192, child: content);
+  }
+}
 ```
 
-点条状(dots-bar)
+##### 点条状（dots-bar）
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class DotsBarSwiperExample extends StatelessWidget {
+  const DotsBarSwiperExample({super.key});
+
   Widget _buildDotsBarSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
+    return TSwiper(
       loop: true,
-      pagination: const SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        builder: TDSwiperPagination.dotsBar,
+      autoplay: true,
+      animationDuration: const Duration(milliseconds: 500),
+      autoplayInterval: const Duration(seconds: 5),
+      pagination: TSwiperPaginationVariant.dotsBar,
+      children: List.generate(
+        6,
+        (index) => Image.asset(
+          index.isEven ? 'assets/img/swiper1.png' : 'assets/img/swiper2.png',
+          fit: BoxFit.cover,
+          semanticLabel: '图片 ${index + 1}',
+        ),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = (() {
+      return _buildDotsBarSwiper(context);
+    })();
+    return SizedBox(height: 192, child: content);
+  }
+}
 ```
 
-分式(fraction)
+##### 分式（fraction）
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class FractionSwiperExample extends StatelessWidget {
+  const FractionSwiperExample({super.key});
+
   Widget _buildFractionSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      scrollDirection: Axis.vertical,
-      pagination: const SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        builder: TDSwiperPagination.fraction,
+    return Theme(
+      data: Theme.of(context).mergeExtension(
+        const TSwiperThemeData(paginationAlignment: Alignment.bottomRight),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
+      child: TSwiper(
+        loop: true,
+        autoplay: true,
+        animationDuration: const Duration(milliseconds: 500),
+        autoplayInterval: const Duration(seconds: 5),
+        pagination: TSwiperPaginationVariant.fraction,
+        children: List.generate(
+          6,
+          (index) => Image.asset(
+            index.isEven ? 'assets/img/swiper1.png' : 'assets/img/swiper2.png',
+            fit: BoxFit.cover,
+            semanticLabel: '图片 ${index + 1}',
+          ),
+        ),
+      ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = (() {
+      return _buildFractionSwiper(context);
+    })();
+    return SizedBox(height: 192, child: content);
+  }
+}
 ```
 
-切换按钮(controls)
+##### 切换按钮（controls）
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class ControlsSwiperExample extends StatelessWidget {
+  const ControlsSwiperExample({super.key});
+
   Widget _buildControlsSwiper(BuildContext context) {
-    return Swiper(
-      // autoplay: true,
-      itemCount: 6,
+    return TSwiper(
       loop: false,
-      pagination: const SwiperPagination(
-        alignment: Alignment.center,
-        builder: TDSwiperPagination.controls,
+      autoplay: true,
+      animationDuration: const Duration(milliseconds: 500),
+      autoplayInterval: const Duration(seconds: 5),
+      pagination: TSwiperPaginationVariant.controls,
+      children: List.generate(
+        6,
+        (index) => Image.asset(
+          index.isEven ? 'assets/img/swiper1.png' : 'assets/img/swiper2.png',
+          fit: BoxFit.cover,
+          semanticLabel: '图片 ${index + 1}',
+        ),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = (() {
+      return _buildControlsSwiper(context);
+    })();
+    return SizedBox(height: 192, child: content);
+  }
+}
 ```
 
-卡片式(cards)
+##### 卡片式（cards）
 
-```
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class CardsSwiperExample extends StatelessWidget {
+  const CardsSwiperExample({super.key});
+
   Widget _buildCardsSwiper(BuildContext context) {
-    return Swiper(
-      viewportFraction: 0.75,
-      outer: true,
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      transformer: TDPageTransformer.margin(),
-      pagination: const SwiperPagination(
-        alignment: Alignment.center,
-        builder: TDSwiperPagination.dots,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
+    final cardTheme = TSwiperThemeData(
+      borderRadius: BorderRadius.zero,
+      paginationMargin: const EdgeInsets.only(top: 12),
+      activeColor: context.tTheme.brandColor,
+      inactiveColor: context.tTheme.bgColorComponent,
+    );
+    List<Widget> buildImages() => List.generate(6, (index) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(context.tTheme.radiusLarge),
+        child: Image.asset(
+          index.isEven ? 'assets/img/swiper1.png' : 'assets/img/swiper2.png',
+          fit: BoxFit.cover,
+          semanticLabel: '图片 ${index + 1}',
+        ),
+      );
+    });
+    Widget buildCard(TSwiperPageEffect effect) {
+      return SizedBox(
+        height: 177,
+        child: Theme(
+          data: Theme.of(context).mergeExtension(cardTheme),
+          child: TSwiper(
+            loop: true,
+            autoplay: false,
+            pagination: TSwiperPaginationVariant.dots,
+            paginationPlacement: TSwiperPaginationPlacement.outside,
+            pageEffect: effect,
+            // Figma: 283px card + 12px gap = 295px page extent.
+            viewportFraction: 295 / 375,
+            children: buildImages(),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        buildCard(TSwiperPageEffect.cardMargin),
+        const SizedBox(height: 24),
+        buildCard(TSwiperPageEffect.scale),
+        const SizedBox(height: 24),
+        buildCard(TSwiperPageEffect.scaleAndFade),
+      ],
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = (() {
+      return _buildCardsSwiper(context);
+    })();
+    return SizedBox(height: 579, child: content);
+  }
+}
 ```
 
-卡片式(cards)-scale:0.8
+#### 组件样式
 
-```
-  Widget _buildScaleCardsSwiper(BuildContext context) {
-    return Swiper(
-      viewportFraction: 0.75,
-      outer: true,
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      transformer: TDPageTransformer.scaleAndFade(),
-      pagination: const SwiperPagination(
-        alignment: Alignment.center,
-        builder: TDSwiperPagination.dots,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
+##### 指示器位置
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class PaginationPlacementSwiperExample extends StatelessWidget {
+  const PaginationPlacementSwiperExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _swiper(
+          placement: TSwiperPaginationPlacement.overlay,
+          alignment: Alignment.topCenter,
+        ),
+        const SizedBox(height: 16),
+        _swiper(
+          placement: TSwiperPaginationPlacement.overlay,
+          alignment: Alignment.bottomCenter,
+        ),
+        const SizedBox(height: 16),
+        _swiper(placement: TSwiperPaginationPlacement.outside),
+      ],
     );
   }
-```
 
-#### 1 组件样式
-
-内部
-
-```
-  Widget _buildDotsSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      pagination: const SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        builder: TDSwiperPagination.dots,
+  Widget _swiper({
+    required TSwiperPaginationPlacement placement,
+    AlignmentGeometry? alignment,
+  }) {
+    return Builder(
+      builder: (context) => Theme(
+        data: Theme.of(
+          context,
+        ).mergeExtension(TSwiperThemeData(paginationAlignment: alignment)),
+        child: SizedBox(
+          height: placement == TSwiperPaginationPlacement.outside ? 208 : 192,
+          child: TSwiper(
+            loop: true,
+            pagination: TSwiperPaginationVariant.dots,
+            paginationPlacement: placement,
+            children: List.generate(
+              6,
+              (index) => Image.asset(
+                index.isEven
+                    ? 'assets/img/swiper1.png'
+                    : 'assets/img/swiper2.png',
+                fit: BoxFit.cover,
+                semanticLabel: '图片 ${index + 1}',
+              ),
+            ),
+          ),
+        ),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
     );
   }
+}
 ```
 
-外部
+#### 组件动效
 
-```
-  Widget _buildOuterDotsSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      outer: true,
-      pagination: const SwiperPagination(
-        alignment: Alignment.bottomCenter,
-        builder: TDSwiperPagination.dots,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
+##### 调整动效参数
+
+```dart
+import 'package:tdesign_flutter/tdesign_flutter.dart';
+
+class MotionSwiperExample extends StatefulWidget {
+  const MotionSwiperExample({super.key});
+
+  @override
+  State<MotionSwiperExample> createState() => _MotionSwiperExampleState();
+}
+
+class _MotionSwiperExampleState extends State<MotionSwiperExample> {
+  bool _autoplay = true;
+  double _interval = 4000;
+  double _duration = 500;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 192,
+          child: TSwiper(
+            loop: true,
+            autoplay: _autoplay,
+            autoplayInterval: Duration(milliseconds: _interval.round()),
+            animationDuration: Duration(milliseconds: _duration.round()),
+            pagination: TSwiperPaginationVariant.dots,
+            children: List.generate(
+              6,
+              (index) => Image.asset(
+                index.isEven
+                    ? 'assets/img/swiper1.png'
+                    : 'assets/img/swiper2.png',
+                fit: BoxFit.cover,
+                semanticLabel: '图片 ${index + 1}',
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const TText('自动播放'),
+            Row(
+              children: [
+                TSwitch(
+                  value: _autoplay,
+                  onChanged: (value) => setState(() => _autoplay = value),
+                ),
+                const SizedBox(width: 8),
+                TText(_autoplay ? '开' : '关'),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: TText('自动播放间隔时间（单位毫秒）'),
+        ),
+        TSlider(
+          value: _interval,
+          min: 1000,
+          max: 5000,
+          divisions: 8,
+          showThumbValue: true,
+          thumbFormatter: (value) => value.round().toString(),
+          onChanged: (value) => setState(() => _interval = value),
+        ),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: TText('动画持续时间（单位毫秒）'),
+        ),
+        TSlider(
+          value: _duration,
+          min: 200,
+          max: 2000,
+          divisions: 18,
+          showThumbValue: true,
+          thumbFormatter: (value) => value.round().toString(),
+          onChanged: (value) => setState(() => _duration = value),
+        ),
+      ],
     );
   }
-```
-
-右边(竖向)
-
-```
-  Widget _buildRightDotsSwiper(BuildContext context) {
-    return Swiper(
-      autoplay: true,
-      itemCount: 6,
-      loop: true,
-      scrollDirection: Axis.vertical,
-      pagination: const SwiperPagination(
-        alignment: Alignment.centerRight,
-        builder: TDSwiperPagination.dots,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return const TDImage(
-          assetUrl: 'assets/img/image.png',
-        );
-      },
-    );
-  }
+}
 ```
 
 ## API
 
-1. [TDPageTransformer](#tdpagetransformer)
-2. [TDSwiperPagination](#tdswiperpagination)
+1. [TSwiper](#tswiper)
+2. [TSwiperController](#tswipercontroller)
+3. [TSwiperPaginationItemDetails](#tswiperpaginationitemdetails)
+4. [TSwiperPaginationVariant](#tswiperpaginationvariant)
+5. [TSwiperPaginationPlacement](#tswiperpaginationplacement)
+6. [TSwiperPageEffect](#tswiperpageeffect)
+7. [TSwiperPaginationItemBuilder](#tswiperpaginationitembuilder)
+8. [TSwiperThemeData](#tswiperthemedata)
 
-#### TDPageTransformer
+### TSwiper
 
-##### 简介
+#### 构造方法
 
-TD默认PageTransformer
+##### TSwiper
 
-##### 默认构造方法
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| allowImplicitScrolling | bool | false | 是否允许无障碍服务请求将未显示的页面滚动到可见区域。 | 否 |
+| animationCurve | Curve | Curves.easeInOut | 自动播放、内置控制按钮及 Controller 未显式覆盖时的切换动画曲线。 | 否 |
+| animationDuration | Duration | kThemeAnimationDuration | 自动播放、内置控制按钮及 Controller 未显式覆盖时的切换动画时长。 必须大于 Duration.zero，否则抛出 ArgumentError。 | 否 |
+| autoplay | bool | false | 是否自动播放。 | 否 |
+| autoplayInterval | Duration | const Duration(seconds: 3) | 自动播放每次页面稳定后重新等待的完整间隔，必须大于零。 | 否 |
+| children | List<Widget>? | - | 静态页面列表；与 `itemBuilder` 二选一，且不能为空。 | 否 |
+| clipBehavior | Clip | Clip.hardEdge | 页面内容超出轮播边界时的裁剪方式。 | 否 |
+| controller | TSwiperController? | - | 外部控制器；未提供时组件会创建并自行释放内部控制器。 | 否 |
+| dragStartBehavior | DragStartBehavior | DragStartBehavior.start | 拖拽手势开始时的坐标解析方式。 | 否 |
+| itemBuilder | IndexedWidgetBuilder? | - | 按需构建页面；使用时必须同时提供正数 `itemCount`。 | 否 |
+| itemCount | int? | - | `itemBuilder` 模式下的页面数量。 | 否 |
+| key | Key? | - | 组件标识，用于区分或保留组件状态。 | 否 |
+| loop | bool | false | 是否循环滚动。 | 否 |
+| nextIcon | Widget? | - | next 控制按钮的自定义图标。 仅替换图标内容；点击热区、禁用状态、Tooltip 和切页行为仍由组件管理。 | 否 |
+| onChanged | ValueChanged<int>? | - | 当前实际展示页发生变化时触发。 | 否 |
+| padEnds | bool | true | 当 `viewportFraction` 小于 1 时，首尾页面是否保留端部留白。 | 否 |
+| pageEffect | TSwiperPageEffect? | - | 页面视觉效果；为空时默认为 `TSwiperPageEffect.none`。 | 否 |
+| pageSnapping | bool | true | 页面停止滚动时是否自动对齐到整页。 | 否 |
+| pagination | TSwiperPaginationVariant? | - | 指示器形态；为空时默认为 `TSwiperPaginationVariant.dots`。 | 否 |
+| paginationItemBuilder | TSwiperPaginationItemBuilder? | - | 自定义 dots 和 dotsBar 的单个标记。 组件仍负责排列、间距、选中语义和业务下标更新。 | 否 |
+| paginationPlacement | TSwiperPaginationPlacement? | - | 指示器位置；为空时默认为覆盖在轮播内容上。 | 否 |
+| physics | ScrollPhysics? | - | 页面视图使用的滚动物理效果。 未指定时使用 `PageView` 的默认物理效果。 | 否 |
+| previousIcon | Widget? | - | previous 控制按钮的自定义图标。 仅替换图标内容；点击热区、禁用状态、Tooltip 和切页行为仍由组件管理。 | 否 |
+| reverse | bool | false | 是否反转页面的视觉顺序和滚动方向。 | 否 |
+| scrollDirection | Axis | Axis.horizontal | 页面滚动方向。 | 否 |
+| viewportFraction | double | 1 | 每个页面占视口主轴的比例，必须大于零。 | 否 |
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| fade | double? | - | 淡化比例 |
-| margin | double? | - | 左右间隔 |
-| scale | double? | - | 缩放比例 |
+### TSwiperController
 
-##### 工厂构造方法
+控制 `TSwiper` 当前页和程序化切换。
 
-| 名称 | 说明 |
-| --- | --- |
-| TDPageTransformer.margin | 普通margin的卡片式 |
-| TDPageTransformer.scaleAndFade | 缩放或透明的卡片式 |
+使用 `jumpTo`、`animateTo`、`next` 和 `previous` 发起切换，通过 `index`
+或监听 Controller 获取当前业务索引。一个 Controller 同时只能附加一个
+`TSwiper`，由调用方创建的实例也由调用方负责释放。
 
-#### TDSwiperPagination
+#### 构造方法
 
-##### 简介
+##### TSwiperController
 
-TDesign风格的Swiper指示器样式，与flutter_swiper的Swiper结合使用
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| initialIndex | int | 0 | 首次附加时展示的页面；必须大于或等于 0 且小于页面数，否则抛出参数或范围异常。 | 否 |
 
-##### 默认构造方法
+#### 属性
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| alignment | Alignment? | - | 当 scrollDirection== Axis.horizontal 时，默认Alignment.bottomCenter |
-| builder | SwiperPlugin | TDSwiperPagination.dots | 具体样式 |
-| key | Key? | - |  |
-| margin | EdgeInsetsGeometry | const EdgeInsets.all(10.0) | 指示器和container之间的距离 |
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| hasClients | bool | - | 是否已附加到一个 Swiper。 | - |
+| index | int | - | 当前实际展示的业务索引。 | - |
+
+#### 实例方法
+
+##### TSwiperController.animateTo
+
+位置参数：`index`
+
+动画切换到目标页；循环模式始终向前到达目标。
+
+未提供 `duration` 或 `curve` 时，继承所附加 `TSwiper` 的动画配置。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| index | int | - | 目标页面的业务索引，从 0 开始；循环模式向前切换到该页面。 | 是 |
+| duration | Duration? | - | 本次切换动画时长；为空时使用绑定 Swiper 的动画配置。 | 否 |
+| curve | Curve? | - | 本次切换动画曲线；为空时使用绑定 Swiper 的动画配置。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Future<void> | - | 所绑定轮播的切换请求完成时结束；未绑定时立即完成，不执行切换。 | - |
+
+##### TSwiperController.jumpTo
+
+位置参数：`index`
+
+立即跳转到目标页。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| index | int | - | 目标页面的业务索引，从 0 开始；超出范围时按绑定 Swiper 的规则归一化。 | 是 |
+
+##### TSwiperController.next
+
+切换到下一页。
+
+未提供 `duration` 或 `curve` 时，继承所附加 `TSwiper` 的动画配置。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| duration | Duration? | - | 本次切换动画时长；为空时使用绑定 Swiper 的动画配置。 | 否 |
+| curve | Curve? | - | 本次切换动画曲线；为空时使用绑定 Swiper 的动画配置。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Future<void> | - | 所绑定轮播的切换请求完成时结束；未绑定时立即完成，不执行切换。 | - |
+
+##### TSwiperController.previous
+
+切换到上一页。
+
+未提供 `duration` 或 `curve` 时，继承所附加 `TSwiper` 的动画配置。
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| duration | Duration? | - | 本次切换动画时长；为空时使用绑定 Swiper 的动画配置。 | 否 |
+| curve | Curve? | - | 本次切换动画曲线；为空时使用绑定 Swiper 的动画配置。 | 否 |
+
+###### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Future<void> | - | 所绑定轮播的切换请求完成时结束；未绑定时立即完成，不执行切换。 | - |
+
+### TSwiperPaginationItemDetails
+
+单个轮播指示器标记的状态信息。
+
+#### 构造方法
+
+##### TSwiperPaginationItemDetails
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| axis | Axis | - | 轮播滚动主轴。 | 是 |
+| currentIndex | int | - | 当前实际展示页的业务下标。 | 是 |
+| index | int | - | 当前标记对应的业务下标。 | 是 |
+| itemCount | int | - | 轮播项总数。 | 是 |
+
+#### 属性
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| isActive | bool | - | 当前标记是否对应实际展示页。 | - |
+
+### TSwiperPaginationVariant
+
+轮播指示器形态。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| none | TSwiperPaginationVariant | - | 不显示指示器。 | - |
+| dots | TSwiperPaginationVariant | - | 圆点指示器。 | - |
+| dotsBar | TSwiperPaginationVariant | - | 当前项使用长条的圆点指示器。 | - |
+| fraction | TSwiperPaginationVariant | - | 数字指示器。 | - |
+| controls | TSwiperPaginationVariant | - | 前后切换按钮。 | - |
+
+### TSwiperPaginationPlacement
+
+指示器相对于轮播内容的位置。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| overlay | TSwiperPaginationPlacement | - | 覆盖在轮播内容上。 | - |
+| outside | TSwiperPaginationPlacement | - | 放在轮播内容外部；横向轮播放在下方，竖向轮播放在右侧。 | - |
+
+### TSwiperPageEffect
+
+页面切换视觉效果。
+
+#### 枚举值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| none | TSwiperPageEffect | - | 无额外效果。 | - |
+| cardMargin | TSwiperPageEffect | - | 卡片间距效果。 | - |
+| scale | TSwiperPageEffect | - | 相邻卡片等比缩放，当前页保持完整尺寸。 | - |
+| scaleAndFade | TSwiperPageEffect | - | 相邻卡片等比缩放、淡化并向当前页两侧叠放。 | - |
+
+### TSwiperPaginationItemBuilder
+
+单个轮播指示器标记的构建器。
+
+位置参数：`context, details`
+
+#### 回调参数
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| context | BuildContext | - | 轮播指示器的构建上下文。 | 是 |
+| details | TSwiperPaginationItemDetails | - | 当前标记的索引、选中态及指示器配置。 | 是 |
+
+#### 返回值
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| 返回值 | Widget | - | 当前轮播指示器标记内容。 | - |
+
+### TSwiperThemeData
+
+轮播组件级 ThemeExtension。
+
+保存指示器、内容圆角和切换按钮的视觉默认值。
+
+#### 配置项
+
+| 名称 | 类型 | 默认值 | 说明 | 必传 |
+| --- | --- | --- | --- | --- |
+| activeColor | Color? | - | 激活项颜色。 null 时使用 textColorAnti Token。 | 否 |
+| activeDotExtent | double? | - | 长条激活项在滚动主轴上的长度。 未配置时为 20 逻辑像素，必须大于 0。 | 否 |
+| borderRadius | BorderRadiusGeometry? | - | 轮播内容圆角。 null 时使用 radiusLarge Token 构造圆角。 | 否 |
+| controlStyle | ButtonStyle? | - | 前后切换按钮样式；仅 controls 指示器生效。 非空字段覆盖 TD 默认值；状态属性返回 null 时回退到同状态默认值。 iconSize 是图标尺寸的唯一主题入口，默认 18dp；自定义图标自身显式尺寸优先。 可配置颜色、图标、padding、尺寸、形状、描边、阴影、表面色和状态反馈， 以及鼠标指针、enableFeedback、splashFactory 和 tapTargetSize。 默认背景尺寸为 32dp、点击热区为 48dp；显式尺寸和 tapTargetSize 可调整热区。 visualDensity 不生效，请使用 padding 或尺寸字段调整布局。 animationDuration 仅控制按钮样式过渡，不改变 Swiper 的切页动画。 textStyle 为自定义文字内容提供默认样式；iconAlignment 不创建图标文字布局。 backgroundBuilder / foregroundBuilder 保留调用方主题及按钮的插槽默认样式。 外部 Material 按钮主题不覆盖此配置，切页、禁用和 Tooltip 由组件管理。 原 controlIconSize 请迁移为 ButtonStyle 的 iconSize 状态属性。 主题过渡中，图标尺寸、最小尺寸等使用组件有效默认值插值； 最大尺寸缺省保持无限约束，固定尺寸缺省恢复自然布局。 仅一端配置的颜色或文字样式切换到对应端配置，未配置时仍读取当前 TD 默认值。 | 否 |
+| dotSize | double? | - | 圆点直径。 未配置时为 6 逻辑像素，必须大于 0。 | 否 |
+| dotSpacing | double? | - | 圆点间距。 未配置时为 5 逻辑像素，必须大于或等于 0。 | 否 |
+| fractionBackgroundColor | Color? | - | 数字指示器背景色。 null 时使用 textColorPlaceholder Token。 | 否 |
+| fractionStyle | TextStyle? | - | 数字指示器文字样式。 | 否 |
+| inactiveColor | Color? | - | 未激活项颜色。 | 否 |
+| paginationAlignment | AlignmentGeometry? | - | 默认指示器对齐方式。 未配置时 controls 居中，其他类型横向轮播为 bottomCenter、纵向轮播为 centerRight。 | 否 |
+| paginationMargin | EdgeInsetsGeometry? | - | 指示器外边距。 未配置时普通指示器四边为 12；controls 沿滚动轴两端为 15 逻辑像素。 | 否 |
 
 ## 设计指南
 
@@ -269,13 +629,13 @@ TDesign风格的Swiper指示器样式，与flutter_swiper的Swiper结合使用
 2. [常见用法](#常见用法)
 3. [推荐/慎用示例](#推荐-慎用示例)
 
-#### 何时使用
+### 何时使用
 
 当需要承载一组banner或一组图片时使用。
 
-#### 常见用法
+### 常见用法
 
-###### 用于放置营销活动或承载平台广告等具有时效性的内容入口。
+##### 用于放置营销活动或承载平台广告等具有时效性的内容入口。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/swiper/swiper-1.png)
 
@@ -283,13 +643,13 @@ TDesign风格的Swiper指示器样式，与flutter_swiper的Swiper结合使用
 
 ---
 
-###### 在图文详情页场景，用于当图片数量大于1时的折叠展示。
+##### 在图文详情页场景，用于当图片数量大于1时的折叠展示。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/swiper/swiper-3.png)
 
-#### 推荐/慎用示例
+### 推荐/慎用示例
 
-###### 索引项需要跟数据项小标题保持一致。
+##### 索引项需要跟数据项小标题保持一致。
 
 ![](https://tdesign.gtimg.com/site/design/mobile-guide/swiper/swiper-4.png)
 ![](https://tdesign.gtimg.com/site/doc/bad.png)
