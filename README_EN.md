@@ -166,7 +166,7 @@ lib/
 
 ### Requirements
 
-- Flutter SDK: `>= 3.38.0`
+- Flutter SDK: `>= 3.32.0`
 - Dart SDK: `>= 3.9.0 < 4.0.0`
 - Android Studio, IntelliJ IDEA, or Visual Studio Code
 
