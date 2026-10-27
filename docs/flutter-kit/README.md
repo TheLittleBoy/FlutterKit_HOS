@@ -83,7 +83,7 @@
 - [安全区适配](扩展/safe-area.md)
 - [屏幕适配](扩展/screen-adapt.md)
 - [预览](扩展/widget-preview.md)
-- [图标、资源与启动页](扩展/assets.md)
+- [图标与资源](扩展/assets.md)
 
 ## 使用约定
 

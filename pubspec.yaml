@@ -95,10 +95,6 @@ dev_dependencies:
   # 地址：https://pub.dev/packages/flutter_launcher_icons
   flutter_launcher_icons: ^0.14.4
 
-  # 原生启动页生成器，覆盖 Android、iOS 与 Web 启动页资源
-  # 地址：https://pub.dev/packages/flutter_native_splash
-  flutter_native_splash: ^2.4.8
-
   # SQLite 桌面测试运行时，用于验证真实建表与 CRUD 行为
   # 地址：https://pub.dev/packages/sqflite_common_ffi
   sqflite_common_ffi: ^2.4.2
@@ -125,4 +121,4 @@ flutter:
     - assets/icon/
     - assets/json/
 #    - assets/theme/ 开发时的主题配置 不打包到生产
-#    - assets/dev/ # 开发模式下的资源 比如生成启动页 不打包到生产
+#    - assets/dev/ # 开发模式下的资源 比如生成图标 不打包到生产

@@ -60,7 +60,7 @@ FlutterKit does not bundle an AI model or hosted AI service. Repository rules, f
 
 ```text
 Use $fkit-feature and $fkit-ui to create a product detail page.
-Use $fkit-setup to update the app name, package identifiers, icon, and splash screen.
+Use $fkit-setup to update the app name, package identifiers, and icon.
 Use $fkit-audit to review the architecture and preview coverage of feature/main.
 ```
 

@@ -1,6 +1,6 @@
-# 图标、资源与启动页
+# 图标与资源
 
-FlutterKit 将运行时资源、应用图标源图和原生启动页源图分开管理：业务页面只访问已打包的资源；桌面图标与启动页由开发依赖在各原生平台生成。这种分层避免将生成源图带入应用资源包，也避免手动修改 Android、iOS 等平台的生成文件。
+FlutterKit 将运行时资源与应用图标源图分开管理：业务页面只访问已打包的资源；桌面图标由开发依赖在各原生平台生成。这种分层避免将生成源图带入应用资源包，也避免手动修改 Android、iOS 等平台的生成文件。
 
 ## 职责与目录
 
@@ -9,10 +9,9 @@ FlutterKit 将运行时资源、应用图标源图和原生启动页源图分开
 | 页面图片 | `assets/image/` | 是 | Logo、插图和业务图片 |
 | 页面图标 | `assets/icon/` | 是 | SVG 缺省图、业务图标 |
 | 配置资源 | `assets/json/` | 是 | TDesign 主题等 JSON 配置 |
-| 生成源图 | `assets/dev/` | 否 | 桌面图标、原生启动页的输入图片 |
+| 生成源图 | `assets/dev/` | 否 | 桌面图标的输入图片 |
 | 资源访问器 | `lib/generated/assets.gen.dart` | 随 Dart 编译 | FlutterGen 生成的类型安全访问入口 |
 | 图标配置 | `flutter_launcher_icons.yaml` | 否 | 多平台桌面图标生成规则 |
-| 启动页配置 | `flutter_native_splash.yaml` | 否 | Android、iOS、Web 原生启动页生成规则 |
 
 ```text
 assets/
@@ -25,12 +24,10 @@ assets/
 │   └── theme.json
 └── dev/                         # 仅供生成器读取，不在 pubspec.yaml 注册
     ├── app_icon.png
-    ├── app_icon_ios.png
-    ├── splash.png
-    └── splash_android_12.png
+    └── app_icon_ios.png
 ```
 
-`pubspec.yaml` 只注册 `assets/image/`、`assets/icon/` 与 `assets/json/`。`assets/dev/` 的图片不能在业务 Widget 中通过 `Image.asset` 使用；它们只在执行图标或启动页生成命令时读取。
+`pubspec.yaml` 只注册 `assets/image/`、`assets/icon/` 与 `assets/json/`。`assets/dev/` 的图片不能在业务 Widget 中通过 `Image.asset` 使用；它们只在执行图标生成命令时读取。
 
 ## 资源生成命令
 
@@ -41,7 +38,7 @@ assets/
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-图标与启动页分别由后文的 `flutter_launcher_icons`、`flutter_native_splash` 命令生成；资源访问器生成不会更新原生图标和启动页文件。
+图标由后文的 `flutter_launcher_icons` 命令生成；资源访问器生成不会更新原生图标文件。
 
 ## 运行时资源
 
@@ -113,57 +110,12 @@ dart run flutter_launcher_icons
 
 生成完成后，应分别检查 Android 启动器、iOS 主屏幕、浏览器 favicon、Windows 可执行文件图标和 macOS AppIcon。不要直接编辑 `android/app/src/main/res/mipmap-*`、`ios/Runner/Assets.xcassets/AppIcon.appiconset/` 或各桌面端图标输出目录；下次生成会覆盖这些文件。
 
-## 原生启动页
-
-启动页由 [flutter_native_splash](https://pub.dev/packages/flutter_native_splash) 生成。它显示在 Flutter Engine 与首帧 Widget 就绪之前，因此不能用页面内的 `Loading`、`Image` 或动画替代。原生启动页应只承载品牌标识与背景色，首个 Flutter 页面负责后续加载状态。
-
-### 当前配置
-
-| 平台范围 | 配置 | 当前资源与规则 |
-| --- | --- | --- |
-| Android 12 以下、iOS、Web | `image`、`image_dark` | 共用 `assets/dev/splash.png`，居中展示 |
-| Android 12 及以上 | `android_12.image`、`image_dark` | 使用 `assets/dev/splash_android_12.png` |
-| 浅色背景 | `color` | `#FFFFFF` |
-| 深色背景 | `color_dark` | `#121212` |
-| iOS 展示方式 | `ios_content_mode` | `center`，不使用 iOS 专用启动图 |
-
-Android 12 采用系统启动屏图标规范。`splash_android_12.png` 使用 1152×1152 的透明 PNG，关键标识必须位于中心直径 768 的安全区域内；超出该区域的内容可能被系统裁剪。Android 12 以下、iOS 与 Web 则使用同一张 `splash.png`，保证不同平台的品牌标识一致。
-
-```yaml
-# Android 12 以下、iOS 与 Web 使用同一张中心启动图。
-image: "assets/dev/splash.png"
-image_dark: "assets/dev/splash.png"
-
-# iOS 将中心图按原始尺寸居中显示，不配置独立 iOS 图片。
-ios_content_mode: center
-
-android_12:
-  # Android 12+ 使用符合系统安全区要求的透明图片。
-  image: "assets/dev/splash_android_12.png"
-  image_dark: "assets/dev/splash_android_12.png"
-```
-
-修改 `flutter_native_splash.yaml` 或 `assets/dev/splash*.png` 后执行：
-
-```bash
-# 根据 flutter_native_splash.yaml 重新生成 Android、iOS 与 Web 原生启动页资源。
-dart run flutter_native_splash:create
-```
-
-若需要移除生成的启动页并恢复 Flutter 默认配置，可执行：
-
-```bash
-# 删除 flutter_native_splash 写入的原生启动页配置与资源引用。
-dart run flutter_native_splash:remove
-```
-
 ## 更换品牌资源的检查清单
 
 1. 页面 Logo 放入 `assets/image/`，再生成 FlutterGen 访问器。
 2. 桌面图标源图放入 `assets/dev/app_icon.png`；iOS 同时更新带安全边距的 `app_icon_ios.png`。
-3. 普通原生启动图更新 `assets/dev/splash.png`；Android 12 图同步更新 `splash_android_12.png`，并检查中心安全区。
-4. 分别执行 `dart run build_runner build --delete-conflicting-outputs`、`dart run flutter_launcher_icons` 与 `dart run flutter_native_splash:create`。
-5. 在 Android 12+、Android 12 以下、iOS 与 Web 实机或模拟器检查图标和启动页；启动页只应出现一次，且不应被首个 Flutter 页面重复展示。
+3. 分别执行 `dart run build_runner build --delete-conflicting-outputs` 与 `dart run flutter_launcher_icons`。
+4. 在 Android、iOS、Web、Windows 与 macOS 实机或模拟器检查图标是否正确显示。
 
 ## 常见问题
 
@@ -171,10 +123,9 @@ dart run flutter_native_splash:remove
 | --- | --- |
 | `Assets.image.xxx` 不存在 | 新文件未放入已注册目录或尚未运行 `build_runner`；确认路径后重新生成 |
 | 页面能运行但 SVG 不显示 | 使用 SVG 时应通过 `Assets.icon.xxx.svg()` 或 `SvgPicture.asset(Assets.icon.xxx.path)` 构建 |
-| Android 12 启动标识被裁剪 | 图片未使用 1152×1152 透明画布，或关键内容超出中心直径 768 的安全区 |
 | iOS 图标显得过大 | `app_icon_ios.png` 缺少透明边距；保留独立 1024×1024 画布后重新生成图标 |
-| iOS 仍显示旧图标或旧启动页 | 先停止应用并重新构建；模拟器仍缓存时执行 `flutter clean` 后重新安装 |
-| 手动修改原生资源后再次丢失 | 图标与启动页目录由生成器维护；应修改 `assets/dev/` 和 YAML，再重新生成 |
+| iOS 仍显示旧图标 | 先停止应用并重新构建；模拟器仍缓存时执行 `flutter clean` 后重新安装 |
+| 手动修改原生图标后再次丢失 | 图标目录由生成器维护；应修改 `assets/dev/` 和 YAML，再重新生成 |
 
 ## 关联阅读
 

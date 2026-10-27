@@ -40,7 +40,7 @@ FlutterKit 是面向 Android、iOS、macOS、Linux、Windows 和 Web 的 Flutter
 | 数据、模型、网络、结果处理 | [数据层](docs/flutter-kit/框架核心/data.md)、[数据模型](docs/flutter-kit/框架核心/model.md)、[网络请求](docs/flutter-kit/框架核心/network.md)、[结果处理](docs/flutter-kit/框架核心/result.md) |
 | 数据库、本地存储、全局状态 | [数据库](docs/flutter-kit/框架核心/database.md)、[本地存储](docs/flutter-kit/框架核心/datastore.md)、[状态管理](docs/flutter-kit/框架核心/state.md) |
 | 路由、参数、结果、守卫 | [导航文档](docs/flutter-kit/导航/index.md) 及对应专题 |
-| 适配、预览、图标与启动页 | [扩展文档](docs/flutter-kit/README.md#扩展) 及对应专题 |
+| 适配、预览与图标 | [扩展文档](docs/flutter-kit/README.md#扩展) 及对应专题 |
 
 ## 架构与放置边界
 
@@ -96,7 +96,7 @@ TDesign 本地组件索引包含以下分类；写 UI 前至少扫描对应分�
 
 - 禁止手工修改 `*.g.dart`、`*.freezed.dart` 和 `lib/generated/`。
 - Model 或运行时资源变化后执行 `dart run build_runner build --delete-conflicting-outputs`。
-- 图标执行 `dart run flutter_launcher_icons`；启动页执行 `dart run flutter_native_splash:create`。同时提交 YAML、`assets/dev/` 源图和各平台生成结果。
+- 图标执行 `dart run flutter_launcher_icons`。同时提交 YAML、`assets/dev/` 源图和各平台生成结果。
 
 ## 验证与变更范围
 

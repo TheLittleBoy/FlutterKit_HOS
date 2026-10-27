@@ -60,7 +60,7 @@ FlutterKit 不内置 AI 模型或在线服务。仓库通过项目规则、框�
 
 ```text
 使用 $fkit-feature 和 $fkit-ui 创建商品详情页面。
-使用 $fkit-setup 修改应用名称、包名、图标和启动页。
+使用 $fkit-setup 修改应用名称、包名和图标。
 使用 $fkit-audit 审查 feature/main 的架构与预览完整性。
 ```
 
