@@ -11,17 +11,11 @@ _A modular, out-of-the-box Flutter scaffold with AI-assisted development support
   <a href="README.md">🌍 中文</a>
 </div>
 
-[![GitHub](https://img.shields.io/badge/GitHub-FlutterKit-blue?style=flat-square&logo=github)](https://github.com/Joker-x-dev/FlutterKit)
-[![Gitee](https://img.shields.io/badge/Gitee-FlutterKit-red?style=flat-square&logo=gitee)](https://gitee.com/Joker-x-dev/FlutterKit)
-[![Docs](https://img.shields.io/badge/Docs-flutter.dusksnow.top-orange?style=flat-square&logo=readthedocs)](https://flutter.dusksnow.top)
-[![TDesign](https://img.shields.io/badge/UI-TDesign_Flutter-0052D9?style=flat-square&logo=flutter)](https://tdesign.tencent.com/flutter/getting-started)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Joker-x-dev/FlutterKit)
-
 </div>
 
 ## 📖 Project overview
 
-FlutterKit is a cross-platform project scaffold built with **Flutter / Dart / GetX / TDesign Flutter**. It includes networking, paging, database, local storage, state management, navigation, internationalization, theming, and responsive layout, together with runnable demo pages. The goal is simple: **clone → run → build**.
+FlutterKit is a cross-platform project scaffold built with **Flutter / Dart / GetX / TDesign Flutter v1.0.0**. It includes networking, paging, database, local storage, state management, navigation, internationalization, theming, and responsive layout, together with runnable demo pages. The goal is simple: **clone → run → build**.
 
 Native projects for Android, iOS, HarmonyOS, and Web are included and can be used as the foundation of a modular Flutter application.
 
@@ -37,9 +31,8 @@ FlutterKit includes Widget Preview support for pages and components. Page previe
 
 ### 📍 Project links
 
-- **GitHub**: https://github.com/Joker-x-dev/FlutterKit
-- **Gitee**: https://gitee.com/Joker-x-dev/FlutterKit
-- **Demo**: [Download](https://www.pgyer.com/FlutterKit)
+- **FlutterKit GitHub**：https://github.com/Joker-x-dev/FlutterKit
+- **FlutterKit_HOS GitHub**：https://github.com/TheLittleBoy/FlutterKit_HOS
 
 ### 📚 Documentation
 

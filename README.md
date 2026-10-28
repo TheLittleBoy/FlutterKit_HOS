@@ -11,17 +11,11 @@ _一个模块化、开箱即用并支持 AI 辅助开发的 Flutter 快速开发
   <a href="README_EN.md">🌍 English</a>
 </div>
 
-[![GitHub](https://img.shields.io/badge/GitHub-FlutterKit-blue?style=flat-square&logo=github)](https://github.com/Joker-x-dev/FlutterKit)
-[![Gitee](https://img.shields.io/badge/Gitee-FlutterKit-red?style=flat-square&logo=gitee)](https://gitee.com/Joker-x-dev/FlutterKit)
-[![Docs](https://img.shields.io/badge/Docs-flutter.dusksnow.top-orange?style=flat-square&logo=readthedocs)](https://flutter.dusksnow.top)
-[![TDesign](https://img.shields.io/badge/UI-TDesign_Flutter-0052D9?style=flat-square&logo=flutter)](https://tdesign.tencent.com/flutter/getting-started)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Joker-x-dev/FlutterKit)
-
 </div>
 
 ## 📖 项目简介
 
-FlutterKit 是一个基于 **Flutter / Dart / GetX / TDesign Flutter** 的跨平台项目脚手架，内置网络、分页、数据库、本地存储、状态管理、导航、国际化、主题和屏幕适配等常用能力，并提供对应的功能示例页面，方便通过 **“拉仓库 → 运行 → 填业务”** 快速开始 Flutter 项目。
+FlutterKit 是一个基于 **Flutter / Dart / GetX / TDesign Flutter v1.0.0** 的跨平台项目脚手架，内置网络、分页、数据库、本地存储、状态管理、导航、国际化、主题和屏幕适配等常用能力，并提供对应的功能示例页面，方便通过 **“拉仓库 → 运行 → 填业务”** 快速开始 Flutter 项目。
 
 > `third_party/tdesign_flutter` 是 `tdesign_flutter` 1.0.0 的本地补丁，用于兼容 HarmonyOS SDK 的 `TargetPlatform.ohos`；通过 `dependency_overrides` 引用，升级依赖时同步核对补丁。
 
@@ -39,9 +33,8 @@ Android、iOS、鸿蒙（HarmonyOS）和 Web 四个平台的原生工程均已�
 
 ### 📍 项目地址
 
-- **GitHub**：https://github.com/Joker-x-dev/FlutterKit
-- **Gitee**：https://gitee.com/Joker-x-dev/FlutterKit
-- **示例 Demo**：[下载安装](https://www.pgyer.com/FlutterKit)
+- **FlutterKit GitHub**：https://github.com/Joker-x-dev/FlutterKit
+- **FlutterKit_HOS GitHub**：https://github.com/TheLittleBoy/FlutterKit_HOS
 
 ### 📚 说明文档
 
