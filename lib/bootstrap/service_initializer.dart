@@ -13,7 +13,8 @@ class ServiceInitializer implements AppInitializer {
     Get.put(DemoCounterService());
 
     final userService = UserService();
-    await userService.initialize();
+    // 先注册服务，再从存储恢复状态；平台存储不可用时页面仍能读取默认状态。
     Get.put(userService);
+    await userService.initialize();
   }
 }

@@ -66,9 +66,7 @@ class AboutDemoView extends BaseView<AboutDemoLogic> {
           TText(
             MainKeys.aboutDescription.tr,
             font: appTheme.fontBodyMedium,
-            style: TextStyle(
-              color: appTheme.textSecondary,
-            ),
+            style: TextStyle(color: appTheme.textSecondary),
             textAlign: TextAlign.center,
           ),
         ]
@@ -97,5 +95,10 @@ class AboutDemoView extends BaseView<AboutDemoLogic> {
 }
 
 /// 关于示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewAboutDemoView() => AboutDemoView(logic: AboutDemoLogic());

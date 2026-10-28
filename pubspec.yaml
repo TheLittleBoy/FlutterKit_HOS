@@ -42,7 +42,7 @@ dependencies:
   shared_preferences: ^2.5.5
 
   # SQLite 本地数据库 https://pub.dev/packages/sqflite
-  sqflite: ^2.4.3
+  sqflite: ^2.4.2
 
   # 路径处理 https://pub.dev/packages/path
   path: ^1.9.1
@@ -97,7 +97,35 @@ dev_dependencies:
 
   # SQLite 桌面测试运行时，用于验证真实建表与 CRUD 行为
   # 地址：https://pub.dev/packages/sqflite_common_ffi
-  sqflite_common_ffi: ^2.4.2
+  sqflite_common_ffi: ^2.3.7+1
+
+# ===== 鸿蒙(OHOS)适配：覆盖为带 ohos/ 实现的版本 =====
+dependency_overrides:
+  # 依赖覆盖：本地补丁修复 HarmonyOS SDK 新增 TargetPlatform.ohos 后
+  # tdesign_flutter 1.0.0 穷尽 switch 的编译错误
+  tdesign_flutter:
+    path: third_party/tdesign_flutter
+  # Flutter 官方插件（openharmony-tpc/CPF-Flutter 维护，主包已自带 xxx_ohos 联邦子包依赖）
+  shared_preferences:
+    git:
+      url: https://gitcode.com/CPF-Flutter/flutter_packages.git
+      path: packages/shared_preferences/shared_preferences
+      ref: shared_preferences-v2.5.4-ohos-1.0.1
+  path_provider:
+    git:
+      url: https://gitcode.com/CPF-Flutter/flutter_packages.git
+      path: packages/path_provider/path_provider
+      ref: provider-v2.1.5-ohos-1.0.1
+  url_launcher:
+    git:
+      url: https://gitcode.com/CPF-Flutter/flutter_packages.git
+      path: packages/url_launcher/url_launcher
+      ref: url_launcher_v6.3.2-ohos-1.0.1
+  sqflite:
+    git:
+      url: https://gitcode.com/CPF-Flutter/flutter_sqflite.git
+      path: sqflite
+      ref: 2.4.2-ohos-1.0.0
 
 # FlutterGen 资源配置，根据 pubspec.yaml 中声明的 assets/fonts/colors 生成类型安全的资源访问类
 # 地址：https://pub.dev/packages/flutter_gen

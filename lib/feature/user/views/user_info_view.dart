@@ -30,5 +30,10 @@ class UserInfoView extends BaseView<UserInfoLogic> {
 }
 
 /// 用户信息页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewUserInfoView() => UserInfoView(logic: UserInfoLogic());

@@ -29,7 +29,7 @@ Native projects for Android, iOS, macOS, Linux, Windows, and Web are included an
 
 ## 📱 Project preview
 
-FlutterKit includes Widget Preview support for pages and components. Responsive page previews cover Mobile, Tablet, and Foldable screen sizes.
+FlutterKit includes Widget Preview support for pages and components. Page previews use the phone size by default, with optional tablet and foldable preview functions.
 
 <img src="docs/images/preview/mobile.png" alt="Mobile"/>
 

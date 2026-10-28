@@ -26,28 +26,27 @@ class BaseTabDemoView extends BaseTabView<BaseTabDemoLogic> {
     return [
       TText(
         DemoKeys.baseTabPageOne.tr,
-        style: TextStyle(
-          color: appTheme.error,
-        ),
+        style: TextStyle(color: appTheme.error),
       ).center().backgroundColor(appTheme.errorLight),
       TText(
         DemoKeys.baseTabPageTwo.tr,
-        style: TextStyle(
-          color: appTheme.success,
-        ),
+        style: TextStyle(color: appTheme.success),
       ).center().backgroundColor(appTheme.successLight),
       TText(
         DemoKeys.baseTabPageThree.tr,
-        style: TextStyle(
-          color: appTheme.primary,
-        ),
+        style: TextStyle(color: appTheme.primary),
       ).center().backgroundColor(appTheme.primaryLight),
     ];
   }
 }
 
 /// BaseTab 示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewBaseTabDemoView() {
   final BaseTabDemoLogic logic = BaseTabDemoLogic()..onInit();
   return BaseTabDemoView(logic: logic);

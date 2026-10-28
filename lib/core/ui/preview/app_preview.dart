@@ -15,6 +15,26 @@ import "../../localization/app_translations.dart";
 /// 返回包含 TDesign 与应用语义色扩展的明暗主题配置。
 PreviewThemeData buildAppPreviewTheme() => const _AppPreviewThemeData();
 
+/// 按当前系统亮度应用应用预览主题
+///
+/// [context] 预览构建上下文。
+/// [child] 需要注入主题的预览内容。
+///
+/// 返回已应用主题的预览内容。
+Widget applyAppPreviewTheme(BuildContext context, Widget child) {
+  final Brightness brightness = MediaQuery.platformBrightnessOf(context);
+  final TThemeData themeData = TThemeData.defaultData();
+  final TThemeData lightTheme = themeData.light;
+  final TThemeData darkTheme = themeData.dark ?? lightTheme;
+  return Theme(
+    data: AppTheme.buildMaterialTheme(
+      brightness == Brightness.dark ? darkTheme : lightTheme,
+      brightness,
+    ),
+    child: child,
+  );
+}
+
 /// 应用预览主题
 ///
 /// 根据系统深浅色为预览内容注入对应的应用 Material 主题。
@@ -29,19 +49,9 @@ final class _AppPreviewThemeData extends PreviewThemeData {
   ///
   /// 返回已应用主题的预览内容。
   @override
-  Widget apply(BuildContext context, Widget child) {
-    final Brightness brightness = MediaQuery.platformBrightnessOf(context);
-    final TThemeData themeData = TThemeData.defaultData();
-    final TThemeData lightTheme = themeData.light;
-    final TThemeData darkTheme = themeData.dark ?? lightTheme;
-    return Theme(
-      data: AppTheme.buildMaterialTheme(
-        brightness == Brightness.dark ? darkTheme : lightTheme,
-        brightness,
-      ),
-      child: child,
-    );
-  }
+  // ignore: override_on_non_overriding_member
+  Widget apply(BuildContext context, Widget child) =>
+      applyAppPreviewTheme(context, child);
 }
 
 /// 包装应用组件预览
@@ -173,8 +183,7 @@ class _AppPreviewScopeState extends State<AppPreviewScope> {
     return FutureBuilder<TThemeData>(
       future: _themeDataFuture,
       builder: (BuildContext context, AsyncSnapshot<TThemeData> snapshot) {
-        final TThemeData themeData =
-            snapshot.data ?? TThemeData.defaultData();
+        final TThemeData themeData = snapshot.data ?? TThemeData.defaultData();
         final TThemeData activeTheme = brightness == Brightness.dark
             ? themeData.dark ?? themeData.light
             : themeData.light;

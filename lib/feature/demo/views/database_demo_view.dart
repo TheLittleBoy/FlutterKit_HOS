@@ -78,7 +78,12 @@ class DatabaseDemoView extends BaseView<DatabaseDemoLogic> {
 }
 
 /// 数据库示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewDatabaseDemoView() {
   final DatabaseDemoLogic logic = DatabaseDemoLogic();
   logic.items.assignAll(previewDemoEntities);

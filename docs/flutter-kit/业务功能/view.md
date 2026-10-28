@@ -63,15 +63,20 @@ Widget buildSaveButton(ProfileLogic logic) {
 
 ## 页面预览
 
-每个完整页面在 View 文件末尾提供页面预览，默认使用 `@ResponsivePreview()`，同时检查手机、折叠屏与平板。预览通过构造参数注入 Logic，不依赖路由 Binding，因此可以在编辑器中独立构建。
+每个完整页面在 View 文件末尾提供页面预览，默认使用 `phonePreviewSize` 与 `wrapAppScreenPreview`；需要平板或折叠屏时再增加对应尺寸的预览函数。预览通过构造参数注入 Logic，不依赖路由 Binding，因此可以在编辑器中独立构建。
 
 ```dart
-/// 登录页面响应式预览。
-@ResponsivePreview()
+/// 登录页面预览。
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewLoginView() => LoginView(logic: LoginLogic());
 ```
 
-网络、分页和刷新页面还需要先向注入的 Logic 写入静态 Preview Data，并设置成功状态；禁止让预览发起真实请求。组件使用 `@WidgetPreview()`，具体设备注解、深浅色切换和静态数据写法见 [预览](../扩展/widget-preview.md)。
+网络、分页和刷新页面还需要先向注入的 Logic 写入静态 Preview Data，并设置成功状态；禁止让预览发起真实请求。组件使用 `componentPreviewSize` 与 `wrapAppComponentPreview`，具体尺寸、深浅色切换和静态数据写法见 [预览](../扩展/widget-preview.md)。
 
 ## 注意事项
 

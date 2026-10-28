@@ -32,7 +32,7 @@ flutter run
 
 1. 进入 Demo，验证网络详情、分页、本地存储和数据库示例。
 2. 打开 ThemeDemo，验证浅色、深色、跟随系统和颜色预设。
-3. 打开 Android Studio 的 Widget Preview，检查 `@ResponsivePreview()` 页面。
+3. 打开 Android Studio 的 Widget Preview，检查页面的 `@Preview`。
 4. 切换手机横竖屏与大窗口，确认 MainView 导航适配。
 
 ## 生成代码

@@ -71,7 +71,12 @@ class NavigationDemoView extends BaseView<NavigationDemoLogic> {
 }
 
 /// 导航示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNavigationDemoView() {
   final UserService userService = UserService();
   userService.isLoggedIn.value = true;

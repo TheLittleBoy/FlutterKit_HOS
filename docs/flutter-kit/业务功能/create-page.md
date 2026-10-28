@@ -89,7 +89,12 @@ class GoodsNavigator {
 
 ```dart
 /// 普通页面预览，显式注入 Logic 避免依赖 GetX 注册容器。
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewGoodsListView() {
   final GoodsListLogic logic = GoodsListLogic();
   // 预览状态由静态数据直接提供，不执行 initData 中的真实请求。

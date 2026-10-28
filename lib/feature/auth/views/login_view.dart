@@ -27,5 +27,10 @@ class LoginView extends BaseView<LoginLogic> {
 }
 
 /// 登录页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewLoginView() => LoginView(logic: LoginLogic());

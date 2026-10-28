@@ -162,9 +162,7 @@ class ScreenAdaptDemoView extends BaseView<ScreenAdaptDemoLogic> {
         TText(
           DemoKeys.adaptTextSample.tr,
           font: appTheme.fontBodyLarge?.withSize(sampleTextSize),
-          style: TextStyle(
-            color: appTheme.textPrimary,
-          ),
+          style: TextStyle(color: appTheme.textPrimary),
           textAlign: TextAlign.center,
         ),
       ].toCenteredWrap(
@@ -252,15 +250,18 @@ class ScreenAdaptDemoView extends BaseView<ScreenAdaptDemoLogic> {
     return TText(
       text,
       font: appTheme.fontBodyMedium,
-      style: TextStyle(
-        color: appTheme.textSecondary,
-      ),
+      style: TextStyle(color: appTheme.textSecondary),
       textAlign: textAlign,
     );
   }
 }
 
 /// 屏幕适配示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewScreenAdaptDemoView() =>
     ScreenAdaptDemoView(logic: ScreenAdaptDemoLogic());

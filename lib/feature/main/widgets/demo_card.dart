@@ -94,9 +94,7 @@ class DemoCard extends StatelessWidget {
       subtitle: TText(
         description,
         font: appTheme.fontBodySmall,
-        style: TextStyle(
-          color: appTheme.textSecondary,
-        ),
+        style: TextStyle(color: appTheme.textSecondary),
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
@@ -117,7 +115,12 @@ class DemoCard extends StatelessWidget {
 /// 构建 Demo 卡片预览
 ///
 /// 返回包含示例文案、图标与应用主题的卡片组件。
-@WidgetPreview()
+@Preview(
+  name: '组件',
+  size: componentPreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppComponentPreview,
+)
 Widget previewDemoCard() {
   return DemoCard(
     title: '网络分页列表示例',

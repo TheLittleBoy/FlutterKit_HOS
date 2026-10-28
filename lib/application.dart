@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
 import 'package:get/get.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -48,7 +49,15 @@ class Application {
     WidgetsFlutterBinding.ensureInitialized();
 
     for (final initializer in initializers) {
-      await initializer.init();
+      // 单个平台能力缺失时只记录错误，不阻断应用首帧渲染。
+      try {
+        await initializer.init();
+      } on Object catch (error) {
+        developer.log(
+          '初始化失败：${initializer.runtimeType}，$error',
+          name: 'Application',
+        );
+      }
     }
   }
 

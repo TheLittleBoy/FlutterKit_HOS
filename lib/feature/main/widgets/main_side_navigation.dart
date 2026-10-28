@@ -69,7 +69,12 @@ class MainSideNavigation extends StatelessWidget {
 }
 
 /// 主页面侧边导航栏预览
-@WidgetPreview()
+@Preview(
+  name: '组件',
+  size: componentPreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppComponentPreview,
+)
 Widget previewMainSideNavigation() {
   return Builder(
     builder: (BuildContext context) {

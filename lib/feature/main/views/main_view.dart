@@ -117,7 +117,12 @@ class MainView extends BaseView<MainLogic> {
 }
 
 /// 主页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewMainView() {
   final UserService userService = UserService();
   final DemoCounterService counterService = DemoCounterService();

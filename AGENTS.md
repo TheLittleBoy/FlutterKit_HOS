@@ -66,7 +66,7 @@ FlutterKit 是面向 Android、iOS、macOS、Linux、Windows 和 Web 的 Flutter
 - 组件属性先查[TDesign 完整组件列表](docs/tdesign-flutter/README.md)及具体组件页面，不得按 Web、Vue、React 或旧版本 API 猜测 Dart 参数。
 - 主题值只能在已建立主题上下文的 build 流程读取，不得在全局或静态字段中缓存 `TDTheme.of`、`AppTheme.of` 及依赖它们的尺寸/形状 getter。
 - 链式扩展的包装顺序会改变布局、背景、裁剪和点击范围；修改复杂链式 UI 前先阅读 Widget/动画扩展专题。
-- 新增完整页面默认提供 `@ResponsivePreview()`；模块组件提供 `@WidgetPreview()`。预览函数位于当前源码文件末尾，注入 Logic；网络页面写入静态 Preview Data 并设置成功状态，禁止真实请求。
+- 新增完整页面默认提供 `@Preview(name: 'Phone', size: phonePreviewSize, theme: buildAppPreviewTheme, wrapper: wrapAppScreenPreview)`；模块组件使用 `componentPreviewSize` 与 `wrapAppComponentPreview`。预览函数位于当前源码文件末尾，注入 Logic；网络页面写入静态 Preview Data 并设置成功状态，禁止真实请求。
 
 ### UI 开发固定检查顺序
 
@@ -95,6 +95,7 @@ TDesign 本地组件索引包含以下分类；写 UI 前至少扫描对应分�
 ## 生成代码与资源
 
 - 禁止手工修改 `*.g.dart`、`*.freezed.dart` 和 `lib/generated/`。
+- `third_party/tdesign_flutter` 是 `tdesign_flutter` 1.0.0 的本地补丁，用于兼容 HarmonyOS SDK 的 `TargetPlatform.ohos`；通过 `dependency_overrides` 引用，升级依赖时同步核对补丁。
 - Model 或运行时资源变化后执行 `dart run build_runner build --delete-conflicting-outputs`。
 - 图标执行 `dart run flutter_launcher_icons`。同时提交 YAML、`assets/dev/` 源图和各平台生成结果。
 

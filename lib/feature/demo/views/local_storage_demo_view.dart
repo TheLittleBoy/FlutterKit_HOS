@@ -116,7 +116,12 @@ class LocalStorageDemoView extends BaseView<LocalStorageDemoLogic> {
 }
 
 /// 本地存储示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewLocalStorageDemoView() {
   final LocalStorageDemoLogic logic = LocalStorageDemoLogic();
   logic.user.value = previewUser;

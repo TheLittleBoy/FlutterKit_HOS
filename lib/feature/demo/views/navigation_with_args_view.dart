@@ -34,9 +34,7 @@ class NavigationWithArgsView extends BaseView<NavigationWithArgsLogic> {
           TText(
             '${DemoKeys.receivedGoodsId.tr}:',
             font: appTheme.fontBodyLarge,
-            style: TextStyle(
-              color: appTheme.textSecondary,
-            ),
+            style: TextStyle(color: appTheme.textSecondary),
           ),
           TText(
             '${logic.params.goodsId}',
@@ -59,7 +57,12 @@ class NavigationWithArgsView extends BaseView<NavigationWithArgsLogic> {
 }
 
 /// 带参跳转示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNavigationWithArgsView() {
   final NavigationWithArgsLogic logic = NavigationWithArgsLogic(
     initialParams: const DemoParams(goodsId: 9527),

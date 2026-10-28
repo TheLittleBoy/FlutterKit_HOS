@@ -31,43 +31,45 @@ class StateManagementDemoView extends BaseView<StateManagementDemoLogic> {
   @override
   Widget body() {
     return Obx(
-      () =>
-          [
-                TText(
-                  '${logic.count.value}',
-                  font: appTheme.fontDisplayLarge,
-                  style: TextStyle(
-                    color: appTheme.primary,
-                    fontWeight: appTheme.fontWeightBold,
-                  ),
-                ),
-                const SpaceVerticalLarge(),
-                [
-                  TButton(
-                    colorPreset: TButtonColorPreset.primary,
-                    onPressed: logic.increment,
-                    child: Text(DemoKeys.counterIncrement.tr),
-                  ),
-                  TButton(
-                    colorPreset: TButtonColorPreset.defaultTheme,
-                    onPressed: logic.decrement,
-                    child: Text(DemoKeys.counterDecrement.tr),
-                  ),
-                  TButton(
-                    colorPreset: TButtonColorPreset.danger,
-                    onPressed: logic.reset,
-                    child: Text(DemoKeys.counterReset.tr),
-                  ),
-                ].toRowCenter(spacing: spaceHorizontalMedium),
-              ]
-              .toColumnCenter(spacing: spaceVerticalXLarge)
-              .center(),
+      () => [
+        TText(
+          '${logic.count.value}',
+          font: appTheme.fontDisplayLarge,
+          style: TextStyle(
+            color: appTheme.primary,
+            fontWeight: appTheme.fontWeightBold,
+          ),
+        ),
+        const SpaceVerticalLarge(),
+        [
+          TButton(
+            colorPreset: TButtonColorPreset.primary,
+            onPressed: logic.increment,
+            child: Text(DemoKeys.counterIncrement.tr),
+          ),
+          TButton(
+            colorPreset: TButtonColorPreset.defaultTheme,
+            onPressed: logic.decrement,
+            child: Text(DemoKeys.counterDecrement.tr),
+          ),
+          TButton(
+            colorPreset: TButtonColorPreset.danger,
+            onPressed: logic.reset,
+            child: Text(DemoKeys.counterReset.tr),
+          ),
+        ].toRowCenter(spacing: spaceHorizontalMedium),
+      ].toColumnCenter(spacing: spaceVerticalXLarge).center(),
     );
   }
 }
 
 /// 状态管理示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewStateManagementDemoView() {
   final DemoCounterService counterService = DemoCounterService();
   counterService.count.value = 12;

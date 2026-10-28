@@ -29,7 +29,7 @@ Android、iOS、macOS、Linux、Windows 和 Web 六个平台的原生工程均�
 
 ## 📱 项目预览
 
-项目内置 Flutter Widget Preview 支持，页面与组件均提供独立预览入口；响应式页面可同时检查 Mobile、Tablet 和 Foldable 三类屏幕尺寸。
+项目内置 Flutter Widget Preview 支持，页面与组件均提供独立预览入口；页面默认按手机尺寸预览，可按需增加平板和折叠屏尺寸。
 
 <img src="docs/images/preview/mobile.png" alt="手机"/>
 

@@ -42,7 +42,12 @@ class NetworkDemoView extends BaseNetworkView<NetworkDemoLogic> {
 }
 
 /// 网络请求示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNetworkDemoView() {
   final NetworkDemoLogic logic = NetworkDemoLogic();
   logic.networkDemoState.goods.value = previewGoods.first;

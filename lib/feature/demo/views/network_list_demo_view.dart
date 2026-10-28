@@ -29,7 +29,12 @@ class NetworkListDemoView extends BaseListView<NetworkListDemoLogic, Goods> {
 }
 
 /// 网络列表示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNetworkListDemoView() {
   final NetworkListDemoLogic logic = NetworkListDemoLogic();
   logic.listState.dataList.assignAll(previewGoods);

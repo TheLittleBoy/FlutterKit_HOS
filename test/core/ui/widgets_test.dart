@@ -149,7 +149,6 @@ void main() {
   });
 
   testWidgets('组件和页面 Preview 包装提供主题与应用壳', (WidgetTester tester) async {
-    final previewTheme = buildAppPreviewTheme();
     late Brightness lightPreviewBrightness;
     late Brightness darkPreviewBrightness;
     await tester.pumpWidget(
@@ -161,7 +160,7 @@ void main() {
                 data: MediaQueryData(platformBrightness: brightness),
                 child: Builder(
                   builder: (BuildContext previewContext) {
-                    return previewTheme.apply(
+                    return applyAppPreviewTheme(
                       previewContext,
                       Builder(
                         builder: (BuildContext themedContext) {

@@ -37,7 +37,12 @@ class BaseRefreshDemoView extends BaseRefreshView<BaseRefreshDemoLogic> {
 }
 
 /// BaseRefresh 示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewBaseRefreshDemoView() {
   final BaseRefreshDemoLogic logic = BaseRefreshDemoLogic();
   logic.baseRefreshDemoState.goods.value = previewGoods.first;

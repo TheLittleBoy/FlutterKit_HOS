@@ -87,7 +87,12 @@ class NetworkListDemoView extends BaseListView<NetworkListDemoLogic, Goods> {
 
 ```dart
 /// 列表预览使用静态数据，禁止发起网络请求。
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNetworkListDemoView() {
   final NetworkListDemoLogic logic = NetworkListDemoLogic();
   // 写入预览数据后直接标记成功，使 BaseNetworkView 渲染列表内容。

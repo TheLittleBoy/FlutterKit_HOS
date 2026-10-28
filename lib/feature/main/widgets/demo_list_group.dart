@@ -62,6 +62,11 @@ class DemoListGroup extends StatelessWidget {
 }
 
 /// 示例列表组组件预览
-@WidgetPreview()
+@Preview(
+  name: '组件',
+  size: componentPreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppComponentPreview,
+)
 Widget previewDemoListGroup() =>
     DemoListGroup(items: CoreDemoState.defaultDemoItems.take(3).toList());

@@ -37,6 +37,11 @@ class NavigationResultView extends BaseView<NavigationResultLogic> {
 }
 
 /// 结果回传示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewNavigationResultView() =>
     NavigationResultView(logic: NavigationResultLogic());

@@ -51,9 +51,7 @@ class GoodsListCard extends StatelessWidget {
         TText(
           goods.subTitle!,
           font: AppTheme.of(context).fontBodySmall,
-          style: TextStyle(
-            color: AppTheme.of(context).textSecondary,
-          ),
+          style: TextStyle(color: AppTheme.of(context).textSecondary),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
@@ -65,9 +63,7 @@ class GoodsListCard extends StatelessWidget {
         TText(
           CommonKeys.goodsSold.trArgs([goods.sold.toString()]),
           font: AppTheme.of(context).fontMarkSmall,
-          style: TextStyle(
-            color: AppTheme.of(context).textPlaceholder,
-          ),
+          style: TextStyle(color: AppTheme.of(context).textPlaceholder),
         ),
       ].toRowBetween(),
     ].toColumnStart();
@@ -105,5 +101,10 @@ class GoodsListCard extends StatelessWidget {
 }
 
 /// 商品卡片组件预览
-@WidgetPreview()
+@Preview(
+  name: '组件',
+  size: componentPreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppComponentPreview,
+)
 Widget previewGoodsListCard() => GoodsListCard(goods: previewGoods.first);

@@ -46,43 +46,45 @@ class BaseDemoView extends BaseView<BaseDemoLogic> {
     items: [
       TDropdownMenuItem(
         label: DemoKeys.baseAllProducts.tr,
-        panelBuilder: (context, controller) => TDropdownSingleSelectPanel<String>(
-          controller: controller,
-          value: 'all',
-          onChanged: (_) {},
-          options: [
-            TDropdownMenuOption<String>(
-              label: DemoKeys.baseAllProducts.tr,
+        panelBuilder: (context, controller) =>
+            TDropdownSingleSelectPanel<String>(
+              controller: controller,
               value: 'all',
+              onChanged: (_) {},
+              options: [
+                TDropdownMenuOption<String>(
+                  label: DemoKeys.baseAllProducts.tr,
+                  value: 'all',
+                ),
+                TDropdownMenuOption<String>(
+                  label: DemoKeys.baseLatestProducts.tr,
+                  value: 'new',
+                ),
+                TDropdownMenuOption<String>(
+                  label: DemoKeys.basePopularProducts.tr,
+                  value: 'hot',
+                ),
+              ],
             ),
-            TDropdownMenuOption<String>(
-              label: DemoKeys.baseLatestProducts.tr,
-              value: 'new',
-            ),
-            TDropdownMenuOption<String>(
-              label: DemoKeys.basePopularProducts.tr,
-              value: 'hot',
-            ),
-          ],
-        ),
       ),
       TDropdownMenuItem(
         label: DemoKeys.baseDefaultSort.tr,
-        panelBuilder: (context, controller) => TDropdownSingleSelectPanel<String>(
-          controller: controller,
-          value: 'default',
-          onChanged: (_) {},
-          options: [
-            TDropdownMenuOption<String>(
-              label: DemoKeys.baseDefaultSort.tr,
+        panelBuilder: (context, controller) =>
+            TDropdownSingleSelectPanel<String>(
+              controller: controller,
               value: 'default',
+              onChanged: (_) {},
+              options: [
+                TDropdownMenuOption<String>(
+                  label: DemoKeys.baseDefaultSort.tr,
+                  value: 'default',
+                ),
+                TDropdownMenuOption<String>(
+                  label: DemoKeys.basePriceHighToLow.tr,
+                  value: 'price',
+                ),
+              ],
             ),
-            TDropdownMenuOption<String>(
-              label: DemoKeys.basePriceHighToLow.tr,
-              value: 'price',
-            ),
-          ],
-        ),
       ),
     ],
   );
@@ -170,5 +172,10 @@ class BaseDemoView extends BaseView<BaseDemoLogic> {
 }
 
 /// Base 示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewBaseDemoView() => BaseDemoView(logic: BaseDemoLogic());

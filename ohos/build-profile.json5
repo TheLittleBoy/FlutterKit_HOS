@@ -1,7 +1,20 @@
-
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/mac/.ohos/config/default_ohos_bttAiRv5F3Rbr2ybfYYLCqwKGS-zQ3-rs2qdAiZcqSs=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B270D771326A8A4DF37E6F43424C4918F1793863F43FF60F6EA48F016B632D4DA8B873E1EF637F1",
+          "profile": "/Users/mac/.ohos/config/default_ohos_bttAiRv5F3Rbr2ybfYYLCqwKGS-zQ3-rs2qdAiZcqSs=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/mac/.ohos/config/default_ohos_bttAiRv5F3Rbr2ybfYYLCqwKGS-zQ3-rs2qdAiZcqSs=.p12",
+          "storePassword": "0000001BA7EC737F19575BED29546F84EA94B64021F0099739C1944354AD6A747C1126BDFC4F02990ED3C0"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",

@@ -27,8 +27,13 @@ class ${PAGE_NAME}View extends BaseView<${PAGE_NAME}Logic> {
   }
 }
 
-/// ${CN_NAME} 页面响应式预览。
-@ResponsivePreview()
+/// ${CN_NAME} 页面预览。
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget preview${PAGE_NAME}View() {
   final ${PAGE_NAME}Logic logic = ${PAGE_NAME}Logic();
   // 稳定的静态展示状态。

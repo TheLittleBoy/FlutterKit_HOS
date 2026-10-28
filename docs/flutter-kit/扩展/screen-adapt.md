@@ -53,7 +53,7 @@ Widget buildResponsiveCard() {
 
 ## 验收
 
-使用 `@ResponsivePreview()` 与真实设备分别检查手机、折叠屏、平板；同时检查横竖屏、系统字体放大、刘海和底部手势区。`ScreenAdaptDemoView` 是网格、列表、文字和组件尺寸的现有示例。
+使用页面 `@Preview` 与真实设备分别检查手机、折叠屏、平板；需要多档尺寸时增加对应 `phonePreviewSize`、`tabletPreviewSize`、`foldablePreviewSize` 预览函数。同时检查横竖屏、系统字体放大、刘海和底部手势区。`ScreenAdaptDemoView` 是网格、列表、文字和组件尺寸的现有示例。
 
 ## 注意事项
 

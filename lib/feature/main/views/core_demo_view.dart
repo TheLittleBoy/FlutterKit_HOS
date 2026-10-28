@@ -62,7 +62,12 @@ class CoreDemoView extends BaseView<CoreDemoLogic> {
 }
 
 /// 核心示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewCoreDemoView() {
   final DemoCounterService counterService = DemoCounterService();
   counterService.count.value = 3;

@@ -44,7 +44,12 @@ class ExpandDemoView extends BaseView<ExpandDemoLogic> {
 }
 
 /// 扩展示例页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewExpandDemoView() {
   final ExpandDemoLogic logic = ExpandDemoLogic();
   return ExpandDemoView(logic: logic);

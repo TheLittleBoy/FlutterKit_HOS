@@ -1,6 +1,6 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_kit/core/design_system/extensions/widget/grid_view_extension.dart';
@@ -26,7 +26,7 @@ void main() {
         shrinkWrap: true,
         padding: const EdgeInsets.all(8),
         itemExtent: 30,
-        scrollCacheExtent: const ScrollCacheExtent.pixels(120),
+        cacheExtent: 120,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         clipBehavior: Clip.antiAlias,
       ),
@@ -36,14 +36,19 @@ void main() {
     final list = tester.widget<ListView>(find.byKey(const ValueKey('list')));
     expect(list.controller, same(controller));
     expect(list.physics, isA<ClampingScrollPhysics>());
-    expect(list.scrollCacheExtent, const ScrollCacheExtent.pixels(120));
-    expect(list.keyboardDismissBehavior, ScrollViewKeyboardDismissBehavior.onDrag);
+    expect(list.cacheExtent, 120);
+    expect(
+      list.keyboardDismissBehavior,
+      ScrollViewKeyboardDismissBehavior.onDrag,
+    );
     expect(list.clipBehavior, Clip.antiAlias);
-    final legacyCache = data.toListView(
-      itemBuilder: (_, index, item) => Text('$index$item'),
-      cacheExtent: 24,
-    ) as ListView;
-    expect(legacyCache.scrollCacheExtent, const ScrollCacheExtent.pixels(24));
+    final legacyCache =
+        data.toListView(
+              itemBuilder: (_, index, item) => Text('$index$item'),
+              cacheExtent: 24,
+            )
+            as ListView;
+    expect(legacyCache.cacheExtent, 24);
   });
 
   testWidgets('分隔列表按边界构建两个分隔符', (tester) async {
@@ -60,10 +65,7 @@ void main() {
     expect(find.text('分隔0'), findsOneWidget);
     expect(find.text('分隔1'), findsOneWidget);
     expect(find.text('分隔2'), findsNothing);
-    expect(
-      tester.widget<ListView>(find.byType(ListView)).scrollCacheExtent,
-      const ScrollCacheExtent.pixels(80),
-    );
+    expect(tester.widget<ListView>(find.byType(ListView)).cacheExtent, 80);
   });
 
   testWidgets('Builder 的 itemCount 参数限制构建数量', (tester) async {
@@ -80,7 +82,10 @@ void main() {
     expect(find.text('索引0'), findsOneWidget);
     expect(find.text('索引1'), findsOneWidget);
     expect(find.text('索引2'), findsNothing);
-    expect(tester.widget<ListView>(find.byType(ListView)).semanticChildCount, 2);
+    expect(
+      tester.widget<ListView>(find.byType(ListView)).semanticChildCount,
+      2,
+    );
 
     await tester.pumpWidget(
       Directionality(
@@ -93,7 +98,7 @@ void main() {
     );
     final defaultList = tester.widget<ListView>(find.byType(ListView));
     expect(defaultList.semanticChildCount, data.length);
-    expect(defaultList.scrollCacheExtent, const ScrollCacheExtent.pixels(32));
+    expect(defaultList.cacheExtent, 32);
   });
 
   testWidgets('数字列表覆盖空值、正数和默认弹性物理效果', (tester) async {
@@ -102,13 +107,13 @@ void main() {
       3.toListView(
         itemBuilder: (_, index) => Text('数字$index'),
         shrinkWrap: true,
-        scrollCacheExtent: const ScrollCacheExtent.pixels(64),
+        cacheExtent: 64,
       ),
     );
     expect(find.text('数字2'), findsOneWidget);
     final list = tester.widget<ListView>(find.byType(ListView));
     expect(list.physics, isA<BouncingScrollPhysics>());
-    expect(list.scrollCacheExtent, const ScrollCacheExtent.pixels(64));
+    expect(list.cacheExtent, 64);
 
     await tester.pumpWidget(
       Directionality(
@@ -119,10 +124,7 @@ void main() {
         ),
       ),
     );
-    expect(
-      tester.widget<ListView>(find.byType(ListView)).scrollCacheExtent,
-      const ScrollCacheExtent.pixels(16),
-    );
+    expect(tester.widget<ListView>(find.byType(ListView)).cacheExtent, 16);
 
     await tester.pumpWidget(
       Directionality(
@@ -155,7 +157,8 @@ void main() {
     expect(find.text('0A'), findsOneWidget);
     expect(find.text('2C'), findsOneWidget);
     final grid = tester.widget<GridView>(find.byType(GridView));
-    final delegate = grid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+    final delegate =
+        grid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
     expect(delegate.crossAxisCount, 2);
     expect(delegate.mainAxisSpacing, 6);
     expect(delegate.crossAxisSpacing, 8);
@@ -168,21 +171,51 @@ void main() {
     const Widget child = SizedBox();
     final controller = ScrollController();
     addTearDown(controller.dispose);
-    expect((child.scrollable(scrollDirection: Axis.horizontal, reverse: true) as SingleChildScrollView).scrollDirection, Axis.horizontal);
-    expect((child.verticalScroll() as SingleChildScrollView).scrollDirection, Axis.vertical);
-    expect((child.horizontalScroll() as SingleChildScrollView).scrollDirection, Axis.horizontal);
-    expect((child.scrollPhysics(const ClampingScrollPhysics()) as SingleChildScrollView).physics, isA<ClampingScrollPhysics>());
-    expect((child.scrollController(controller) as SingleChildScrollView).controller, same(controller));
-    expect((child.bouncingScroll() as SingleChildScrollView).physics, isA<BouncingScrollPhysics>());
-    expect((child.clampingScroll() as SingleChildScrollView).physics, isA<ClampingScrollPhysics>());
-    expect((child.neverScroll() as SingleChildScrollView).physics, isA<NeverScrollableScrollPhysics>());
-    final custom = child.customScroll(
-      scrollDirection: Axis.horizontal,
-      dragStartBehavior: DragStartBehavior.down,
-      clipBehavior: Clip.antiAlias,
-      restorationId: 'scroll',
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-    ) as SingleChildScrollView;
+    expect(
+      (child.scrollable(scrollDirection: Axis.horizontal, reverse: true)
+              as SingleChildScrollView)
+          .scrollDirection,
+      Axis.horizontal,
+    );
+    expect(
+      (child.verticalScroll() as SingleChildScrollView).scrollDirection,
+      Axis.vertical,
+    );
+    expect(
+      (child.horizontalScroll() as SingleChildScrollView).scrollDirection,
+      Axis.horizontal,
+    );
+    expect(
+      (child.scrollPhysics(const ClampingScrollPhysics())
+              as SingleChildScrollView)
+          .physics,
+      isA<ClampingScrollPhysics>(),
+    );
+    expect(
+      (child.scrollController(controller) as SingleChildScrollView).controller,
+      same(controller),
+    );
+    expect(
+      (child.bouncingScroll() as SingleChildScrollView).physics,
+      isA<BouncingScrollPhysics>(),
+    );
+    expect(
+      (child.clampingScroll() as SingleChildScrollView).physics,
+      isA<ClampingScrollPhysics>(),
+    );
+    expect(
+      (child.neverScroll() as SingleChildScrollView).physics,
+      isA<NeverScrollableScrollPhysics>(),
+    );
+    final custom =
+        child.customScroll(
+              scrollDirection: Axis.horizontal,
+              dragStartBehavior: DragStartBehavior.down,
+              clipBehavior: Clip.antiAlias,
+              restorationId: 'scroll',
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            )
+            as SingleChildScrollView;
     expect(custom.dragStartBehavior, DragStartBehavior.down);
     expect(custom.clipBehavior, Clip.antiAlias);
     expect(custom.restorationId, 'scroll');

@@ -185,5 +185,10 @@ class ThemeDemoView extends BaseView<ThemeDemoLogic> {
 }
 
 /// 语言与主题设置页面预览
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewThemeDemoView() => ThemeDemoView(logic: ThemeDemoLogic());

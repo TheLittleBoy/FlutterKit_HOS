@@ -74,7 +74,12 @@ class MainBottomNavigation extends StatelessWidget {
 }
 
 /// 主页面底部导航栏预览
-@WidgetPreview()
+@Preview(
+  name: '组件',
+  size: componentPreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppComponentPreview,
+)
 Widget previewMainBottomNavigation() {
   return Builder(
     builder: (BuildContext context) {

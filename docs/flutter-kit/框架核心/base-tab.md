@@ -49,7 +49,12 @@ class BaseTabDemoView extends BaseTabView<BaseTabDemoLogic> {
 }
 
 /// Preview 中手动执行初始化，确保 TabController 已创建。
-@ResponsivePreview()
+@Preview(
+  name: 'Phone',
+  size: phonePreviewSize,
+  theme: buildAppPreviewTheme,
+  wrapper: wrapAppScreenPreview,
+)
 Widget previewBaseTabDemoView() {
   final BaseTabDemoLogic logic = BaseTabDemoLogic()..onInit();
   return BaseTabDemoView(logic: logic);

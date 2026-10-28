@@ -13,7 +13,7 @@ FlutterKit 是基于 Flutter、Dart、GetX 与 TDesign Flutter 的跨平台项�
 - 需要 Android、iOS、Web、macOS、Linux、Windows 共用业务代码。
 - 希望按 `View / Logic / State / Binding` 分工，同时保留 GetX 的路由和响应式能力。
 - 希望网络、主题、路由、存储与数据库有明确入口，不在页面中重复搭架子。
-- 需要在编辑器内同时检查手机、折叠屏、平板以及深浅色页面预览。
+- 需要在编辑器内检查页面、组件与深浅色预览；需要平板或折叠屏尺寸时增加对应预览函数。
 
 ## 从哪里开始
 
