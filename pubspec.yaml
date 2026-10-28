@@ -91,7 +91,7 @@ dev_dependencies:
   # 地址：https://pub.dev/packages/flutter_gen
   flutter_gen_runner: ^5.14.1
 
-  # 应用图标生成器，覆盖 Android、iOS、Web、Windows 与 macOS 图标资源
+  # 应用图标生成器，覆盖 Android、iOS 与 Web 图标资源
   # 地址：https://pub.dev/packages/flutter_launcher_icons
   flutter_launcher_icons: ^0.14.4
 

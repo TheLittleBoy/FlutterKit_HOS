@@ -28,14 +28,3 @@ flutter_launcher_icons:
     image_path: "assets/dev/app_icon.png"
     background_color: "#FFFFFF"
     theme_color: "#465CFF"
-
-  # Windows ICO 图标，允许范围为 48～256。
-  windows:
-    generate: true
-    image_path: "assets/dev/app_icon.png"
-    icon_size: 256
-
-  # macOS AppIcon 图标集。
-  macos:
-    generate: true
-    image_path: "assets/dev/app_icon.png"

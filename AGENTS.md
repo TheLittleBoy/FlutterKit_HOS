@@ -2,7 +2,7 @@
 
 ## 项目概览与技术栈
 
-FlutterKit 是面向 Android、iOS、macOS、Linux、Windows 和 Web 的 Flutter 跨平台项目脚手架，采用模块化目录与 GetX 页面分层，内置常用基础能力和可运行 Demo。
+FlutterKit 是面向 Android、iOS、鸿蒙（HarmonyOS）和 Web 的 Flutter 跨平台项目脚手架，采用模块化目录与 GetX 页面分层，内置常用基础能力和可运行 Demo。
 
 | 领域 | 技术与用途 |
 | --- | --- |

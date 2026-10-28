@@ -23,7 +23,9 @@ _一个模块化、开箱即用并支持 AI 辅助开发的 Flutter 快速开发
 
 FlutterKit 是一个基于 **Flutter / Dart / GetX / TDesign Flutter** 的跨平台项目脚手架，内置网络、分页、数据库、本地存储、状态管理、导航、国际化、主题和屏幕适配等常用能力，并提供对应的功能示例页面，方便通过 **“拉仓库 → 运行 → 填业务”** 快速开始 Flutter 项目。
 
-Android、iOS、macOS、Linux、Windows 和 Web 六个平台的原生工程均已纳入仓库，可直接作为模块化 Flutter 项目的基础工程。
+> `third_party/tdesign_flutter` 是 `tdesign_flutter` 1.0.0 的本地补丁，用于兼容 HarmonyOS SDK 的 `TargetPlatform.ohos`；通过 `dependency_overrides` 引用，升级依赖时同步核对补丁。
+
+Android、iOS、鸿蒙（HarmonyOS）和 Web 四个平台的原生工程均已纳入仓库，可直接作为模块化 Flutter 项目的基础工程。
 
 > 如果项目对你有帮助，欢迎点个 Star ⭐ 这会是持续维护的动力！
 
@@ -87,7 +89,7 @@ FlutterKit 不内置 AI 模型或在线服务。仓库通过项目规则、框�
 | 类别 | 技术选型 | 说明 |
 | --- | --- | --- |
 | 编程语言 | Dart | Flutter 官方开发语言 |
-| UI 框架 | Flutter | Android、iOS、macOS、Linux、Windows、Web 跨平台 UI |
+| UI 框架 | Flutter | Android、iOS、鸿蒙（HarmonyOS）、Web 跨平台 UI |
 | 架构模式 | GetX + MVVM | View、Logic、State 分层与依赖管理 |
 | 组件库 | TDesign Flutter | 腾讯 TDesign Flutter 组件库 |
 | 导航框架 | GetX Navigation | 命名路由、参数、结果与路由守卫 |
@@ -169,6 +171,7 @@ lib/
 - Flutter SDK：`>= 3.32.0`
 - Dart SDK：`>= 3.9.0 < 4.0.0`
 - Android Studio / IntelliJ IDEA / Visual Studio Code
+- 鸿蒙（HarmonyOS）：按[鸿蒙 Flutter 环境配置](https://gitcode.com/CPF-Flutter/flutter_samples/blob/master/docs/ohos/getting-started/flutter-oh-env-setup.md)安装鸿蒙 Flutter SDK、DevEco Studio 与签名环境
 
 ### 安装与运行
 
@@ -221,10 +224,12 @@ flutter build appbundle --release --obfuscate --split-debug-info=./debug_info
 flutter build ios --release --obfuscate --split-debug-info=./debug_info
 ```
 
-### macOS
+### 鸿蒙（HarmonyOS）
+
+使用鸿蒙 Flutter SDK，并在 DevEco Studio 配置签名后执行：
 
 ```bash
-flutter build macos --release
+flutter build hap --release
 ```
 
 ### Web
@@ -233,19 +238,7 @@ flutter build macos --release
 flutter build web --release
 ```
 
-### Linux
-
-```bash
-flutter build linux --release
-```
-
-### Windows
-
-```bash
-flutter build windows --release
-```
-
 `debug_info` 目录包含混淆后的符号文件，需要与对应版本的安装包一起保存，便于还原线上堆栈。
 
-Linux 和 Windows 应用需在对应操作系统中构建，iOS 和 macOS 应用需使用 macOS 与 Xcode。
+iOS 应用需使用 macOS 与 Xcode 构建；鸿蒙应用需使用 DevEco Studio 与鸿蒙 Flutter SDK 构建。
 

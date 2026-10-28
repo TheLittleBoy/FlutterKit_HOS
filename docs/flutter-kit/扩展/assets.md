@@ -1,6 +1,6 @@
 # 图标与资源
 
-FlutterKit 将运行时资源与应用图标源图分开管理：业务页面只访问已打包的资源；桌面图标由开发依赖在各原生平台生成。这种分层避免将生成源图带入应用资源包，也避免手动修改 Android、iOS 等平台的生成文件。
+FlutterKit 将运行时资源与应用图标源图分开管理：业务页面只访问已打包的资源；应用图标由开发依赖在各原生平台生成。这种分层避免将生成源图带入应用资源包，也避免手动修改 Android、iOS 等平台的生成文件。
 
 ## 职责与目录
 
@@ -9,9 +9,9 @@ FlutterKit 将运行时资源与应用图标源图分开管理：业务页面只
 | 页面图片 | `assets/image/` | 是 | Logo、插图和业务图片 |
 | 页面图标 | `assets/icon/` | 是 | SVG 缺省图、业务图标 |
 | 配置资源 | `assets/json/` | 是 | TDesign 主题等 JSON 配置 |
-| 生成源图 | `assets/dev/` | 否 | 桌面图标的输入图片 |
+| 生成源图 | `assets/dev/` | 否 | 应用图标的输入图片 |
 | 资源访问器 | `lib/generated/assets.gen.dart` | 随 Dart 编译 | FlutterGen 生成的类型安全访问入口 |
-| 图标配置 | `flutter_launcher_icons.yaml` | 否 | 多平台桌面图标生成规则 |
+| 图标配置 | `flutter_launcher_icons.yaml` | 否 | 多平台应用图标生成规则 |
 
 ```text
 assets/
@@ -90,32 +90,32 @@ class BrandAssets extends StatelessWidget {
 
 `lib/generated/assets.gen.dart` 是生成文件，不应手工编辑。主题 JSON 的读取与主题颜色预设请参考[主题系统](../框架核心/theme.md)。
 
-## 应用桌面图标
+## 应用图标
 
-桌面图标由 [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) 生成，配置文件是根目录的 `flutter_launcher_icons.yaml`。当前配置会同时覆盖 Android、iOS、Web、Windows 与 macOS。
+应用图标由 [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) 生成，配置文件是根目录的 `flutter_launcher_icons.yaml`。当前配置覆盖 Android、iOS 与 Web；鸿蒙图标由 `ohos` 原生资源维护。
 
 | 配置项 | 当前资源 | 覆盖平台 | 说明 |
 | --- | --- | --- | --- |
-| `image_path` | `assets/dev/app_icon.png` | Android、Web、Windows、macOS | 默认图标源图 |
+| `image_path` | `assets/dev/app_icon.png` | Android、Web | 默认图标源图 |
 | `image_path_ios` | `assets/dev/app_icon_ios.png` | iOS | 1024×1024 画布，Logo 保留透明安全边距 |
 | `remove_alpha_ios` | `true` | iOS | App Store 图标不保留 Alpha 通道 |
 | `background_color_ios` | `#FFFFFF` | iOS | 透明区域填充的背景色 |
 
-替换图标时，默认源图应使用清晰的正方形或带充足透明边距的 PNG；建议准备 1024×1024 版本。iOS 会施加系统圆角与视觉缩放，不能直接复用贴边的 Android 图标，因此保留独立的 `app_icon_ios.png`。运行时 Logo `assets/image/logo.png` 与桌面图标用途不同，不应互相替代。
+替换图标时，默认源图应使用清晰的正方形或带充足透明边距的 PNG；建议准备 1024×1024 版本。iOS 会施加系统圆角与视觉缩放，不能直接复用贴边的 Android 图标，因此保留独立的 `app_icon_ios.png`。运行时 Logo `assets/image/logo.png` 与应用图标用途不同，不应互相替代。
 
 ```bash
-# 读取 flutter_launcher_icons.yaml，生成全部已启用平台的桌面图标。
+# 读取 flutter_launcher_icons.yaml，生成全部已启用平台的应用图标。
 dart run flutter_launcher_icons
 ```
 
-生成完成后，应分别检查 Android 启动器、iOS 主屏幕、浏览器 favicon、Windows 可执行文件图标和 macOS AppIcon。不要直接编辑 `android/app/src/main/res/mipmap-*`、`ios/Runner/Assets.xcassets/AppIcon.appiconset/` 或各桌面端图标输出目录；下次生成会覆盖这些文件。
+生成完成后，应检查 Android 启动器、iOS 主屏幕与浏览器 favicon；鸿蒙图标在 DevEco Studio 中检查。不要直接编辑 `android/app/src/main/res/mipmap-*`、`ios/Runner/Assets.xcassets/AppIcon.appiconset/` 或 `ohos` 中的图标资源；下次生成或同步会覆盖这些文件。
 
 ## 更换品牌资源的检查清单
 
 1. 页面 Logo 放入 `assets/image/`，再生成 FlutterGen 访问器。
-2. 桌面图标源图放入 `assets/dev/app_icon.png`；iOS 同时更新带安全边距的 `app_icon_ios.png`。
+2. 应用图标源图放入 `assets/dev/app_icon.png`；iOS 同时更新带安全边距的 `app_icon_ios.png`。
 3. 分别执行 `dart run build_runner build --delete-conflicting-outputs` 与 `dart run flutter_launcher_icons`。
-4. 在 Android、iOS、Web、Windows 与 macOS 实机或模拟器检查图标是否正确显示。
+4. 在 Android、iOS、Web 实机或模拟器，以及鸿蒙设备检查图标是否正确显示。
 
 ## 常见问题
 

@@ -23,7 +23,7 @@ _A modular, out-of-the-box Flutter scaffold with AI-assisted development support
 
 FlutterKit is a cross-platform project scaffold built with **Flutter / Dart / GetX / TDesign Flutter**. It includes networking, paging, database, local storage, state management, navigation, internationalization, theming, and responsive layout, together with runnable demo pages. The goal is simple: **clone → run → build**.
 
-Native projects for Android, iOS, macOS, Linux, Windows, and Web are included and can be used as the foundation of a modular Flutter application.
+Native projects for Android, iOS, HarmonyOS, and Web are included and can be used as the foundation of a modular Flutter application.
 
 > If FlutterKit helps your project, please give it a Star ⭐. It supports continued maintenance.
 
@@ -87,7 +87,7 @@ See the [AI-assisted development guide](https://flutter.dusksnow.top/help/intro/
 | Category | Technology | Description |
 | --- | --- | --- |
 | Language | Dart | Flutter's official language |
-| UI framework | Flutter | Cross-platform UI for Android, iOS, macOS, Linux, Windows, and Web |
+| UI framework | Flutter | Cross-platform UI for Android, iOS, HarmonyOS, and Web |
 | Architecture | GetX + MVVM | View, Logic, State separation and dependency management |
 | UI library | TDesign Flutter | Tencent TDesign components for Flutter |
 | Navigation | GetX Navigation | Named routes, arguments, results, and guards |
@@ -169,6 +169,7 @@ lib/
 - Flutter SDK: `>= 3.32.0`
 - Dart SDK: `>= 3.9.0 < 4.0.0`
 - Android Studio, IntelliJ IDEA, or Visual Studio Code
+- HarmonyOS: follow the [HarmonyOS Flutter environment setup](https://gitcode.com/CPF-Flutter/flutter_samples/blob/master/docs/ohos/getting-started/flutter-oh-env-setup.md) to install the HarmonyOS Flutter SDK, DevEco Studio, and signing environment
 
 ### Install and run
 
@@ -221,10 +222,12 @@ flutter build appbundle --release --obfuscate --split-debug-info=./debug_info
 flutter build ios --release --obfuscate --split-debug-info=./debug_info
 ```
 
-### macOS
+### HarmonyOS
+
+Use the HarmonyOS Flutter SDK and configure signing in DevEco Studio, then run:
 
 ```bash
-flutter build macos --release
+flutter build hap --release
 ```
 
 ### Web
@@ -233,21 +236,9 @@ flutter build macos --release
 flutter build web --release
 ```
 
-### Linux
+`debug_info` directory contains symbol files for obfuscated builds. Keep it with the corresponding release artifact so production stack traces can be restored.
 
-```bash
-flutter build linux --release
-```
-
-### Windows
-
-```bash
-flutter build windows --release
-```
-
-The `debug_info` directory contains symbol files for obfuscated builds. Keep it with the corresponding release artifact so production stack traces can be restored.
-
-Linux and Windows applications must be built on their respective operating systems. iOS and macOS builds require macOS and Xcode.
+iOS builds require macOS and Xcode; HarmonyOS builds require DevEco Studio and the HarmonyOS Flutter SDK.
 
 ## 👥 Join the community
 
@@ -266,6 +257,6 @@ Issues and pull requests are welcome.
 - **Bug reports**: provide reproducible cases for bugs and compatibility issues
 - **Documentation**: improve usage guides, architecture docs, and examples
 - **Design**: suggest UI, interaction, and responsive layout improvements
-- **Testing**: verify behavior on Android, iOS, macOS, Linux, Windows, and Web
+- **Testing**: verify behavior on Android, iOS, HarmonyOS, and Web
 
 Before submitting a pull request, run static analysis and the relevant tests, and follow the existing project structure and coding conventions.

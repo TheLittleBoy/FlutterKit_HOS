@@ -17,9 +17,6 @@ analyzer:
     - android/**
     - ios/**
     - web/**
-    - windows/**
-    - macos/**
-    - linux/**
     - third_party/**
 
   # 严格类型模式：减少隐式 dynamic、raw type 与类型推断缺失

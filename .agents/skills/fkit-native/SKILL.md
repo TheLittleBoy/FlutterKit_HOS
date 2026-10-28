@@ -1,6 +1,6 @@
 ---
 name: fkit-native
-description: 管理 FlutterKit 多端运行时资源、应用图标、Android/iOS/Web/桌面端配置和发布构建。用户要求生成图标、FlutterGen 资源、同步原生底座、排查原生缓存或执行多端打包时使用。
+description: 管理 FlutterKit 多端运行时资源、应用图标、Android/iOS/鸿蒙/Web 配置和发布构建。用户要求生成图标、FlutterGen 资源、同步原生底座、排查原生缓存或执行多端打包时使用。
 ---
 
 # FKit Native
@@ -13,7 +13,7 @@ description: 管理 FlutterKit 多端运行时资源、应用图标、Android/iO
 
 - `assets/image/`、`assets/icon/`、`assets/json/` 是运行时资源，由 FlutterGen 生成类型安全访问器。
 - `assets/dev/` 只保存图标生成源图，不注册为运行时资源。
-- `flutter_launcher_icons.yaml` 管理多端桌面图标。
+- `flutter_launcher_icons.yaml` 管理多端应用图标。
 
 ## 工作流
 

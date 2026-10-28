@@ -21,7 +21,7 @@ AI 不是独立于工程之外的代码生成器。FlutterKit 的目标是让 AI
 | `fkit-nav` | 路由、Navigator、Binding、参数、结果和登录守卫 | `使用 $fkit-nav 接入商品详情路由` |
 | `fkit-preview` | 页面与组件 Preview、静态预览数据和 Logic 注入 | `使用 $fkit-preview 为登录页补充预览` |
 | `fkit-theme` | 主题、深色模式、颜色预设、国际化和持久化恢复 | `使用 $fkit-theme 新增主题颜色预设` |
-| `fkit-native` | 多端原生配置、资源生成、图标和发布构建 | `使用 $fkit-native 生成六端应用图标` |
+| `fkit-native` | 多端原生配置、资源生成、图标和发布构建 | `使用 $fkit-native 生成多端应用图标` |
 | `fkit-audit` | 架构、命名、注释、UI、预览、测试和多端配置审查 | `使用 $fkit-audit 审查 feature/main` |
 
 一个需求可以组合多个 Skill。例如，新增带网络数据、路由和预览的页面时，可以同时指定 `fkit-feature`、`fkit-data`、`fkit-nav`、`fkit-ui` 与 `fkit-preview`。
