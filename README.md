@@ -18,6 +18,7 @@ _一个模块化、开箱即用并支持 AI 辅助开发的 Flutter 快速开发
 FlutterKit 是一个基于 **Flutter / Dart / GetX / TDesign Flutter v1.0.0** 的跨平台项目脚手架，内置网络、分页、数据库、本地存储、状态管理、导航、国际化、主题和屏幕适配等常用能力，并提供对应的功能示例页面，方便通过 **“拉仓库 → 运行 → 填业务”** 快速开始 Flutter 项目。
 
 > `third_party/tdesign_flutter` 是 `tdesign_flutter` 1.0.0 的本地补丁，用于兼容 HarmonyOS SDK 的 `TargetPlatform.ohos`；通过 `dependency_overrides` 引用，升级依赖时同步核对补丁。
+> 等tdesign_flutter官方发布下一个版本应该就能直接兼容鸿蒙了，配合使用3.41及以上版本的 Flutter HarmonyOS SDK即可直接使用。
 
 Android、iOS、鸿蒙（HarmonyOS）和 Web 四个平台的原生工程均已纳入仓库，可直接作为模块化 Flutter 项目的基础工程。
 
